@@ -10,7 +10,7 @@ import org.firstinspires.ftc.team26396.constants.ConstantsLoader;
 import org.firstinspires.ftc.team26396.purepursuit.localization.OpticalLocalizer;
 import org.firstinspires.ftc.team26396.utility.DataLogger;
 
-@TeleOp(name = "Test - Kalman Filter", group = "Test")
+@TeleOp(name="TeleOpMode", group = "Teleop")
 public final class KalmanFilterTest extends OpMode {
     private OpticalLocalizer localizer;
     private DataLogger dataLogger;
