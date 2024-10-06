@@ -14,7 +14,7 @@ public final class Constants {
     public static class FileConstants {
         @SuppressLint("sdCardPath")
         public static final String SD_CARD_PATH
-                = "/sdcard/FIRST/java/src/org/firstinspires/ftc/teamcode/";
+                = "/sdcard/FIRST/java/src/org/firstinspires/ftc/team26396/";
 
         public static final String CONSTANTS_FILE_PATH = SD_CARD_PATH + "Constants/";
         public static final String APRIL_TAG_LOG_FILE_PATH = SD_CARD_PATH + "AprilTagLogs/";

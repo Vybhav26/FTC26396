@@ -41,7 +41,7 @@ public final class ConstantsSaver {
      *     text files located at:
      * </p>
      * <p>
-     *     /sdcard/FIRST/java/src/org/firstinspires/ftc/teamcode/Constants
+     *     /sdcard/FIRST/java/src/org/firstinspires/ftc/team26396/Constants
      * </p>
      * <p>
      *     If their is no corresponding text file, one will be created.

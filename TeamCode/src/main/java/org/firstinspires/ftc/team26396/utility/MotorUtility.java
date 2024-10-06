@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.team26396.utility;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorImplEx;
-
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.*;
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
-import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import androidx.annotation.NonNull;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 
 public final class MotorUtility {
 
@@ -76,3 +78,4 @@ public final class MotorUtility {
         }
     }
 }
+

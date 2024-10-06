@@ -53,20 +53,20 @@ import java.util.Locale;
  *
  *  https://ftc-docs.firstinspires.org/camera-calibration
  *
- * In Android Studio, copy this class into your "teamcode" folder with a new name.
+ * In Android Studio, copy this class into your "team26396" folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  *
  * In OnBot Java, use "Add File" to add this OpMode from the list of Samples.
  */
 
-@TeleOp(name = "Utility: Camera Frame Capture", group = "Utility")
-@Disabled
+@TeleOp(name = "Utility: Camera Frame Capture v0.1", group = "Utility")
+//@Disabled
 public class UtilityCameraFrameCapture extends LinearOpMode
 {
     /*
      * EDIT THESE PARAMETERS AS NEEDED
      */
-    final boolean USING_WEBCAM = false;
+    final boolean USING_WEBCAM = true;
     final BuiltinCameraDirection INTERNAL_CAM_DIR = BuiltinCameraDirection.BACK;
     final int RESOLUTION_WIDTH = 640;
     final int RESOLUTION_HEIGHT = 480;
@@ -79,6 +79,12 @@ public class UtilityCameraFrameCapture extends LinearOpMode
     @Override
     public void runOpMode()
     {
+//        while (opModeIsActive()) {
+ //           telemetry.addData("Status", "Running");
+//            telemetry.update();
+//
+  //      }
+
         VisionPortal portal;
 
         if (USING_WEBCAM)
@@ -98,8 +104,8 @@ public class UtilityCameraFrameCapture extends LinearOpMode
 
         while (!isStopRequested())
         {
-            boolean x = gamepad1.x;
-
+//            boolean x = gamepad1.x;
+            boolean x = true;
             if (x && !lastX)
             {
                 portal.saveNextFrameRaw(String.format(Locale.US, "CameraFrameCapture-%06d", frameCount++));
@@ -112,6 +118,8 @@ public class UtilityCameraFrameCapture extends LinearOpMode
             telemetry.addLine(String.format(Locale.US, " > Resolution: %dx%d", RESOLUTION_WIDTH, RESOLUTION_HEIGHT));
             telemetry.addLine(" > Press X (or Square) to capture a frame");
             telemetry.addData(" > Camera Status", portal.getCameraState());
+
+
 
             if (capReqTime != 0)
             {

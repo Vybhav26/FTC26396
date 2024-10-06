@@ -95,7 +95,7 @@ public final class ConstantsLoader {
      *  corresponding text files located at the following path:
      * </p>
      * <p>
-     *     /sdcard/FIRST/java/src/org/firstinspires/ftc/teamcode/Constants
+     *     /sdcard/FIRST/java/src/org/firstinspires/ftc/team26396/Constants
      * </p>
      * <p>
      *     By default all errors are silently ignored. To enable debug mode, pass the opModes

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.team26396.utility;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -41,3 +40,5 @@ public final class Debugger {
         telemetry.update();
     }
 }
+
+
