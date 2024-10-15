@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -37,7 +38,8 @@ import org.firstinspires.ftc.team26396.utility.MotorUtility;
  *     </ul>
  * </p>
  */
-
+@TeleOp(name="NEW: Mecanum OpMode", group="Mecanum OpMode")
+//@Disabled
 public final class MecanumDriveSubsystem extends SubsystemBase {
     private final DcMotorImplEx frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
     private final IMU imu;

@@ -80,10 +80,10 @@ public class UtilityCameraFrameCapture extends LinearOpMode
     public void runOpMode()
     {
 //        while (opModeIsActive()) {
- //           telemetry.addData("Status", "Running");
+//           telemetry.addData("Status", "Running");
 //            telemetry.update();
 //
-  //      }
+//      }
 
         VisionPortal portal;
 
