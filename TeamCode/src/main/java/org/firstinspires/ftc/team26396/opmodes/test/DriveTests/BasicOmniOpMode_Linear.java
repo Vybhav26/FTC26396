@@ -1,4 +1,4 @@
-/*
+
 package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -28,7 +28,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         // Set motor directions: Reverse the motors on one side to ensure correct movement
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Display initialization status on Driver Station
@@ -45,7 +45,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             // Get input from the joysticks
             double strafe = -gamepad1.left_stick_x;    // Left joystick controls strafe (left/right)
             double drive = -gamepad1.left_stick_y;     // Left joystick controls forward/backward
-            double yaw = gamepad1.right_stick_x;       // Right joystick x-axis controls rotation
+            double yaw = -gamepad1.right_stick_x;       // Right joystick x-axis controls rotation
 
             // Calculate power for each wheel
             double leftFrontPower = drive + strafe + yaw;
@@ -58,7 +58,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
 
-            if (max > 1.0) {
+            if (max > 0.5) {
                 leftFrontPower /= max;
                 rightFrontPower /= max;
                 leftBackPower /= max;
@@ -79,7 +79,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         }
     }
 }
-*/
+/*
 
 
 
@@ -127,8 +127,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Get input from the joysticks
-            double strafe = -gamepad1.left_stick_x;  // Right joystick controls strafe (left/right)
-            double drive = -gamepad1.left_stick_y; //was left stick y before  // Left joystick controls forward/backward
+            double strafe = gamepad1.left_stick_x;  // Right joystick controls strafe (left/right)
+            double drive = gamepad1.left_stick_y; //was left stick y before  // Left joystick controls forward/backward
 
             // Calculate power for each wheel
             double leftFrontPower = drive + strafe;
@@ -162,3 +162,4 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         }
     }
 }
+*/
