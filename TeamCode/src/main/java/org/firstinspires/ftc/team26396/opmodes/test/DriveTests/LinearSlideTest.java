@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.team26396;
+package org.firstinspires.ftc.team26396;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -33,10 +33,11 @@ public class LinearSlideTest extends OpMode {
     @Override
     public void loop() {
         // Check D-pad controls on the gamepad
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_right) {
             // Move the slide up
             linearSlideMotor.setPower(SLIDE_POWER);
-        } else if (gamepad1.dpad_down) {
+
+        } else if (gamepad1.dpad_left) {
             // Move the slide down
             linearSlideMotor.setPower(-SLIDE_POWER);
         } else {
@@ -44,10 +45,10 @@ public class LinearSlideTest extends OpMode {
             linearSlideMotor.setPower(0);
         }
 
-        if (gamepad1.dpad_right) {
+        if (gamepad1.dpad_up) {
             // Move the slide up
             ArmMotor.setPower(SLIDE_POWER);
-        } else if (gamepad1.dpad_left) {
+        } else if (gamepad1.dpad_down) {
             // Move the slide down
             ArmMotor.setPower(-SLIDE_POWER);
         } else {
@@ -69,7 +70,7 @@ public class LinearSlideTest extends OpMode {
         ArmMotor.setPower(0);
     }
 }
-*/
+/*
 
 package org.firstinspires.ftc.team26396;
 
@@ -129,7 +130,7 @@ public class LinearSlideTest extends OpMode {
             ArmMotor.setPower(SLIDE_POWER);
         } else if (gamepad1.dpad_left) {
             ArmMotor.setPower(-SLIDE_POWER);
-        } else if (!gamepad1.a) {  // Only stop ArmMotor if 'A' is not pressed
+        } else  {  // Only stop ArmMotor if 'A' is not pressed
             ArmMotor.setPower(0);
         }
 
@@ -147,3 +148,4 @@ public class LinearSlideTest extends OpMode {
         ArmMotor.setPower(0);
     }
 }
+*/

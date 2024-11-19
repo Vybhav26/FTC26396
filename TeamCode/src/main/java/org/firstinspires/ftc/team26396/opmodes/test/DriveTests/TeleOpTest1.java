@@ -5,9 +5,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "GoBilda Drive Control", group = "Linear OpMode")
-public class DriveTest extends LinearOpMode {
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
+
+
+@TeleOp(name = "Arm+DriveTest", group = "Linear OpMode")
+public class TeleOpTest1 extends LinearOpMode  {
 
     // Declare OpMode members for the 4 motors, IMU, and elapsed time
     private ElapsedTime runtime = new ElapsedTime();
@@ -16,7 +27,31 @@ public class DriveTest extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private BNO055IMU imu;
+    private DcMotor linearSlideMotor = null;
+    private DcMotor ArmMotor = null;
 
+    // Motor power settings
+    private static final double SLIDE_POWER = 0.8;   // Adjust based on required speed
+
+    //@Override
+    public void arminit() {
+        // Initialize the linear slide motor from the hardware map
+        linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlideMotor");
+        ArmMotor = hardwareMap.get(DcMotor.class, "ArmMotor");
+
+        // Set motor direction if necessary (adjust based on your setup)
+        linearSlideMotor.setDirection(DcMotor.Direction.REVERSE);
+        ArmMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        // Set zero power behavior to brake so it holds position when stopped
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Set up the ArmMotor's encoder position to 0
+        ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // Reset encoder, setting position to 0
+        ArmMotor.setTargetPosition(0);                             // Set initial target to position 0
+        ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);         // Enable position control mode
+    }
 
     @Override
     public void runOpMode() {
@@ -89,6 +124,43 @@ public class DriveTest extends LinearOpMode {
                     frontLeftPower, frontRightPower, backLeftPower, backRightPower);
             telemetry.addData("Heading", botHeading);
             telemetry.update();
+
+
+            if (gamepad1.a) {
+                ArmMotor.setTargetPosition(0);     // Set target to position 0
+                ArmMotor.setPower(0.5);            // Adjust power for controlled movement
+            }
+
+            // Manual control for linearSlideMotor
+            if (gamepad1.dpad_up) {
+                linearSlideMotor.setPower(SLIDE_POWER);
+            } else if (gamepad1.dpad_down) {
+                linearSlideMotor.setPower(-SLIDE_POWER);
+            } else {
+                linearSlideMotor.setPower(0);
+            }
+
+            // Manual control for ArmMotor
+            if (gamepad1.dpad_right) {
+                ArmMotor.setPower(SLIDE_POWER);
+            } else if (gamepad1.dpad_left) {
+                ArmMotor.setPower(-SLIDE_POWER);
+            } else if (!gamepad1.a) {  // Only stop ArmMotor if 'A' is not pressed
+                ArmMotor.setPower(0);
+            }
+
+            // Telemetry for monitoring
+            telemetry.addData("Slide Power", linearSlideMotor.getPower());
+            telemetry.addData("Arm Power", ArmMotor.getPower());
+            telemetry.addData("Arm Position", ArmMotor.getCurrentPosition()); // Display current encoder position
+            telemetry.update();
         }
+    }
+
+    //@Override
+    public void armstop() {
+        // Ensure motor is stopped when the OpMode ends
+        linearSlideMotor.setPower(0);
+        ArmMotor.setPower(0);
     }
 }
