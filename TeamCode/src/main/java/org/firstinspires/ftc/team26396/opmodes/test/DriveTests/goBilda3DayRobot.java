@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
+
 /*   MIT License
  *   Copyright (c) [2024] [Base 10 Assets, LLC]
  *
@@ -20,7 +22,7 @@
  *   SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+//package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -60,7 +62,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @TeleOp(name="goBILDA Robot in 3 Days 24-25", group="Robot")
 //@Disabled
-public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
+public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor  leftFrontDrive   = null; //the left drivetrain motor
@@ -69,7 +71,7 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
     public DcMotor  rightBackDrive   = null;
     public DcMotor  armMotor         = null; //the arm motor
     public DcMotor  liftMotor        = null; //
-    public DcMotor  hangMotor        = null;
+//    public DcMotor  hangMotor        = null;
     public CRServo  intake           = null; //the active intake servo
     public Servo    wrist            = null; //the wrist servo
 
@@ -158,8 +160,8 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
         rightFrontDrive = hardwareMap.dcMotor.get("frontRightMotor");
         rightBackDrive  = hardwareMap.dcMotor.get("backRightMotor");
         liftMotor       = hardwareMap.dcMotor.get("liftMotor");
-        armMotor        = hardwareMap.get(DcMotor.class, "left_arm"); //the arm motor
-        hangMotor       = hardwareMap.dcMotor.get("hangMotor");
+        armMotor        = hardwareMap.get(DcMotor.class, "armMotor"); //the arm motor
+     //   hangMotor       = hardwareMap.dcMotor.get("hangMotor");
 
 
        /*
@@ -178,7 +180,7 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        hangMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // hangMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*This sets the maximum current that the control hub will apply to the arm before throwing a flag */
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -187,14 +189,15 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
         /* Before starting the armMotor. We'll make sure the TargetPosition is set to 0.
         Then we'll set the RunMode to RUN_TO_POSITION. And we'll ask it to stop and reset encoder.
         If you do not have the encoder plugged into this motor, it will not run in this code. */
-        armMotor.setTargetPosition(0);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+     //   armMotor.setTargetPosition(0); // commenting this to prevent a backlash - VP
+     //   armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); //commenting to prevent extension of the linear slide - VP
+     //   armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+/*        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        commenting to prevent backlash */
+      //  liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         /* Define and initialize servos.*/
         intake = hardwareMap.get(CRServo.class, "intake");
@@ -375,10 +378,9 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
             by the driver. We add the armPosition Variable to our armPositionFudgeFactor, before adding
             our armLiftComp, which adjusts the arm height for different lift extensions.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
-
             armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor + armLiftComp));
 
-            ((DcMotorEx) armMotor).setVelocity(2100);
+            ((DcMotorEx) armMotor).setVelocity(500); //changed from 2100 - VP
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
@@ -418,7 +420,7 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
                 liftPosition = 0;
             }
 
-            liftMotor.setTargetPosition((int) (liftPosition));
+//            liftMotor.setTargetPosition((int) (liftPosition));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -433,7 +435,7 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
              * it didn't end up working... But here's the code we run it with. It just sets the motor
              * power to match the inverse of the left stick y.
              */
-            hangMotor.setPower(-gamepad2.left_stick_y);
+        //    hangMotor.setPower(-gamepad2.left_stick_y);
 
             /* This is how we check our loop time. We create three variables:
             looptime is the current time when we hit this part of the code
@@ -465,3 +467,5 @@ public class Test1 /*Unchanged GoBilda Code*/ extends LinearOpMode {
         }
     }
 }
+
+

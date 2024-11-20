@@ -57,10 +57,11 @@ public class TeleOpTest1 extends LinearOpMode  {
     public void runOpMode() {
 
         // Initialize the hardware variables for the 4 mecanum motors
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "backRightMotor");
+
 
         // Set motor directions: Reverse the motors on one side to ensure correct movement
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
