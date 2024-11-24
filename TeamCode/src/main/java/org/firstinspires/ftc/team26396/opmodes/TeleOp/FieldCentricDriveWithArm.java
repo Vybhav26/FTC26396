@@ -49,12 +49,16 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         Servo wristServo = hardwareMap.get(Servo.class, "wrist");
 
         // Reverse the right side motors (if necessary)
-        //NOTE: 3 motors are forward, 1 reverse, or vice versa
-        //TODO: Update NOTE once confirmed
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        /*
+        NOTE: 1 motors is forward, 3 are reverse
+        TODO: Check if accuate. Otherwise, revert to:
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+         */
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
         // Set zero power behavior to BRAKE for both motors to
