@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.team26396.opmodes.test;
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.TeleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Run All Motors", group="Linear OpMode")
+//@Autonomous(name="Run All Motors", group="Linear OpMode")
+//@Disabled
 public class RunAllMotors extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();

@@ -2,16 +2,16 @@
  * (License and header text truncated for brevity)
  */
 
-package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.team26396.purepursuit.localization.DeadWheel;
 
-@TeleOp(name="Controlled Left Motors with DeadWheel", group="Linear OpMode")
+//@TeleOp(name="Controlled Left Motors with DeadWheel", group="Linear OpMode")
+//@Disabled
 public class DeadWheelAndLeftMotors extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();

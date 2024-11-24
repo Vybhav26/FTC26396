@@ -1,12 +1,9 @@
-package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.Subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.Servo;
 
-//@TeleOp(name = “CRServoIntakeTest (Blocks to Java)”, group = “CRServo”)
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Servo Intake", group="TeleOp")
-
+//@Disabled
 public class CRServoIntakeTest extends LinearOpMode {
 
     private CRServo con_servo;
