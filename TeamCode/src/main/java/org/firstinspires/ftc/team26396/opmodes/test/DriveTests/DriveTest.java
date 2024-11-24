@@ -1,5 +1,5 @@
-package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
-
+/*package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -22,10 +22,10 @@ public class DriveTest extends LinearOpMode {
     public void runOpMode() {
 
         // Initialize the hardware variables for the 4 mecanum motors
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "backRightMotor");
 
         // Set motor directions: Reverse the motors on one side to ensure correct movement
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -34,6 +34,8 @@ public class DriveTest extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Initialize IMU hardware and parameters
+        IMU imu = hardwareMap.get(IMU.class, "imu");
+
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters imuParameters = new BNO055IMU.Parameters();
         imuParameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -92,3 +94,4 @@ public class DriveTest extends LinearOpMode {
         }
     }
 }
+*/

@@ -1,5 +1,3 @@
-package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
-
 /*   MIT License
  *   Copyright (c) [2024] [Base 10 Assets, LLC]
  *
@@ -22,7 +20,7 @@ package org.firstinspires.ftc.team26396.opmodes.test.DriveTests;
  *   SOFTWARE.
  */
 
-//package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.team26396;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -60,9 +58,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  */
 
 
-@TeleOp(name="goBILDA Robot in 3 Days 24-25", group="Robot")
+@TeleOp(name="goBILDAVanilla", group="Robot")
 //@Disabled
-public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
+public class goBildaVanilla extends LinearOpMode {
 
     /* Declare OpMode members. */
     public DcMotor  leftFrontDrive   = null; //the left drivetrain motor
@@ -71,7 +69,7 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
     public DcMotor  rightBackDrive   = null;
     public DcMotor  armMotor         = null; //the arm motor
     public DcMotor  liftMotor        = null; //
-//    public DcMotor  hangMotor        = null;
+    //public DcMotor  hangMotor        = null;
     public CRServo  intake           = null; //the active intake servo
     public Servo    wrist            = null; //the wrist servo
 
@@ -104,7 +102,7 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 0;
-    final double ARM_COLLECT               = 0 * -ARM_TICKS_PER_DEGREE;
+    final double ARM_COLLECT               = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
@@ -169,8 +167,8 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
        drive motors to go forward.
         */
 
-   //     leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-   //     leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         /* Setting zeroPowerBehavior to BRAKE enables a "brake mode". This causes the motor to slow down
         much faster when it is coasting. This creates a much more controllable drivetrain. As the robot
@@ -180,7 +178,7 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       // hangMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+     //   hangMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*This sets the maximum current that the control hub will apply to the arm before throwing a flag */
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -189,14 +187,13 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
         /* Before starting the armMotor. We'll make sure the TargetPosition is set to 0.
         Then we'll set the RunMode to RUN_TO_POSITION. And we'll ask it to stop and reset encoder.
         If you do not have the encoder plugged into this motor, it will not run in this code. */
-        armMotor.setTargetPosition(0); // commenting this to prevent a backlash - VP
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); //commenting to prevent extension of the linear slide - VP
-     //   armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setTargetPosition(0);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        commenting to prevent backlash */
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         /* Define and initialize servos.*/
@@ -304,7 +301,7 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
             if(gamepad1.a){
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
-                //liftPosition = LIFT_COLLAPSED;
+                liftPosition = LIFT_COLLAPSED;
                 wrist.setPosition(WRIST_FOLDED_OUT);
                 intake.setPower(INTAKE_COLLECT);
             }
@@ -319,21 +316,15 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
 
             else if (gamepad1.x){
                 /* This is the correct height to score the sample in the HIGH BASKET */
-                if(gamepad1.x){
-                    armPosition = ARM_SCORE_SAMPLE_IN_LOW;
-                }else{
-                    armPosition = 0;
-
-                }
-
-                //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
+                armPosition = ARM_SCORE_SAMPLE_IN_LOW;
+                liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
             }
 
             else if (gamepad1.dpad_left) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
-                //liftPosition = LIFT_COLLAPSED;
+                liftPosition = LIFT_COLLAPSED;
                 intake.setPower(INTAKE_OFF);
                 wrist.setPosition(WRIST_FOLDED_IN);
             }
@@ -384,9 +375,10 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
             by the driver. We add the armPosition Variable to our armPositionFudgeFactor, before adding
             our armLiftComp, which adjusts the arm height for different lift extensions.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
+
             armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor + armLiftComp));
 
-            ((DcMotorEx) armMotor).setVelocity(500); //changed from 2100 - VP
+            ((DcMotorEx) armMotor).setVelocity(2100);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
@@ -426,7 +418,7 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
                 liftPosition = 0;
             }
 
-//            liftMotor.setTargetPosition((int) (liftPosition));
+            liftMotor.setTargetPosition((int) (liftPosition));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -441,7 +433,7 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
              * it didn't end up working... But here's the code we run it with. It just sets the motor
              * power to match the inverse of the left stick y.
              */
-        //    hangMotor.setPower(-gamepad2.left_stick_y);
+          //  hangMotor.setPower(-gamepad2.left_stick_y);
 
             /* This is how we check our loop time. We create three variables:
             looptime is the current time when we hit this part of the code
@@ -473,5 +465,3 @@ public class goBilda3DayRobot /*Unchanged GoBilda Code*/ extends LinearOpMode {
         }
     }
 }
-
-
