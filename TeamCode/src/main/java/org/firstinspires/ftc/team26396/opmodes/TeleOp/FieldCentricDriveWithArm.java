@@ -39,8 +39,8 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
         // Declare the arm motors
-        DcMotor armMotor = hardwareMap.dcMotor.get("arm-linearSlide"); // aka LinearSlide
-        DcMotor liftMotor = hardwareMap.dcMotor.get("lift"); // aka ArmPivot
+        DcMotor armMotor = hardwareMap.dcMotor.get("armMotor"); // aka LinearSlide
+        DcMotor liftMotor = hardwareMap.dcMotor.get("liftMotor"); // aka ArmPivot
 
         //Declare intake servo
         CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
@@ -137,7 +137,8 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             */
             armControl.controlArm(gamepad2);
 
-
+//maybe 1 does intake and wrist
+//2 does presets for wrist
             //Intake control using the IntakeCode class -- uses bumper
             intakeControl.controlIntake(gamepad2.left_bumper, gamepad2.right_bumper);
 
