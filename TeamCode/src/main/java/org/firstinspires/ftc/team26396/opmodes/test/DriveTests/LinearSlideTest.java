@@ -105,7 +105,8 @@ public class LinearSlideTest extends OpMode {
         // Set up the ArmMotor's encoder position to 0
         ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);  // Reset encoder, setting position to 0
         ArmMotor.setTargetPosition(0);                             // Set initial target to position 0
-        ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);         // Enable position control mode
+        ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
     @Override
