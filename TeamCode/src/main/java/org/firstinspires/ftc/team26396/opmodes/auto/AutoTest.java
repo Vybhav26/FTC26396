@@ -1,24 +1,24 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import androidx.annotation.NonNull;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.team26396.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceBuilder;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+
+import java.util.Locale;
+
 
 @Autonomous(name="Basic Auto Test", group="LinearOpMode")
 public class AutoTest extends LinearOpMode {
@@ -31,6 +31,7 @@ public class AutoTest extends LinearOpMode {
     private DcMotor liftMotor = null;
     private CRServo intake = null;
 
+
     @Override
     public void runOpMode(){
         // Initialize the hardware variables for all motors
@@ -42,11 +43,13 @@ public class AutoTest extends LinearOpMode {
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         intake = hardwareMap.get(CRServo.class, "intake");
 
+
         // Set motor directions: Reverse the motors on one side to ensure correct movement
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+
 
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Front Left Power", leftFrontDrive.getPower());
@@ -55,12 +58,15 @@ public class AutoTest extends LinearOpMode {
         telemetry.addData("Back Right Power", rightBackDrive.getPower());
         telemetry.update();
 
+
         waitForStart();
         runtime.reset();
 
 
+
+
         while (opModeIsActive()) {
-            MecanumDrive drive = new MecanumDrive(hardwareMap);
+            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
             drive.setPoseEstimate(new Pose2d(0.22, -71.00, Math.toRadians(90.00)));
             MotorPower(0.5);
             TrajectorySequence traj0 = drive.trajectorySequenceBuilder(new Pose2d(0.22, -71.00, Math.toRadians(90.00)))
@@ -76,11 +82,13 @@ public class AutoTest extends LinearOpMode {
             telemetry.update();
             if(isStopRequested()) return;
 
+
             drive.followTrajectorySequence(traj0);
             telemetry.addData("Status", "Trajectory Complete");
             telemetry.update();
             sleep(100);
             MotorPower(0);
+
 
         }
     }
@@ -110,7 +118,11 @@ public class AutoTest extends LinearOpMode {
 
 
 
+
+
+
 }
+
 
 
 
