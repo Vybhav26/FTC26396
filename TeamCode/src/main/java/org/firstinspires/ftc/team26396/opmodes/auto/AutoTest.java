@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.team26396.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 
 import java.util.Locale;
@@ -122,6 +122,7 @@ public class AutoTest extends LinearOpMode {
 
 
 }
+
 
 
 
