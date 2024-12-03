@@ -7,8 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.team26396.roadrunner.util.Encoder;
+import org.firstinspires.ftc.team26396.roadrunner.drive.util.Encoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.List;
  *
  */
 @Config
-public class ThreeWheelLocalizer extends ThreeTrackingWheelLocalizer {
+public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 0;
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
@@ -39,7 +38,7 @@ public class ThreeWheelLocalizer extends ThreeTrackingWheelLocalizer {
 
     private List<Integer> lastEncPositions, lastEncVels;
 
-    public ThreeWheelLocalizer(HardwareMap hardwareMap, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels) {
+    public StandardTrackingWheelLocalizer(HardwareMap hardwareMap, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels) {
         super(Arrays.asList(
                 new Pose2d(0, LATERAL_DISTANCE / 2, 0), // left
                 new Pose2d(0, -LATERAL_DISTANCE / 2, 0), // right

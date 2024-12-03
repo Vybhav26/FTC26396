@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team26396.roadrunner.util;
+package org.firstinspires.ftc.team26396.roadrunner.drive.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,6 +18,8 @@ import org.firstinspires.ftc.ftccommon.external.WebHandlerRegistrar;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.team26396.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.team26396.roadrunner.drive.SampleTankDrive;
+import org.firstinspires.ftc.team26396.roadrunner.drive.StandardTrackingWheelLocalizer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,9 +61,9 @@ public final class LogFiles {
         public double kV = DriveConstants.kV;
         public double kA = DriveConstants.kA;
         public double kStatic = DriveConstants.kStatic;
-        public double maxVel = DriveConstants.MAX_VELOCITY;
-        public double maxAccel = DriveConstants.MAX_ACCELERATION;
-        public double maxAngVel = DriveConstants.MAX_ANGULAR_VELOCITY;
+        public double maxVel = DriveConstants.MAX_VEL;
+        public double maxAccel = DriveConstants.MAX_ACCEL;
+        public double maxAngVel = DriveConstants.MAX_ANG_VEL;
         public double maxAngAccel = DriveConstants.MAX_ANG_ACCEL;
 
         public double mecTransP = SampleMecanumDrive.TRANSLATIONAL_PID.kP;
@@ -72,22 +74,21 @@ public final class LogFiles {
         public double mecHeadingD = SampleMecanumDrive.HEADING_PID.kD;
         public double mecLateralMultiplier = SampleMecanumDrive.LATERAL_MULTIPLIER;
 
-    /*  VP_EDITS
-        public double tankAxialP = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.AXIAL_PID.kP;
-        public double tankAxialI = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.AXIAL_PID.kI;
-        public double tankAxialD = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.AXIAL_PID.kD;
-        public double tankCrossTrackP = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.CROSS_TRACK_PID.kP;
-        public double tankCrossTrackI = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.CROSS_TRACK_PID.kI;
-        public double tankCrossTrackD = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.CROSS_TRACK_PID.kD;
-        public double tankHeadingP = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.HEADING_PID.kP;
-        public double tankHeadingI = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.HEADING_PID.kI;
-        public double tankHeadingD = org.firstinspires.ftc.team26396.roadrunner.drive.TankDrive.HEADING_PID.kD;
-    VP_EDITS */
-        public double trackingTicksPerRev = org.firstinspires.ftc.team26396.roadrunner.drive.ThreeWheelLocalizer.TICKS_PER_REV;
-        public double trackingWheelRadius = org.firstinspires.ftc.team26396.roadrunner.drive.ThreeWheelLocalizer.WHEEL_RADIUS;
-        public double trackingGearRatio = org.firstinspires.ftc.team26396.roadrunner.drive.ThreeWheelLocalizer.GEAR_RATIO;
-        public double trackingLateralDistance = org.firstinspires.ftc.team26396.roadrunner.drive.ThreeWheelLocalizer.LATERAL_DISTANCE;
-        public double trackingForwardOffset = org.firstinspires.ftc.team26396.roadrunner.drive.ThreeWheelLocalizer.FORWARD_OFFSET;
+        public double tankAxialP = SampleTankDrive.AXIAL_PID.kP;
+        public double tankAxialI = SampleTankDrive.AXIAL_PID.kI;
+        public double tankAxialD = SampleTankDrive.AXIAL_PID.kD;
+        public double tankCrossTrackP = SampleTankDrive.CROSS_TRACK_PID.kP;
+        public double tankCrossTrackI = SampleTankDrive.CROSS_TRACK_PID.kI;
+        public double tankCrossTrackD = SampleTankDrive.CROSS_TRACK_PID.kD;
+        public double tankHeadingP = SampleTankDrive.HEADING_PID.kP;
+        public double tankHeadingI = SampleTankDrive.HEADING_PID.kI;
+        public double tankHeadingD = SampleTankDrive.HEADING_PID.kD;
+
+        public double trackingTicksPerRev = StandardTrackingWheelLocalizer.TICKS_PER_REV;
+        public double trackingWheelRadius = StandardTrackingWheelLocalizer.WHEEL_RADIUS;
+        public double trackingGearRatio = StandardTrackingWheelLocalizer.GEAR_RATIO;
+        public double trackingLateralDistance = StandardTrackingWheelLocalizer.LATERAL_DISTANCE;
+        public double trackingForwardOffset = StandardTrackingWheelLocalizer.FORWARD_OFFSET;
 
         public RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR = DriveConstants.LOGO_FACING_DIR;
         public RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR = DriveConstants.USB_FACING_DIR;

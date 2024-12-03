@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.team26396.roadrunner.drive.opmode;
 
-import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.MAX_ACCELERATION;
-import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.MAX_VELOCITY;
+import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.MAX_VEL;
 import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.team26396.roadrunner.drive.DriveConstants.kStatic;
@@ -60,7 +60,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
         MotionState goal = new MotionState(movingForward ? DISTANCE : 0, 0, 0, 0);
-        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, MAX_VELOCITY, MAX_ACCELERATION);
+        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, MAX_VEL, MAX_ACCEL);
     }
 
     @Override

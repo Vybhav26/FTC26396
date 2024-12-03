@@ -28,10 +28,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequenceRunner;
-import org.firstinspires.ftc.team26396.roadrunner.util.LynxModuleUtil;
+import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceRunner;
+import org.firstinspires.ftc.team26396.roadrunner.drive.util.LynxModuleUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,12 +53,12 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 
-    private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(DriveConstants.MAX_VELOCITY, DriveConstants.MAX_ANGULAR_VELOCITY, DriveConstants.TRACK_WIDTH);
-    private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(DriveConstants.MAX_ACCELERATION);
+    private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(DriveConstants.MAX_VEL, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH);
+    private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(DriveConstants.MAX_ACCEL);
 
     private TrajectoryFollower follower;
 
-    private DcMotorEx leftFront, leftRear, rightRear, rightFront;
+    private DcMotorEx leftFrontDrive, leftBackDrive, rightBackDrive, rightFrontDrive;
     private List<DcMotorEx> motors;
 
     private IMU imu;
@@ -81,18 +81,17 @@ public class SampleMecanumDrive extends MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        // TODO: adjust the names of the following hardware devices to match your configuration
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
+        leftBackDrive  = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, "backRightMotor");
 
-        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
+        motors = Arrays.asList(leftFrontDrive, leftBackDrive, rightBackDrive, rightFrontDrive);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -110,7 +109,11 @@ public class SampleMecanumDrive extends MecanumDrive {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstants.MOTOR_VELO_PID);
         }
 
-        // TODO: reverse any motors using DcMotor.setDirection()
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+
 
         List<Integer> lastTrackingEncPositions = new ArrayList<>();
         List<Integer> lastTrackingEncVels = new ArrayList<>();
@@ -140,7 +143,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         return new TrajectorySequenceBuilder(
                 startPose,
                 VEL_CONSTRAINT, ACCEL_CONSTRAINT,
-                DriveConstants.MAX_ANGULAR_VELOCITY, DriveConstants.MAX_ANG_ACCEL
+                DriveConstants.MAX_ANG_VEL, DriveConstants.MAX_ANG_ACCEL
         );
     }
 
@@ -270,10 +273,10 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        leftFront.setPower(v);
-        leftRear.setPower(v1);
-        rightRear.setPower(v2);
-        rightFront.setPower(v3);
+        leftFrontDrive.setPower(v);
+        leftBackDrive.setPower(v1);
+        rightBackDrive.setPower(v2);
+        rightFrontDrive.setPower(v3);
     }
 
     @Override
