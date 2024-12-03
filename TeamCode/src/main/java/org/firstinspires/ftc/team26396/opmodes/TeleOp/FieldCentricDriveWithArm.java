@@ -17,18 +17,17 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 //SubsystemsCodeImports
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.ArmCode;
+//import org.firstinspires.ftc.team26396.opmodes.Subsystems.ArmCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 
-
-
 @TeleOp(name="TeleOp", group="TeleOpFINAL")
 public class FieldCentricDriveWithArm extends LinearOpMode {
-    private ArmCode armControl;  // Declare the ArmControl object
+    // private ArmCode armControl;  // Declare the ArmControl object
     private IntakeCode intakeControl;  // Declare the intakeControl object
     private WristCode wristControl;  // Declare the wristControl object
-
+    private PresetArmCode armControl; //Declare the PresetArmControl object
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,34 +44,29 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         //Declare intake servo
         CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
 
-        //Declare intake servo
+        //Declare wrist servo
         Servo wristServo = hardwareMap.get(Servo.class, "wrist");
 
         // Reverse the right side motors (if necessary)
-        /*
-        NOTE: 1 motors is forward, 3 are reverse
-        TODO: Check if accuate. Otherwise, revert to:
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-         */
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-
-        // Set zero power behavior to BRAKE for both motors to
-        //make sure they don't go crazy upon start
+        // Set zero power behavior to BRAKE for both motors
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // Intialize the armControl object and pass the arm motors
-        armControl = new ArmCode(armMotor, liftMotor);
+        // Initialize the armControl object and pass the arm motors
+        //armControl = new ArmCode(armMotor, liftMotor);
 
-        // Intialize the intakeControl object and pass the intake CRServo
+        // Initialize the PresetArmControl object and pass the arm motors
+        armControl = new PresetArmCode(armMotor, liftMotor);
+
+        // Initialize the intakeControl object and pass the intake CRServo
         intakeControl = new IntakeCode(intakeServo);
 
-        // Intialize the wristControl object and pass the wrist Servo
+        // Initialize the wristControl object and pass the wrist Servo
         wristControl = new WristCode(wristServo);
 
         // Retrieve the IMU from the hardware map
@@ -88,19 +82,11 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             //
             // DRIVE CODE -- Start --
             //
-            /*
-            Utlize Field Centric Drive --
-            Means that robot will move in relation to field
-            Ex: Moves forward, then right, the front face of the robot will
-            still be looking the same direction even after turning.
-            */
-            //gamepad1 left and right sticks are used for strafing
-            //gamepad 1 right stick is used for turning
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
-            // Reset the robot's yaw when pressing the options button (on a PS4 controller)
+            // Reset the robot's yaw when pressing the options button
             if (gamepad1.options) {
                 imu.resetYaw();
             }
@@ -114,7 +100,6 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             rotX = rotX * 1.1;  // Counteract imperfect strafing
 
             // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio
             double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
             double frontLeftPower = (rotY + rotX + rx) / denominator;
             double backLeftPower = (rotY - rotX + rx) / denominator;
@@ -129,20 +114,16 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             // DRIVE CODE -- End --
             //
 
-            /*
-             Arm control using the ArmCode class -- Uses Dpad Up and Down
-             and PS4 controller buttons 'cross' and 'triangle'
-              - Dpad Controls Linear Slide
-              - Buttons control Arm Rotation
-            */
-            armControl.controlArm(gamepad2);
+            // Arm control using the ArmCode class
+            //armControl.controlArm(gamepad2);
 
-//maybe 1 does intake and wrist
-//2 does presets for wrist
-            //Intake control using the IntakeCode class -- uses bumper
-            intakeControl.controlIntake(gamepad2.left_bumper, gamepad2.right_bumper);
+            // Arm control using the PresetArmCode class
+            armControl.controlArmPreset(gamepad2);
 
-            //Wrist control using the WristCode class -- Uses dpad
+            // Intake control using the IntakeCode class -- now including telemetry
+            intakeControl.controlIntake(gamepad2, telemetry);
+
+            // Wrist control using the WristCode class
             wristControl.controlWrist(gamepad2.dpad_left, gamepad2.dpad_right);
 
             // Telemetry for monitoring

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team26396.opmodes.Subsystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class IntakeCode {
 
@@ -18,31 +19,46 @@ public class IntakeCode {
     public IntakeCode(CRServo intake) {
         this.intake = intake;
         // Ensure the servo is off at the start
-        intake.setPower(currentPower);
+        stopIntake();
     }
 
     /**
-     * Controls the intake servo based on the bumper buttons pressed.
+     * Controls the intake servo based on the gamepad inputs.
      *
-     * @param leftBumper The state of the left bumper button on the gamepad
-     * @param rightBumper The state of the right bumper button on the gamepad
+     * @param gamepad The gamepad providing input
+     * @param telemetry The telemetry object for feedback
      */
-    public void controlIntake(boolean leftBumper, boolean rightBumper) {
-        if (leftBumper) {
-            currentPower = INTAKE_COLLECT; // Set current power to collect when left bumper is pressed
-        }
-        else if (rightBumper) {
-            currentPower = INTAKE_DEPOSIT; // Set current power to deposit when right bumper is pressed
+    public void controlIntake(Gamepad gamepad, Telemetry telemetry) {
+        // Check for stick or button inputs
+        if (gamepad.left_stick_y < -0.5) {
+            currentPower = INTAKE_COLLECT; // Push stick up to collect
+        } else if (gamepad.left_stick_y > 0.5) {
+            currentPower = INTAKE_DEPOSIT; // Push stick down to deposit
+        } else if (gamepad.cross) {
+            currentPower = INTAKE_COLLECT; // X button for collect
+        } else if (gamepad.circle) {
+            currentPower = INTAKE_DEPOSIT; // O button for deposit
+        } else {
+            currentPower = 0.0; // Neutral/stop if no input
         }
 
-        // Reset power of intake to 0.0 upon rest
+        // Set the intake power
         intake.setPower(currentPower);
+
+        // Send feedback to telemetry
+        telemetry.addData("Intake Power", currentPower);
+        telemetry.addData("Current Action",
+                currentPower > 0 ? "Collecting" :
+                        currentPower < 0 ? "Depositing" :
+                                "Stopped");
+        telemetry.update();
     }
 
     /**
-     * Stops the intake motor, but maintains the current power level.
+     * Stops the intake by setting power to zero.
      */
     public void stopIntake() {
-        intake.setPower(currentPower); // Keeps the intake at its current power level rather than stopping it completely
+        currentPower = 0.0;
+        intake.setPower(currentPower);
     }
 }
