@@ -9,7 +9,7 @@ public class IntakeCode {
     private CRServo intake = null;
 
     // Store the current power level of the intake
-    private double currentPower = 0.0;
+     public double currentPower= 0.0;
 
     // Define constants for intake power values
     private static final double INTAKE_COLLECT = 1.0;  // Power for collecting
