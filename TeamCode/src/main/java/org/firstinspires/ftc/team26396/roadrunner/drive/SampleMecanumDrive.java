@@ -20,7 +20,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityCons
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -28,10 +27,11 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceRunner;
-import org.firstinspires.ftc.team26396.roadrunner.drive.util.LynxModuleUtil;
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequenceRunner;
+import org.firstinspires.ftc.team26396.roadrunner.util.LynxModuleUtil;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import java.util.ArrayList;
 import java.util.Arrays;

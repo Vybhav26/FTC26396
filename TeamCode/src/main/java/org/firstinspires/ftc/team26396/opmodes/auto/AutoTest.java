@@ -13,20 +13,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.team26396.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.team26396.roadrunner.drive.trajectorysequence.TrajectorySequenceBuilder;
-
-
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.team26396.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 import java.util.Locale;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 
 @Autonomous(name="Basic Auto Test", group="LinearOpMode")
 public class AutoTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
+    private DcMotorEx leftFrontDrive = null;
+    private DcMotorEx leftBackDrive = null;
+    private DcMotorEx rightFrontDrive = null;
+    private DcMotorEx rightBackDrive = null;
     private DcMotor armMotor = null;
     private DcMotor liftMotor = null;
     private CRServo intake = null;
@@ -35,10 +34,10 @@ public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode(){
         // Initialize the hardware variables for all motors
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "backRightMotor");
+        leftFrontDrive  = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
+        leftBackDrive  = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, "backRightMotor");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         intake = hardwareMap.get(CRServo.class, "intake");
@@ -64,16 +63,15 @@ public class AutoTest extends LinearOpMode {
 
 
 
-
         while (opModeIsActive()) {
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
             drive.setPoseEstimate(new Pose2d(0.22, -71.00, Math.toRadians(90.00)));
             MotorPower(0.5);
             TrajectorySequence traj0 = drive.trajectorySequenceBuilder(new Pose2d(0.22, -71.00, Math.toRadians(90.00)))
-                    .lineTo(new Vector2d(-0.07, -28.35))
-                    .lineTo(new Vector2d(-46.66, -27.17))
-                    .lineToSplineHeading(new Pose2d(-60.87, -59.40, Math.toRadians(270.00)))
-                    .lineTo(new Vector2d(55.15, -64.82))
+                    .lineTo(new Vector2d(0.37, -28.35))
+                    .lineTo(new Vector2d(-47.68, -29.52))
+                    .lineToSplineHeading(new Pose2d(-59.99, -57.79, Math.toRadians(247.46)))
+                    .lineToSplineHeading(new Pose2d(51.20, -67.46, Math.toRadians(-4.97)))
                     .build();
             telemetry.addData("Status", "Built Trajectory");
             telemetry.update();
@@ -122,6 +120,7 @@ public class AutoTest extends LinearOpMode {
 
 
 }
+
 
 
 
