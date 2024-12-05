@@ -117,13 +117,13 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             // Arm control using the ArmCode class
             //armControl.controlArm(gamepad2);
 
-            // Arm control using the PresetArmCode class
+            // Arm control using the PresetArmCode class - works
             armControl.controlArmPreset(gamepad2);
 
-            // Intake control using the IntakeCode class -- now including telemetry
+            // Intake control using the IntakeCode class -- now including telemetry -- remove it, fix
             intakeControl.controlIntake(gamepad2, telemetry);
 
-            // Wrist control using the WristCode class
+            // Wrist control using the WristCode class, fix
             wristControl.controlWrist(gamepad2.dpad_left, gamepad2.dpad_right);
 
             // Telemetry for monitoring
@@ -135,6 +135,12 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             telemetry.addData("Lift Motor Power", liftMotor.getPower());
             telemetry.addData("Intake (CRServo) Power", intakeServo.getPower());
             telemetry.addData("Wrist (Servo) Power", wristServo.getPosition());
+            telemetry.addData("Intake Power", currentPower);
+            telemetry.addData("Current Action",
+                    currentPower > 0 ? "Collecting" :
+                            currentPower < 0 ? "Depositing" :
+                                    "Stopped");
+
             telemetry.update();
 
         }

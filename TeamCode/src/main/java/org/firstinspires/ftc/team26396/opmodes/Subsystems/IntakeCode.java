@@ -43,16 +43,9 @@ public class IntakeCode {
         }
 
         // Set the intake power
-        intake.setPower(currentPower);
 
         // Send feedback to telemetry
-        telemetry.addData("Intake Power", currentPower);
-        telemetry.addData("Current Action",
-                currentPower > 0 ? "Collecting" :
-                        currentPower < 0 ? "Depositing" :
-                                "Stopped");
-        telemetry.update();
-    }
+
 
     /**
      * Stops the intake by setting power to zero.
