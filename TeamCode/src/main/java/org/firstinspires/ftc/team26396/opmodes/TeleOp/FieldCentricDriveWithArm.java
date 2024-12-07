@@ -32,8 +32,8 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
-        DcMotor armMotor = hardwareMap.dcMotor.get("armMotor");
-        DcMotor liftMotor = hardwareMap.dcMotor.get("liftMotor");
+        DcMotor linearSlideMotor = hardwareMap.dcMotor.get("armMotor");
+        DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
         CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
         Servo wristServo = hardwareMap.get(Servo.class, "wrist");
 
@@ -52,11 +52,11 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
 
 
         // Set zero power behavior
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Initialize subsystems
-        armControl = new PresetArmCode(armMotor, liftMotor);
+        armControl = new PresetArmCode(linearSlideMotor, armMotor);
         intakeControl = new IntakeCode(intakeServo);
         wristControl = new WristCode(wristServo);
         driveControl = new DriveCode(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, imu);
@@ -118,10 +118,12 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             telemetry.addData("Back Left Power", backLeftMotor.getPower());
             telemetry.addData("Front Right Power", frontRightMotor.getPower());
             telemetry.addData("Back Right Power", backRightMotor.getPower());
+            telemetry.addData("LinearSlide Motor Power", linearSlideMotor.getPower());
             telemetry.addData("Arm Motor Power", armMotor.getPower());
-            telemetry.addData("Lift Motor Power", liftMotor.getPower());
             telemetry.addData("Intake Power", intakeServo.getPower());
             telemetry.addData("Wrist Position", wristServo.getPosition());
+            telemetry.addData("Linear Slide Encoder", linearSlideMotor.getCurrentPosition());
+            telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());
             telemetry.update();
         }
     }
