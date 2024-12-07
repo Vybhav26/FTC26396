@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-//@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="CRServo Control", group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="CRServo Control", group="TeleOp")
 //@Disabled
 public class ServoIntakeTest extends OpMode {
 

@@ -1,84 +1,92 @@
+/*
+Drive Code is based on:
+            double y = -Math.pow(gamepad1.left_stick_y, 3); // Remember, Y stick value is reversed
+            double x = Math.pow(gamepad1.left_stick_y, 3);
+            double rx = Math.pow(gamepad1.right_stick_y, 3);
+
+            // Reset the robot's yaw when pressing the options button
+            if (gamepad1.options) {
+                imu.resetYaw();
+            }
+
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            // Rotate the movement direction counter to the bot's rotation
+            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+            rotX = rotX * 1.1;  // Counteract imperfect strafing
+
+            // Denominator is the largest motor power (absolute value) or 1
+            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+            double frontLeftPower = (rotY + rotX + rx) / denominator;
+            double backLeftPower = (rotY - rotX + rx) / denominator;
+            double frontRightPower = (rotY - rotX - rx) / denominator;
+            double backRightPower = (rotY + rotX - rx) / denominator;
+
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
+
+ */
+
 package org.firstinspires.ftc.team26396.opmodes.Subsystems;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
 public class DriveCode {
-    // Define the drive motors
-    private DcMotor FrontLeftMotor;
-    private DcMotor BackLeftMotor;
-    private DcMotor FrontRightMotor;
-    private DcMotor BackRightMotor;
 
-    // Gamepad for input control
-    private Gamepad controller;
+    private DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
+    private IMU imu;
 
-    // Constructor to initialize motors and gamepad
-    public DriveCode(DcMotor FrontLeftM, DcMotor BackLeftM, DcMotor BackRightM, DcMotor FrontRightM, Gamepad c) {
-        FrontLeftMotor = FrontLeftM;
-        BackLeftMotor = BackLeftM;
-        FrontRightMotor = FrontRightM;
-        BackRightMotor = BackRightM;
-        controller = c;
+    public DriveCode(DcMotor frontLeftMotor, DcMotor backLeftMotor,
+                     DcMotor frontRightMotor, DcMotor backRightMotor, IMU imu) {
+        this.frontLeftMotor = frontLeftMotor;
+        this.backLeftMotor = backLeftMotor;
+        this.frontRightMotor = frontRightMotor;
+        this.backRightMotor = backRightMotor;
+        this.imu = imu;
     }
 
-    // Update method to handle teleoperation inputs
-    public void update() {
-        // Get joystick values
-        double LeftJoyStickVal = controller.left_stick_y;
-        double RightJoyStickVal = controller.right_stick_x;
+    public void drive(Gamepad gamepad1) {
+        double y = -Math.pow(gamepad1.left_stick_y, 3); // Y stick value is reversed
+        double x = Math.pow(gamepad1.left_stick_x, 3);
+        double rx = Math.pow(gamepad1.right_stick_x, 3);
 
-        // Calculate power for left and right motors
-        double powerLeft = LeftJoyStickVal - RightJoyStickVal;
-        double powerRight = LeftJoyStickVal + RightJoyStickVal;
+        // Reset the robot's yaw when pressing the options button
+        if (gamepad1.options) {
+            imu.resetYaw();
+        }
 
-        // Set motor powers
-        SetLeftMotors(-powerLeft);  // Invert to match forward/backward
-        SetRightMotors(powerRight);
-    }
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-    // Method to set power for left motors
-    public void SetLeftMotors(double power) {
-        FrontLeftMotor.setPower(power);
-        BackLeftMotor.setPower(power);
-    }
+        // Rotate the movement direction counter to the bot's rotation
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-    // Method to set power for right motors
-    public void SetRightMotors(double power) {
-        FrontRightMotor.setPower(power);
-        BackRightMotor.setPower(power);
-    }
+        rotX = rotX * 1.1;  // Counteract imperfect strafing
 
-    // Method to get the average encoder value of the left motors
-    public int GetLeftEncoders() {
-        int frontVal = FrontLeftMotor.getCurrentPosition();
-        int backVal = BackLeftMotor.getCurrentPosition();
-        return (frontVal + backVal) / 2;
-    }
+        // Denominator is the largest motor power (absolute value) or 1
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+        double frontLeftPower = (rotY + rotX + rx) / denominator;
+        double backLeftPower = (rotY - rotX + rx) / denominator;
+        double frontRightPower = (rotY - rotX - rx) / denominator;
+        double backRightPower = (rotY + rotX - rx) / denominator;
 
-    // Method to get the average encoder value of the right motors
-    public int GetRightEncoders() {
-        int frontVal = FrontRightMotor.getCurrentPosition();
-        int backVal = BackRightMotor.getCurrentPosition();
-        return (frontVal + backVal) / 2;
-    }
-
-    // Method to reset all motor encoders
-    public void ResetEncoders() {
-        FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    // Method to reset the drive system (stop motors and reset encoders)
-    public static void reset(DriveCode drive) {
-        drive.SetLeftMotors(0);
-        drive.SetRightMotors(0);
-        drive.ResetEncoders();
+        frontLeftMotor.setPower(frontLeftPower);
+        backLeftMotor.setPower(backLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backRightMotor.setPower(backRightPower);
     }
 }

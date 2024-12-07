@@ -15,6 +15,7 @@ public class IntakeCode {
     // Define constants for intake power values
     private static final double INTAKE_COLLECT = 1.0;  // Power for collecting
     private static final double INTAKE_DEPOSIT = -1.0; // Power for depositing
+    private static final double INTAKE_OFF = 0.0; // Power for depositing
 
     public IntakeCode(CRServo intake) {
         this.intake = intake;
@@ -28,33 +29,32 @@ public class IntakeCode {
      * @param gamepad   The gamepad providing input
      * @param telemetry The telemetry object for feedback
      */
-    public void controlIntake(Gamepad gamepad, Telemetry telemetry) {
+    public void controlIntake(Gamepad gamepad) {
         // Check for stick or button inputs
-        if (gamepad.left_stick_y < -0.5) {
+        //      if (gamepad.left_stick_y < -0.5) {
+        if (gamepad.right_trigger > 0.1) {
             currentPower = INTAKE_COLLECT; // Push stick up to collect
-        } else if (gamepad.left_stick_y > 0.5) {
+            //       } else if (gamepad.left_stick_y > 0.5) {
+        } else if (gamepad.left_trigger > 0.1) {
             currentPower = INTAKE_DEPOSIT; // Push stick down to deposit
-        } else if (gamepad.cross) {
-            currentPower = INTAKE_COLLECT; // X button for collect
-        } else if (gamepad.circle) {
-            currentPower = INTAKE_DEPOSIT; // O button for deposit
-        } else {
-            currentPower = 0.0; // Neutral/stop if no input
+        }
+        else {
+            currentPower = INTAKE_OFF; // Neutral/stop if no input
         }
 
         // Set the intake power
-        intake.setPower(currentPower);
+//        intake.setPower(currentPower);
 
         // Send feedback to telemetry
-        telemetry.addData("Intake Power", currentPower);
-        telemetry.update();
+//        telemetry.addData("Intake Power", currentPower);
+//        telemetry.update();
     }
 
     /**
      * Stops the intake by setting power to zero.
      */
     public void stopIntake() {
-        currentPower = 0.0;
+        currentPower = INTAKE_OFF;
         intake.setPower(currentPower);
     }
 }

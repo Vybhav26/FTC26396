@@ -24,7 +24,9 @@ public class WristCode {
      * @param leftDpad The state of the left dpad button on the gamepad
      * @param rightDpad The state of the right dpad button on the gamepad
      */
+
     public void controlWrist(boolean leftDpad, boolean rightDpad) {
+
         if (leftDpad) {
             wrist.setPosition(WRIST_COLLECT); // Set position to collect when left dpad is pressed
         }
