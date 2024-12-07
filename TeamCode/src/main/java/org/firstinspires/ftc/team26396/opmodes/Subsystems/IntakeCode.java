@@ -10,7 +10,7 @@ public class IntakeCode {
     private CRServo intake = null;
 
     // Store the current power level of the intake
-     public double currentPower= 0.0;
+    public double currentPower = 0.0;
 
     // Define constants for intake power values
     private static final double INTAKE_COLLECT = 1.0;  // Power for collecting
@@ -25,7 +25,7 @@ public class IntakeCode {
     /**
      * Controls the intake servo based on the gamepad inputs.
      *
-     * @param gamepad The gamepad providing input
+     * @param gamepad   The gamepad providing input
      * @param telemetry The telemetry object for feedback
      */
     public void controlIntake(Gamepad gamepad, Telemetry telemetry) {
@@ -43,9 +43,12 @@ public class IntakeCode {
         }
 
         // Set the intake power
+        intake.setPower(currentPower);
 
         // Send feedback to telemetry
-
+        telemetry.addData("Intake Power", currentPower);
+        telemetry.update();
+    }
 
     /**
      * Stops the intake by setting power to zero.

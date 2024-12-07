@@ -21,6 +21,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.DriveCode;
+
 
 @TeleOp(name="TeleOp", group="TeleOpFINAL")
 public class FieldCentricDriveWithArm extends LinearOpMode {
@@ -28,6 +30,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
     private IntakeCode intakeControl;  // Declare the intakeControl object
     private WristCode wristControl;  // Declare the wristControl object
     private PresetArmCode armControl; //Declare the PresetArmControl object
+    private DriveCode driveControl;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -69,6 +72,9 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         // Initialize the wristControl object and pass the wrist Servo
         wristControl = new WristCode(wristServo);
 
+        // Initialize the driveControl object and pass the 4 drive motors
+        driveControl = new DriveCode(frontLeftMotor, backLeftMotor, backRightMotor, frontRightMotor, gamepad1);
+
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -82,6 +88,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             //
             // DRIVE CODE -- Start --
             //
+/*
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
@@ -110,6 +117,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
+  */
             //
             // DRIVE CODE -- End --
             //
@@ -126,20 +134,18 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             // Wrist control using the WristCode class, fix
             wristControl.controlWrist(gamepad2.dpad_left, gamepad2.dpad_right);
 
+            // Wrist control using the WristCode class, fix
+            driveControl.update();
+
             // Telemetry for monitoring
-            telemetry.addData("Front Left Motor Power", frontLeftPower);
-            telemetry.addData("Back Left Motor Power", backLeftPower);
-            telemetry.addData("Front Right Motor Power", frontRightPower);
-            telemetry.addData("Back Right Motor Power", backRightPower);
+//            telemetry.addData("Front Left Motor Power", frontLeftPower);
+//            telemetry.addData("Back Left Motor Power", backLeftPower);
+//            telemetry.addData("Front Right Motor Power", frontRightPower);
+//            telemetry.addData("Back Right Motor Power", backRightPower);
             telemetry.addData("Arm Motor Power", armMotor.getPower());
             telemetry.addData("Lift Motor Power", liftMotor.getPower());
             telemetry.addData("Intake (CRServo) Power", intakeServo.getPower());
             telemetry.addData("Wrist (Servo) Power", wristServo.getPosition());
-            telemetry.addData("Intake Power", currentPower);
-            telemetry.addData("Current Action",
-                    currentPower > 0 ? "Collecting" :
-                            currentPower < 0 ? "Depositing" :
-                                    "Stopped");
 
             telemetry.update();
 
