@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 
 @Autonomous(name="Basic Auto Test", group="LinearOpMode")
-public class AutoTest extends LinearOpMode {
+public class RRAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotorEx leftFrontDrive = null;
     private DcMotorEx leftBackDrive = null;
