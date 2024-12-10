@@ -15,6 +15,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.DriveCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 
 @TeleOp(name = "TeleOp", group = "TeleOpFINAL")
 public class FieldCentricDriveWithArm extends LinearOpMode {
@@ -24,6 +25,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
     private IntakeCode intakeControl;
     private WristCode wristControl;
     private DriveCode driveControl;
+    private HangCode hangControl;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,6 +38,8 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
         CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
         Servo wristServo = hardwareMap.get(Servo.class, "wrist");
+        DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
+        DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
 
         // Initialize and configure IMU
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -54,12 +58,15 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         // Set zero power behavior
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        HangMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Initialize subsystems
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
         intakeControl = new IntakeCode(intakeServo);
         wristControl = new WristCode(wristServo);
         driveControl = new DriveCode(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, imu);
+        hangControl = new HangCode(HangMotor1, HangMotor2);
 
         waitForStart();
 
@@ -111,7 +118,14 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             b) Using Circle Trigger - Makes Wrist straight
              */
 
-
+            //HANG CONTROL
+            hangControl.controlHang(gamepad1);
+            /*
+            Gamepad1 Buttons (Logitech Controller):
+            a) Using A button - Extends the linearSlides
+            b) Using B button - Retracts the linearSlides
+            Note: HangMotor1 Encoder Value should ALWAYS be equal to HangMotor2 Encoder Value
+             */
 
             // TELEMETRY
             telemetry.addData("Front Left Power", frontLeftMotor.getPower());
@@ -124,6 +138,8 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             telemetry.addData("Wrist Position", wristServo.getPosition());
             telemetry.addData("Linear Slide Encoder", linearSlideMotor.getCurrentPosition());
             telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());
+            telemetry.addData("Hang Motor1 Encoder", HangMotor1.getCurrentPosition());
+            telemetry.addData("Hang Motor2 Encoder", HangMotor2.getCurrentPosition());
             telemetry.update();
         }
     }

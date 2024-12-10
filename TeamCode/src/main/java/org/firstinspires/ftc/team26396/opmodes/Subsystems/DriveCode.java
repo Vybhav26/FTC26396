@@ -41,9 +41,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+//import com.qualcomm.hardware.rev.LynxModule;
+
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 
 public class DriveCode {
 
@@ -57,6 +58,22 @@ public class DriveCode {
         this.frontRightMotor = frontRightMotor;
         this.backRightMotor = backRightMotor;
         this.imu = imu;
+
+        /*
+        This piece of code includes Bulk Caching.
+            Essentially, piece of code to reduce reaction time of robot, especially with the wheels on drivetrain
+            For a more 'scientific response;:
+                "When multiple reads are required in rapid succession
+                (common in a drivetrain or for precise movement), this repeated communication can
+                create a noticeable delay. Bulk caching groups these hardware requests together
+                into a single transaction, so all necessary data is retrieved in one batch.
+                This reduces latency and improves the efficiency of the program."
+         */
+/*
+        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
+*/
     }
 
     public void drive(Gamepad gamepad1) {
