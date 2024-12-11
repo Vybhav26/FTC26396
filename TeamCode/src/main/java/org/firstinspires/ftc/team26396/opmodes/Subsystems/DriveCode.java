@@ -77,9 +77,9 @@ public class DriveCode {
     }
 
     public void drive(Gamepad gamepad1) {
-        double y = -Math.pow(gamepad1.left_stick_y, 3); // Y stick value is reversed
-        double x = Math.pow(gamepad1.left_stick_x, 3);
-        double rx = Math.pow(gamepad1.right_stick_x, 3);
+        double y = -Math.pow(gamepad1.right_stick_y, 3); // Y stick value is reversed
+        double x = Math.pow(gamepad1.right_stick_x, 3);
+        double rx = Math.pow(gamepad1.left_stick_x, 3);
 
         // Reset the robot's yaw when pressing the options button
         if (gamepad1.options) {

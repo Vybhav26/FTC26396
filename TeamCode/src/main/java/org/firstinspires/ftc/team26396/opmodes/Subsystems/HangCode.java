@@ -29,12 +29,14 @@ public class HangCode {
         HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         HangMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        setHangPosition(HangZero);
+
     }
 
     public void controlHang(Gamepad gamepad) {
 
         //Preset to 0
-        setHangPosition(HangZero);
 
 
         // Lift Motor Control using preset positions
