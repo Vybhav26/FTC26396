@@ -19,7 +19,7 @@ public class PresetArmCode {
     private final int ARM_GROUND = 50; //Make sure it isn't touching actual ground
     private final int ARM_LOW = 500; //TODO: Edit to 1500 for Low Basket
     private final int ARM_HIGH = 1500; //TODO: LOW BASKET
-    private final int ARM_MAX = 2500; //TODO: HIGH BASKET
+    private final int ARM_MAX = 2000; //TODO: HIGH BASKET
 
 
 //1500 = low basket.... 3000

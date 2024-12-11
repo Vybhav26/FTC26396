@@ -103,7 +103,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
              */
 
             // INTAKE CONTROL
-            intakeControl.controlIntake(gamepad1);
+            intakeControl.controlIntake(gamepad1.right_bumper, gamepad1.left_bumper);
             /*
             Gamepad1 Trigger:
             a) Using Left Trigger - pushes block OUTWARD
