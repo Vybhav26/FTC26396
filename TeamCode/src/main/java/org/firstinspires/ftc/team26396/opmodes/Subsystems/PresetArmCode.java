@@ -48,7 +48,7 @@ public class PresetArmCode {
 
         //Preset to Ground Level (Doesn't touch the ground and pivot on the claw)
 
-        // Arm Motor Control using preset positions
+        // LinearSlide Motor Control using preset positions
         if (gamepad.left_trigger > 0.1) {
             linearSlideMotor.setPower(-LinearSlide_POWER); // Move arm down
         } else if (gamepad.right_trigger > 0.1) {
@@ -58,7 +58,7 @@ public class PresetArmCode {
         }
 
 
-        // Lift Motor Control using preset positions
+        // Arm Motor Control using preset positions
         if (gamepad.dpad_up) {
             setArmPosition(ARM_MAX); // Lift to max position, for hanging
         } else if (gamepad.dpad_down) {

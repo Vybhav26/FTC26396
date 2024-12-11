@@ -32,10 +32,10 @@ public class IntakeCode {
     public void controlIntake(Gamepad gamepad) {
         // Check for stick or button inputs
          //     if (gamepad.left_stick_y < -0.5) {
-        if (gamepad.right_bumper) {
+        if (gamepad.right_trigger > 0.1) {
             currentPower = INTAKE_COLLECT; // Push stick up to collect
         //           } else if (gamepad.left_stick_y > 0.5) {
-        } else if (gamepad.left_bumper) {
+        } else if (gamepad.left_trigger > 0.1) {
             currentPower = INTAKE_DEPOSIT; // Push stick down to deposit
         }
         else {
