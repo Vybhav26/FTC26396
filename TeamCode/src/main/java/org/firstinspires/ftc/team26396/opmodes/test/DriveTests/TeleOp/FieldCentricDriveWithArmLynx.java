@@ -1,25 +1,22 @@
-package org.firstinspires.ftc.team26396.opmodes.TeleOp;
+/*
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.TeleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
-//import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import com.qualcomm.robotcore.hardware.Servo;
 
-// Subsystems Imports
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.DriveCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 
-@TeleOp(name = "TeleOp", group = "TeleOpFINAL")
-public class FieldCentricDriveWithArm extends LinearOpMode {
+//@TeleOp(name = "TeleOpLynx", group = "TeleOpFINAL")
+public class FieldCentricDriveWithArmLynx extends LinearOpMode {
 
     // Subsystems
     private PresetArmCode armControl;
@@ -31,10 +28,21 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare the motors and servos
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
+
+        private DcMotorEx frontLeftMotor = hardwareMap.get(DcMotorEx.class,"frontLeftMotor");
+        private DcMotorEx frontRightMotor = hardwareMap.get(DcMotorEx.class,"frontRightMotor");
+        private DcMotorEx backRightMotor = hardwareMap.get(DcMotorEx.class,"backRightMotor");
+        private DcMotorEx backLeftMotor = hardwareMap.get(DcMotorEx.class,"backLeftMotor");
+
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+/*
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+
+ */
+/*
         DcMotor linearSlideMotor = hardwareMap.dcMotor.get("armMotor");
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
         CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
@@ -53,46 +61,50 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE); //Forward
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction./*REVERSE*/FORWARD);
+   //     backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
-
+*/
         // Set zero power behavior
-        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+/*        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+*/
         // Initialize subsystems
-        armControl = new PresetArmCode(linearSlideMotor, armMotor);
+ /*       armControl = new PresetArmCode(linearSlideMotor, armMotor);
         intakeControl = new IntakeCode(intakeServo);
         wristControl = new WristCode(wristServo);
         driveControl = new DriveCode(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, imu);
         hangControl = new HangCode(HangMotor1, HangMotor2);
         waitForStart();
-
-/*        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+*/
+/*
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
+
+        while (opModeIsActive()) {
+            // Will run two bulk read per cycles,
+            // as frontLeftMotor.getCurrentPosition() is called twice
+        }
 */
-
-
-
+/*
         while (opModeIsActive()) {
 
             /*
             Overall, Gamepad 1 Controls Drive, Wrist, Intake.
                      Gamepad 2 Controls ArmPrests and LinearSlide
              */
-
+/*
             // DRIVE CODE
-/*            int frontLeftEncoderPos = frontLeftMotor.getCurrentPosition();
+            int frontLeftEncoderPos = frontLeftMotor.getCurrentPosition();
             int frontRightEncoderPos = frontRightMotor.getCurrentPosition();
             int backLeftEncoderPos = backLeftMotor.getCurrentPosition();
             int backRightEncoderPos = backRightMotor.getCurrentPosition();
 */
-            driveControl.drive(gamepad1);
+  //          driveControl.drive(gamepad1);
             /*
             Gamepad1 Joysticks:
             a) LeftStick, when moved in Y direction controls up and down movement
@@ -101,7 +113,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
              */
 
             // ARM CONTROL
-            armControl.controlArmPreset(gamepad2);
+//            armControl.controlArmPreset(gamepad2);
             /*
             LINEAR SLIDE
             Gamepad2 Trigger:
@@ -117,7 +129,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
              */
 
             // INTAKE CONTROL
-            intakeControl.controlIntake(gamepad1.right_bumper, gamepad1.left_bumper);
+//            intakeControl.controlIntake(gamepad1.right_bumper, gamepad1.left_bumper);
             /*
             Gamepad1 Trigger:
             a) Using Left Trigger - pushes block OUTWARD
@@ -125,7 +137,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
              */
 
             // WRIST CONTROL
-            wristControl.controlWrist(gamepad2.square, gamepad2.circle);
+  //          wristControl.controlWrist(gamepad2.square, gamepad2.circle);
             /*
             Gamepad2 Buttons (PS4 Controller):
             a) Using Square Button - Bends Wrist to the Left
@@ -133,14 +145,14 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
              */
 
             //HANG CONTROL
-            hangControl.controlHang(gamepad1);
+//            hangControl.controlHang(gamepad1);
             /*
             Gamepad1 Buttons (Logitech Controller):
             a) Using A button - Extends the linearSlides
             b) Using B button - Retracts the linearSlides
             Note: HangMotor1 Encoder Value should ALWAYS be equal to HangMotor2 Encoder Value
              */
-
+/*
             // TELEMETRY
             telemetry.addData("Front Left Power", frontLeftMotor.getPower());
             telemetry.addData("Back Left Power", backLeftMotor.getPower());
@@ -158,3 +170,4 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         }
     }
 }
+*/
