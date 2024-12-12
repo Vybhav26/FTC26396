@@ -77,9 +77,9 @@ public class DriveCode {
     }
 
     public void drive(Gamepad gamepad1) {
-        double y = -Math.pow(gamepad1.left_stick_y, 3); // Y stick value is reversed
-        double x = Math.pow(gamepad1.left_stick_x, 3);
-        double rx = Math.pow(gamepad1.right_stick_x, 3);
+        double y = -Math.pow(gamepad1.right_stick_y, 3); // Y stick value is reversed
+        double x = Math.pow(gamepad1.right_stick_x, 3);
+        double rx = Math.pow(gamepad1.left_stick_x, 3);
 
         // Reset the robot's yaw when pressing the options button
         if (gamepad1.options) {
@@ -92,7 +92,7 @@ public class DriveCode {
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-        rotX = rotX * 1.1;  // Counteract imperfect strafing
+        rotX = rotX * 1.0;  // Counteract imperfect strafing
 
         // Denominator is the largest motor power (absolute value) or 1
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);

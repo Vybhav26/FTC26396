@@ -19,6 +19,14 @@ public class HangCode {
         this.HangMotor1 = Motor1;
         this.HangMotor2 = Motor2;
 
+
+        if(HangMotor1.getCurrentPosition() != 0 || HangMotor2.getCurrentPosition() != 0){
+            setHangPosition(HangZero);
+        }else{
+            setHangPosition(HangZero);
+        }
+
+
         //REFER TO ORIGINAL ARM CODE
         // Configure the lift motor with encoders
         HangMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -29,12 +37,12 @@ public class HangCode {
         HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         HangMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     public void controlHang(Gamepad gamepad) {
 
         //Preset to 0
-        setHangPosition(HangZero);
 
 
         // Lift Motor Control using preset positions
@@ -54,4 +62,8 @@ public class HangCode {
         HangMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         HangMotor2.setPower(HangingSlide_POWER);
     }
+
+//    private void resetHangPosition(){
+
+//    }
 }

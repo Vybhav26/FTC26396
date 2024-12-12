@@ -15,7 +15,7 @@ public class IntakeCode {
     // Define constants for intake power values
     private static final double INTAKE_COLLECT = 1.0;  // Power for collecting
     private static final double INTAKE_DEPOSIT = -1.0; // Power for depositing
-    private static final double INTAKE_OFF = 0.0; // Power for depositing
+    private static final double INTAKE_OFF = 0.0;      // Power for stopping
 
     public IntakeCode(CRServo intake) {
         this.intake = intake;
@@ -24,30 +24,24 @@ public class IntakeCode {
     }
 
     /**
-     * Controls the intake servo based on the gamepad inputs.
+     * Controls the intake servo based on button inputs.
      *
-     * @param gamepad   The gamepad providing input
-     * @param telemetry The telemetry object for feedback
+     * @param collectButton   True if the collect button is pressed
+     * @param depositButton   True if the deposit button is pressed
      */
-    public void controlIntake(Gamepad gamepad) {
-        // Check for stick or button inputs
-        //      if (gamepad.left_stick_y < -0.5) {
-        if (gamepad.right_trigger > 0.1) {
-            currentPower = INTAKE_COLLECT; // Push stick up to collect
-            //       } else if (gamepad.left_stick_y > 0.5) {
-        } else if (gamepad.left_trigger > 0.1) {
-            currentPower = INTAKE_DEPOSIT; // Push stick down to deposit
-        }
-        else {
-            currentPower = INTAKE_OFF; // Neutral/stop if no input
+    public void controlIntake(boolean collectButton, boolean depositButton) {
+        if (collectButton) {
+            currentPower = INTAKE_COLLECT; // Set power to collect
+        } else if (depositButton) {
+            currentPower = INTAKE_DEPOSIT; // Set power to deposit
+        } else {
+            currentPower = INTAKE_OFF; // Stop the intake
         }
 
         // Set the intake power
-//        intake.setPower(currentPower);
-
-        // Send feedback to telemetry
-//        telemetry.addData("Intake Power", currentPower);
-//        telemetry.update();
+        if (intake != null) {
+            intake.setPower(currentPower);
+        }
     }
 
     /**
@@ -55,6 +49,8 @@ public class IntakeCode {
      */
     public void stopIntake() {
         currentPower = INTAKE_OFF;
-        intake.setPower(currentPower);
+        if (intake != null) {
+            intake.setPower(currentPower);
+        }
     }
 }
