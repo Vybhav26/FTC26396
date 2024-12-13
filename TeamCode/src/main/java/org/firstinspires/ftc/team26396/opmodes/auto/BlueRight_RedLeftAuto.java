@@ -2,13 +2,16 @@ package org.firstinspires.ftc.team26396.opmodes.auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-@Autonomous(name="Blue Right Auto",group="LinearOpMode")
+import org.firstinspires.ftc.team26396.opmodes.TeleOp.FieldCentricDriveWithArm;
+
+@Autonomous(name="Blue Right / Red Left Auto",group="LinearOpMode", preselectTeleOp = "FieldCentricDriveWithArm")
 @Disabled
-public class BlueRightAuto extends LinearOpMode {
+public class BlueRight_RedLeftAuto extends LinearOpMode {
     // Initialize the hardware variables
     private  DcMotor leftFrontDrive;
     private  DcMotor leftBackDrive;
@@ -18,12 +21,12 @@ public class BlueRightAuto extends LinearOpMode {
     private  DcMotor liftMotor;
     private  CRServo intake;
     private  ElapsedTime runtime = new ElapsedTime();
-    private  CRServo wristServo;
+    private  Servo wrist;
 
 
-    // Initialize all drive constants
-    private static final double COUNTS_PER_MOTOR_REV = 537.6; // Adjust for your motor
-    private static final double DRIVE_GEAR_REDUCTION = 19.2; // No gear reduction
+    // Initialize all drive constants for drive motors
+    private static final double COUNTS_PER_MOTOR_REV = 537.7; // Adjust for your motor
+    private static final double DRIVE_GEAR_REDUCTION = 19.2; // No gear reduction(External gear ratio is 30:30 = 1:1)
     private static final double WHEEL_DIAMETER_INCHES = 3.7796; // Wheel diameter
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double WHEELBASE_WIDTH = 14.0; // Example width in inches
@@ -31,23 +34,40 @@ public class BlueRightAuto extends LinearOpMode {
     private static final double COUNTS_PER_RADIAN = (COUNTS_PER_MOTOR_REV / (Math.PI * WHEEL_DIAMETER_INCHES)) * (TURNING_RADIUS);
 
 
-
-
-    // Motor power settings
+    // Motor power settings for the linear slide
     private static final double ARM_POWER = 0.8;
     private static final double LIFT_POWER = 0.8;
 
-    final double ARM_TICKS_PER_DEGREE =
+    final double ARM_COUNTS_PER_DEGREE =
             28 // number of encoder ticks per rotation of the bare motor
-                    * 19.2  // This is the exact gear ratio of the 50.9:1 Yellow Jacket gearbox
+                    * 250047.0 / 4913.0 // This is the exact gear ratio of the 50.9:1 Yellow Jacket gearbox
                     * 100.0 / 20.0 // This is the external gear reduction, a 20T pinion gear that drives a 100T hub-mount gear
-                    * 1/360.0;// we want ticks per degree, not per rotation
+                    * 1/360.0; // we want ticks per degree, not per rotation
 
-    final double ARM_COLLAPSED_INTO_ROBOT  = 0;
-    final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SPECIMEN        = 90 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SAMPLE_IN_HIGH = 110 * ARM_TICKS_PER_DEGREE;
+    final int ARM_COLLAPSED_INTO_ROBOT  = 0;
+    final double ARM_CLEAR_BARRIER         = 15 * ARM_COUNTS_PER_DEGREE;
+    //final double ARM_SCORE_SPECIMEN        = 90 * ARM_COUNTS_PER_DEGREE;
+    final double ARM_SCORE_SAMPLE_IN_LOW   = 57.61 * ARM_COUNTS_PER_DEGREE;
+    final double  ARM_SCORE_SAMPLE_IN_HIGH = 70.97 * ARM_COUNTS_PER_DEGREE;
+//Drive constants for horizontal expansion
+    private static final double MAX_LINEAR_SLIDE_EXTENSION = 38.42521;//In inches
+    private static final double LINEAR_SLIDE_COUNTS_PER_MOTOR_REV = 384.5;//Linear Slide uses the 435 RPM Motor
+    private static final double ROTATIONS_FOR_MAX = 8.13;
+    private static final double INCHES_PER_ROTATION = MAX_LINEAR_SLIDE_EXTENSION/ROTATIONS_FOR_MAX;
+    private static final double ARM_COUNTS_PER_INCH = LINEAR_SLIDE_COUNTS_PER_MOTOR_REV/INCHES_PER_ROTATION;
+
+    final double SLIDE_HIGH = 18.5 * ARM_COUNTS_PER_INCH;//18.5 inches for the high basket(Theoretical)
+    final double SLIDE_LOW = 7.9375 * ARM_COUNTS_PER_INCH;//7.15/16 inches for the low basket(Theoretical)
+    final double SLIDE_ZERO = 0 * ARM_COUNTS_PER_INCH;//0 inches for base position
+
+    //Drive constants for wrist servo
+    private static final double WRIST_COLLECT = 1.0;  // Position for collecting
+    private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
+    private static final double WRIST_HOME = 0.5;
+
+
+
+
 
 
     @Override
@@ -60,7 +80,7 @@ public class BlueRightAuto extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         intake = hardwareMap.get(CRServo.class, "intake");
-        wristServo = hardwareMap.get(CRServo.class, "wrist");
+        wrist = hardwareMap.get(Servo.class, "wrist");
         Direction();
         Telemetry();
         // Reset encoders
@@ -80,11 +100,21 @@ public class BlueRightAuto extends LinearOpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
+        setLiftPosition((int) Math.round(ARM_CLEAR_BARRIER));
+        wrist.setPosition(WRIST_COLLECT);
+
+
         waitForStart();
         runtime.reset();
 
         while (opModeIsActive()) {
             //Put all code
+            wrist.setPosition(WRIST_DEPOSIT);
+            setLiftPosition(ARM_COLLAPSED_INTO_ROBOT);
+            driveInches("backward",0.5,7.45);
+
+
 
 
         }
@@ -92,14 +122,14 @@ public class BlueRightAuto extends LinearOpMode {
 
     }
 
-    // Set Lift position using encoder ticks
+    // Set Lift position using encoder ticks - Rotational
     public void setLiftPosition(int targetPosition) {
-        liftMotor.setTargetPosition(targetPosition);
+        liftMotor.setTargetPosition((int) targetPosition);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(LIFT_POWER);
     }
 
-    // Set Arm position using encoder ticks
+    // Set Arm position using encoder ticks - Horizontal
     private void setArmPosition(int targetPosition) {
         armMotor.setTargetPosition(targetPosition);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -129,6 +159,7 @@ public class BlueRightAuto extends LinearOpMode {
                 leftBackDrive.setTargetPosition(leftBackDrive.getCurrentPosition() + targetPosition);
                 rightFrontDrive.setTargetPosition(rightFrontDrive.getCurrentPosition() + targetPosition);
                 rightBackDrive.setTargetPosition(rightBackDrive.getCurrentPosition() + targetPosition);
+                MotorPower(speed);
                 telemetry.addData("Status", "Moving forward");
                 telemetry.update();
 
@@ -139,6 +170,7 @@ public class BlueRightAuto extends LinearOpMode {
                 leftBackDrive.setTargetPosition(leftBackDrive.getCurrentPosition() - targetPosition);
                 rightFrontDrive.setTargetPosition(rightFrontDrive.getCurrentPosition() - targetPosition);
                 rightBackDrive.setTargetPosition(rightBackDrive.getCurrentPosition() - targetPosition);
+                MotorPower(speed);
                 telemetry.addData("Status", "Moving backward");
                 telemetry.update();
 
@@ -149,6 +181,7 @@ public class BlueRightAuto extends LinearOpMode {
                 leftBackDrive.setTargetPosition(leftBackDrive.getCurrentPosition() - targetPosition);
                 rightFrontDrive.setTargetPosition(rightFrontDrive.getCurrentPosition() - targetPosition);
                 rightBackDrive.setTargetPosition(rightBackDrive.getCurrentPosition() + targetPosition);
+                MotorPower(speed);
                 telemetry.addData("Status", "Strafing right");
                 telemetry.update();
 
@@ -159,6 +192,7 @@ public class BlueRightAuto extends LinearOpMode {
                 leftBackDrive.setTargetPosition(leftBackDrive.getCurrentPosition() + targetPosition);
                 rightFrontDrive.setTargetPosition(rightFrontDrive.getCurrentPosition() + targetPosition);
                 rightBackDrive.setTargetPosition(rightBackDrive.getCurrentPosition() - targetPosition);
+                MotorPower(speed);
                 telemetry.addData("Status", "Strafing left");
                 telemetry.update();
 
@@ -210,11 +244,6 @@ public class BlueRightAuto extends LinearOpMode {
         armMotor.setPower(power);
     }
 
-    public void RotateArm(double power, long time) {
-        //set liftMotor(Rotation) Power
-        liftMotor.setPower(power);
-    }
-
     public void Intake(double power, long time) {
         //set intake Power
         intake.setPower(1.0);
@@ -224,4 +253,10 @@ public class BlueRightAuto extends LinearOpMode {
         //set Outtake Power
         intake.setPower(-1.0);
     }
+
+    public void WristCode(Servo wrist) {
+        // Ensure the wrist starts at the WRIST_COLLECT position
+        wrist.setPosition(WRIST_COLLECT);
+    }
 }
+
