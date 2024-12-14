@@ -8,7 +8,7 @@ public class HangCode {
     private DcMotor HangMotor2;
 
     // Preset arm positions (in encoder ticks)
-    private final int HangingPosExtend = 1500; //TODO: Edit as Needed
+    private final int HangingPosExtend = 1750; //TODO: Edit as Needed
     private final int HangingPosRetract = 1000; //TODO: Edit as Needed
     private final int HangZero = 0;
 
@@ -21,8 +21,6 @@ public class HangCode {
 
 
         if(HangMotor1.getCurrentPosition() != 0 || HangMotor2.getCurrentPosition() != 0){
-            setHangPosition(HangZero);
-        }else{
             setHangPosition(HangZero);
         }
 
@@ -37,6 +35,7 @@ public class HangCode {
         HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         HangMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
     }
 
@@ -54,13 +53,25 @@ public class HangCode {
     }
     // Set Lift position using encoder ticks
     private void setHangPosition(int targetPosition) {
-        HangMotor1.setTargetPosition(targetPosition);
-        HangMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        HangMotor1.setPower(HangingSlide_POWER);
 
-        HangMotor2.setTargetPosition(targetPosition);
-        HangMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        HangMotor2.setPower(HangingSlide_POWER);
+        if(HangMotor1.getCurrentPosition() <= 50 || HangMotor2.getCurrentPosition() <= 0){
+            HangMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            HangMotor1.setPower(0);
+
+            HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            HangMotor2.setPower(0);
+
+        }else{
+            HangMotor1.setTargetPosition(targetPosition);
+            HangMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            HangMotor1.setPower(HangingSlide_POWER);
+
+            HangMotor2.setTargetPosition(targetPosition);
+            HangMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            HangMotor2.setPower(HangingSlide_POWER);
+
+        }
+
     }
 
 //    private void resetHangPosition(){

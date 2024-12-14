@@ -7,6 +7,131 @@ public class PresetArmCode {
     private DcMotor linearSlideMotor;
     private DcMotor armMotor;
 
+    // Constants for motor settings
+    private static final double LINEAR_SLIDE_POWER = 0.8;
+    private static final double ARM_POWER = 1.0;
+
+    // Positions in degrees (as doubles)
+    private static final double INIT_DEGREES = 0.0;
+    private static final double GROUND_DEGREES = 5.0;   // Default position (0 degrees)
+    private static final double LOW_DEGREES = 15.0;     // Position to pick up from the ground (15 degrees)
+    private static final double HIGH_DEGREES = 58.0;    // Position to place into a high basket (45 degrees)
+    private static final double MAX_DEGREES = 71.0;     // Position to place into an even higher basket (70 degrees)
+
+    // Formula to calculate ticks per degree
+    final double ARM_TICKS_PER_DEGREE =
+            145.1 // encoder ticks per rotation of the bare RS-555 motor
+                    * 5.2 // gear ratio of the 5.2:1 Yellow Jacket gearbox
+                    * 5.0 // external gear reduction, a 20T pinion gear driving a 100T hub-mount gear (5:1 reduction)
+                    * 1 / 360.0 *2; // we want ticks per degree, not per rotation
+
+
+    // Pre-calculated arm positions in encoder ticks based on degrees
+    private final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
+    private final double GROUND_POSITION_TICKS = GROUND_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
+
+    // Fudge factor for fine control of arm adjustments
+    //Larger FudgeFactor = More Jerky Movements
+    private static final double FUDGE_FACTOR = 5.0;
+    private double armPositionFudgeFactor = 0.0;
+
+    // Arm's current target position
+    private double armTargetPosition = GROUND_POSITION_TICKS;
+
+    public PresetArmCode(DcMotor linearSlideMotor, DcMotor armMotor) {
+        this.linearSlideMotor = linearSlideMotor;
+        this.armMotor = armMotor;
+
+        // Configure motors
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        setArmPosition(INIT_POSITION_TICKS);  // Set the arm to the ground position by default
+
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    /**
+     * @param gamepad The gamepad used to control the robot's subsystems
+     */
+    public void controlArmAndSlide(Gamepad gamepad) {
+        // Control the linear slide motor based on left and right triggers
+        if (gamepad.left_trigger > 0.1) {
+            linearSlideMotor.setPower(-LINEAR_SLIDE_POWER); // Move linear slide down
+        } else if (gamepad.right_trigger > 0.1) {
+            linearSlideMotor.setPower(LINEAR_SLIDE_POWER); // Move linear slide up
+        } else {
+            linearSlideMotor.setPower(0); // Stop linear slide movement
+        }
+
+        // Control the arm position using D-pad inputs (up, down, left, right)
+        if (gamepad.dpad_up) {
+            setArmToMax();  // Place piece into the high basket
+        } else if (gamepad.dpad_down) {
+            setArmToGround();  // Default position, doesn't touch the ground
+        } else if (gamepad.dpad_left) {
+            setArmToLow();  // Position to pick up sample from the ground
+        } else if (gamepad.dpad_right) {
+            setArmToHigh();  // Position to place into the low basket
+        }
+
+        // Adjust arm position with triggers (fine control using fudge factor)
+/*
+        if (gamepad.right_trigger > 0.1) {
+            armPositionFudgeFactor = FUDGE_FACTOR * gamepad.right_trigger;
+        } else if (gamepad.left_trigger > 0.1) {
+            armPositionFudgeFactor = -FUDGE_FACTOR * gamepad.left_trigger;
+        } else {
+            armPositionFudgeFactor = 0.0;
+        }
+
+        // Update arm target position and set it
+        armTargetPosition += armPositionFudgeFactor;
+        setArmPosition(armTargetPosition);
+ */
+    }
+
+    private void setArmToMax() {
+        setArmPosition(MAX_POSITION_TICKS); // Lift to place piece in the higher basket
+    }
+
+    private void setArmToGround() {
+        setArmPosition(GROUND_POSITION_TICKS); // Set to default position
+    }
+
+    private void setArmToLow() {
+        setArmPosition(LOW_POSITION_TICKS); // Lift to pick up pieces from the ground
+    }
+
+    private void setArmToHigh() {
+        setArmPosition(HIGH_POSITION_TICKS); // Lift to place piece in the high basket
+    }
+
+    private void setArmPosition(double targetPosition) {
+        // Safety check to ensure position is within valid range
+        if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
+            targetPosition = LOW_POSITION_TICKS; // Set to low/ground position if out of range
+        }
+
+        // Convert target position in ticks (double) and set motor
+        armMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(ARM_POWER);
+    }
+}
+/*
+package org.firstinspires.ftc.team26396.opmodes.Subsystems;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
+public class PresetArmCode {
+    private DcMotor linearSlideMotor;
+    private DcMotor armMotor;
+
     // Preset arm positions (in encoder ticks)
     final double ARM_TICKS_PER_DEGREE =
             28 // number of encoder ticks per rotation of the bare motor
@@ -18,8 +143,8 @@ public class PresetArmCode {
 
     private final int ARM_GROUND = 50; //Make sure it isn't touching actual ground
     private final int ARM_LOW = 500; //TODO: Edit to 1500 for Low Basket
-    private final int ARM_HIGH = 1500; //TODO: LOW BASKET
-    private final int ARM_MAX = 2000; //TODO: HIGH BASKET
+    private final int ARM_HIGH = (int)(45*ARM_TICKS_PER_DEGREE); //1500 TODO: LOW BASKET
+    private final int ARM_MAX = (int)(70*ARM_TICKS_PER_DEGREE); //2000; //TODO: HIGH BASKET
 
 
 //1500 = low basket.... 3000
@@ -77,3 +202,4 @@ public class PresetArmCode {
         armMotor.setPower(ARM_POWER);
     }
 }
+*/

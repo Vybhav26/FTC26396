@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.IMU;
-//import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
@@ -15,18 +14,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.DriveCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.BasicDriveCode;
 
-@TeleOp(name = "TeleOp", group = "TeleOpFINAL")
-public class FieldCentricDriveWithArm extends LinearOpMode {
+@TeleOp(name = "TeleOpBasic", group = "TeleOpFINAL")
+public class FieldCentricDriveBasic extends LinearOpMode {
 
     // Subsystems
     private PresetArmCode armControl;
     private IntakeCode intakeControl;
     private WristCode wristControl;
-    private DriveCode driveControl;
     private HangCode hangControl;
+    private BasicDriveCode basicDriveControl;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,13 +48,6 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
         imu.initialize(imuParameters);
 
-        // Reverse the necessary motors - Right = Forward, Left = Reverse
-//        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE); //Forward
-//        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-//        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-//        backRightMotor.setDirection(DcMotor.Direction./*REVERSE*/FORWARD);
-
-
         // Set zero power behavior
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -66,18 +58,9 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
         intakeControl = new IntakeCode(intakeServo);
         wristControl = new WristCode(wristServo);
-        driveControl = new DriveCode(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, imu);
         hangControl = new HangCode(HangMotor1, HangMotor2);
+        basicDriveControl = new BasicDriveCode(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor, imu);
         waitForStart();
-
-/*        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
-
-        for (LynxModule hub : allHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
-*/
-
-
 
         while (opModeIsActive()) {
 
@@ -85,20 +68,17 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             Overall, Gamepad 1 Controls Drive, Wrist, Intake.
                      Gamepad 2 Controls ArmPrests and LinearSlide
              */
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x;
 
-            // DRIVE CODE
-/*            int frontLeftEncoderPos = frontLeftMotor.getCurrentPosition();
-            int frontRightEncoderPos = frontRightMotor.getCurrentPosition();
-            int backLeftEncoderPos = backLeftMotor.getCurrentPosition();
-            int backRightEncoderPos = backRightMotor.getCurrentPosition();
-*/
-            driveControl.drive(gamepad1,0.8);
-            /*
-            Gamepad1 Joysticks:
-            a) LeftStick, when moved in Y direction controls up and down movement
-            b) LeftStick, when moved in X direction controls left and right (strafing) movement
-            c) RightStick, when moved in the +X direction right, and left in the -X direction
-             */
+            // Reset IMU Yaw if options button is pressed
+            if (gamepad1.options) {
+                basicDriveControl.resetIMUYaw();
+            }
+            double botHeading = basicDriveControl.getRobotHeading();
+            // FIELD-CENTRIC DRIVE CONTROL
+            basicDriveControl.drive(x, y, rx, botHeading);
 
             // ARM CONTROL
             armControl.controlArmAndSlide(gamepad2);
@@ -132,7 +112,7 @@ public class FieldCentricDriveWithArm extends LinearOpMode {
             b) Using Circle Trigger - Makes Wrist straight
              */
 
-            //HANG CONTROL
+            // HANG CONTROL
             hangControl.controlHang(gamepad1);
             /*
             Gamepad1 Buttons (Logitech Controller):
