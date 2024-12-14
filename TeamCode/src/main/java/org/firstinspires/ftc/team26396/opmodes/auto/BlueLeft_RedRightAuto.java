@@ -143,13 +143,6 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
         armMotor.setPower(ARM_POWER);
     }
 
-    private void MotorPower(double speed) {
-        //set MotorPower for the OpMode
-        leftFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-    }
 
     private void driveInches(String direction, double speed, double value) {
         int targetPosition;
@@ -242,6 +235,14 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+    }
+
+    private void MotorPower(double speed) {
+        //set MotorPower for the OpMode
+        leftFrontDrive.setPower(speed);
+        leftBackDrive.setPower(speed);
+        rightFrontDrive.setPower(speed);
+        rightBackDrive.setPower(speed);
     }
 
     public void ExtendArm(double power, long time) {
