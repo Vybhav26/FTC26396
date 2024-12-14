@@ -111,6 +111,7 @@ public class AutoBlueLeft_RedRight extends LinearOpMode{
             wrist.setPosition(WRIST_DEPOSIT);
             setLiftPosition(ARM_COLLAPSED_INTO_ROBOT);
             driveInches("forward",0.5,17.5);
+            sleep(1000);
             setLiftPosition((int) Math.round(ARM_SCORE_SAMPLE_IN_HIGH));//Linear slide rotates to 71 degrees for high basket dropping
             setArmPosition((int) Math.round(SLIDE_HIGH));//Linear slide extends to 18.5 inches for high basket dropping
             Intake(1.0,1000);
