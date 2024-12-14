@@ -8,7 +8,7 @@ public class HangCode {
     private DcMotor HangMotor2;
 
     // Preset arm positions (in encoder ticks)
-    private final int HangingPosExtend = 1750; //TODO: Edit as Needed
+    private final int HangingPosExtend = 2000; //TODO: Edit as Needed
     private final int HangingPosRetract = 1000; //TODO: Edit as Needed
     private final int HangZero = 0;
 

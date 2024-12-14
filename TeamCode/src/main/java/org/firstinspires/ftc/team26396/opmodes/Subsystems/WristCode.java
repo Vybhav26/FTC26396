@@ -34,7 +34,7 @@ public class WristCode {
             wrist.setPosition(WRIST_DEPOSIT); // Set position to deposit when right dpad is pressed
         }
         else {
-            wrist.setPosition(WRIST_DEPOSIT); // Set wrist to home position when no buttons are pressed
+            wrist.setPosition(WRIST_HOME); // Set wrist to home position when no buttons are pressed
         }
     }
 
