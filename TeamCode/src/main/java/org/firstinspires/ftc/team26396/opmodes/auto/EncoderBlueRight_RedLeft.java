@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.team26396.opmodes.TeleOp.FieldCentricDriveWithArm;
 
 @Autonomous(name="Blue Right / Red Left Auto",group="LinearOpMode")
 @Disabled
