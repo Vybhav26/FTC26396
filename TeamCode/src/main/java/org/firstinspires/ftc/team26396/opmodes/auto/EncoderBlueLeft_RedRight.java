@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Blue Left / Red Right Auto",group="LinearOpMode")
 @Disabled
-public class AutoBlueLeft_RedRight extends LinearOpMode{
+public class EncoderBlueLeft_RedRight extends LinearOpMode{
     // Initialize the hardware variables
     private DcMotor frontLeftMotor;
     private  DcMotor backLeftMotor;
@@ -114,7 +114,7 @@ public class AutoBlueLeft_RedRight extends LinearOpMode{
             sleep(1000);
             setLiftPosition((int) Math.round(ARM_SCORE_SAMPLE_IN_HIGH));//Linear slide rotates to 71 degrees for high basket dropping
             setArmPosition((int) Math.round(SLIDE_HIGH));//Linear slide extends to 18.5 inches for high basket dropping
-            Intake(1.0,1000);
+            Intake(-1.0,1000);
             setArmPosition((int) Math.round(SLIDE_ZERO));
             setLiftPosition((ARM_COLLAPSED_INTO_ROBOT));
             driveInches("backward",0.5,22.5);
@@ -254,8 +254,6 @@ public class AutoBlueLeft_RedRight extends LinearOpMode{
     }
 
     public void Intake(double power, long time) {
-        //set intake Power
-        intake.setPower(1.0);
     }
 
     public void Outtake(double power, long time) {

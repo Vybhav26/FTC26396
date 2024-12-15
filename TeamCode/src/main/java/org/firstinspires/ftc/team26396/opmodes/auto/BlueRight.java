@@ -4,9 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+//
 
-@Autonomous(name="Move Forward 10 Inches (No Encoders)", group="Simple")
-public class BasicPark extends LinearOpMode {
+
+@Autonomous(name="BlueRight", group="Simple")
+public class BlueRight extends LinearOpMode {
 
     // Declare motor variables
     private DcMotor frontLeftMotor;
@@ -16,8 +18,9 @@ public class BasicPark extends LinearOpMode {
 
     // Constants
     private static final double POWER = 0.5; // Motor power
-    private static final long DRIVE_TIME_MS = 1000; // Adjust based on trial runs for 10 inches
+    private static double INCHES_PER_SEC = 2.25;
 
+    //left power = 0 moves left, right power = 0 moves right
     @Override
     public void runOpMode() {
         // Initialize motors
@@ -27,8 +30,7 @@ public class BasicPark extends LinearOpMode {
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
         // Set motor directions (reverse right motors for proper movement)
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wait for the game to start
         waitForStart();
@@ -40,7 +42,7 @@ public class BasicPark extends LinearOpMode {
         backRightMotor.setPower(POWER);
 
         // Sleep for the determined time to move forward 10 inches
-        sleep(DRIVE_TIME_MS);
+        sleep(8890);
 
         // Stop all motion
         frontLeftMotor.setPower(0);
@@ -48,7 +50,11 @@ public class BasicPark extends LinearOpMode {
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-        // Indicate completion
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Front Left Power", frontLeftMotor.getPower());
+        telemetry.addData("Front Right Power", frontRightMotor.getPower());
+        telemetry.addData("Back Left Power", backLeftMotor.getPower());
+        telemetry.addData("Back Right Power", backRightMotor.getPower());
         telemetry.addData("Status", "Task Complete");
         telemetry.update();
     }
