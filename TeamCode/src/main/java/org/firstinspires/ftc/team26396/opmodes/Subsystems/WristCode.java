@@ -10,7 +10,7 @@ public class WristCode {
     // Define constants for wrist servo positions
     private static final double WRIST_COLLECT = 1.0;  // Position for collecting
     private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
-    private static final double WRIST_HOME = 0.5;    // Home Position
+    private static final double WRIST_HOME = 0.4;    // Home Position
 
     public WristCode(Servo wrist) {
         this.wrist = wrist;
