@@ -24,7 +24,7 @@ public class BlueRight extends LinearOpMode {
     // Define constants for wrist servo positions
     private static final double WRIST_COLLECT = 1.0;  // Position for collecting
     private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
-    private static final double WRIST_HOME = 0.5;    // Home Position
+    private static final double WRIST_HOME = 0.4;    // Home Position
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 0.0;
     private static final double GROUND_DEGREES = 5.0;   // Default position (0 degrees)
