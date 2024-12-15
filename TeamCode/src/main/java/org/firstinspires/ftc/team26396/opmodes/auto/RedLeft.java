@@ -17,7 +17,7 @@ public class RedLeft extends LinearOpMode {
     private DcMotor backRightMotor;
 
     // Constants
-    private static final double POWER = 0.5; // Motor power
+    private static final double POWER = 1.0; // Motor power
     private static double INCHES_PER_SEC = 2.25;
 
     //left power = 0 moves left, right power = 0 moves right
@@ -30,8 +30,8 @@ public class RedLeft extends LinearOpMode {
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
         // Set motor directions (reverse right motors for proper movement)
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         // Wait for the game to start
         waitForStart();
 

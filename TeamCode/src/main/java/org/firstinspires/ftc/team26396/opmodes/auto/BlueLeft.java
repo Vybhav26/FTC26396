@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 //
 
 @Autonomous(name="Blue Left", group="Simple")
+@Disabled
 public class BlueLeft extends LinearOpMode {
 
     // Constants for motor settings
@@ -40,6 +43,12 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor backRightMotor;
     private  DcMotor armMotor;
     private CRServo intake;
+    private Servo wrist;
+
+    // Define constants for wrist servo positions
+    private static final double WRIST_COLLECT = 1.0;  // Position for collecting
+    private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
+    private static final double WRIST_HOME = 0.5;
 
 
     // Constants
@@ -65,10 +74,18 @@ public class BlueLeft extends LinearOpMode {
 
 
         // Set motor directions (reverse right motors for proper movement)
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //wrist.setPosition(WRIST_COLLECT);
+
 
         // Wait for the game to start
         waitForStart();
+
+        //wrist.setPosition(WRIST_HOME);
+        //setArmPosition(GROUND_POSITION_TICKS);
+
+
 
         // Move forward for a specified time
         frontLeftMotor.setPower(1.0);
