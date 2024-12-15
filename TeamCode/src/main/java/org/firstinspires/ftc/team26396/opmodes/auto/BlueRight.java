@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 //
 
 
@@ -15,6 +16,36 @@ public class BlueRight extends LinearOpMode {
     private DcMotor frontRightMotor;
     private DcMotor backLeftMotor;
     private DcMotor backRightMotor;
+    private DcMotor armMotor;
+    private Servo wrist = null;
+
+    // Define constants for wrist servo positions
+    private static final double WRIST_COLLECT = 1.0;  // Position for collecting
+    private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
+    private static final double WRIST_HOME = 0.5;    // Home Position
+    // Positions in degrees (as doubles)
+    private static final double INIT_DEGREES = 0.0;
+    private static final double GROUND_DEGREES = 5.0;   // Default position (0 degrees)
+    private static final double LOW_DEGREES = 15.0;     // Position to pick up from the ground (15 degrees)
+    private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
+    private static final double MAX_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
+
+    // Formula to calculate ticks per degree
+    final double ARM_TICKS_PER_DEGREE =
+            145.1 // encoder ticks per rotation of the bare RS-555 motor
+                    * 5.2 // gear ratio of the 5.2:1 Yellow Jacket gearbox
+                    * 5.0 // external gear reduction, a 20T pinion gear driving a 100T hub-mount gear (5:1 reduction)
+                    * 1 / 360.0 *2; // we want ticks per degree, not per rotation
+
+
+    // Pre-calculated arm positions in encoder ticks based on degrees
+    private final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
+    private final double GROUND_POSITION_TICKS = GROUND_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
+
+
 
     // Constants
     private static final double POWER = 0.5; // Motor power
@@ -31,9 +62,11 @@ public class BlueRight extends LinearOpMode {
 
         // Set motor directions (reverse right motors for proper movement)
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        wrist.setPosition(WRIST_COLLECT);
 
         // Wait for the game to start
         waitForStart();
+        wrist.setPosition(WRIST_HOME);
 
         // Move forward for a specified time
         frontLeftMotor.setPower(POWER);

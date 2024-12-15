@@ -9,7 +9,7 @@ public class HangCode {
 
     // Preset arm positions (in encoder ticks)
     private final int HangingPosExtend = 3700; //TODO: Edit as Needed
-    private final int HangingPosRetract = 250; //TODO: Edit as Needed
+    private final int HangingPosRetract = -200; //TODO: Edit as Needed
     private final int HangZero = 0;
 
     private static final double HangingSlide_POWER = 0.8;
