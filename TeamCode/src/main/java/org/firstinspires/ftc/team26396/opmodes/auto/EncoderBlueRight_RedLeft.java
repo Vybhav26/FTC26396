@@ -7,9 +7,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-@Autonomous(name="Blue Left / Red Right Auto",group="LinearOpMode")
+import org.firstinspires.ftc.team26396.opmodes.TeleOp.FieldCentricDriveWithArm;
+
+@Autonomous(name="Blue Right / Red Left Auto",group="LinearOpMode")
 @Disabled
-public class BlueLeft_RedRightAuto extends LinearOpMode {
+public class EncoderBlueRight_RedLeft extends LinearOpMode {
     // Initialize the hardware variables
     private  DcMotor leftFrontDrive;
     private  DcMotor leftBackDrive;
@@ -32,9 +34,7 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
     private static final double COUNTS_PER_RADIAN = (COUNTS_PER_MOTOR_REV / (Math.PI * WHEEL_DIAMETER_INCHES)) * (TURNING_RADIUS);
 
 
-
-
-    // Motor power settings
+    // Motor power settings for the linear slide
     private static final double ARM_POWER = 0.8;
     private static final double LIFT_POWER = 0.8;
 
@@ -49,7 +49,7 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
     //final double ARM_SCORE_SPECIMEN        = 90 * ARM_COUNTS_PER_DEGREE;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 57.61 * ARM_COUNTS_PER_DEGREE;
     final double  ARM_SCORE_SAMPLE_IN_HIGH = 70.97 * ARM_COUNTS_PER_DEGREE;
-
+//Drive constants for horizontal expansion
     private static final double MAX_LINEAR_SLIDE_EXTENSION = 38.42521;//In inches
     private static final double LINEAR_SLIDE_COUNTS_PER_MOTOR_REV = 384.5;//Linear Slide uses the 435 RPM Motor
     private static final double ROTATIONS_FOR_MAX = 8.13;
@@ -60,6 +60,7 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
     final double SLIDE_LOW = 7.9375 * ARM_COUNTS_PER_INCH;//7.15/16 inches for the low basket(Theoretical)
     final double SLIDE_ZERO = 0 * ARM_COUNTS_PER_INCH;//0 inches for base position
 
+    //Drive constants for wrist servo
     private static final double WRIST_COLLECT = 1.0;  // Position for collecting
     private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
     private static final double WRIST_HOME = 0.5;
@@ -99,7 +100,10 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        wrist.setPosition(WRIST_COLLECT);
+
+        //setLiftPosition((int) Math.round(ARM_CLEAR_BARRIER));
+       // wrist.setPosition(WRIST_COLLECT);
+
 
         waitForStart();
         runtime.reset();
@@ -108,22 +112,11 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
             //Put all code
             wrist.setPosition(WRIST_DEPOSIT);
             setLiftPosition(ARM_COLLAPSED_INTO_ROBOT);
-            driveInches("forward",0.5,17.5);
-            setLiftPosition((int) Math.round(ARM_SCORE_SAMPLE_IN_HIGH));//Linear slide rotates to 71 degrees for high basket dropping
-            setArmPosition((int) Math.round(SLIDE_HIGH));//Linear slide extends to 18.5 inches for high basket dropping
-            Intake(1.0,1000);
-            setArmPosition((int) Math.round(SLIDE_ZERO));
-            setLiftPosition((ARM_COLLAPSED_INTO_ROBOT));
-            driveInches("backward",0.5,22.5);
-            driveInches("right",0.5,10);
-            Intake(1.0,1000);
-            driveInches("left",0.5,10);
-            driveInches("forward",0.5,22.5);
-            setLiftPosition((int) Math.round(ARM_SCORE_SAMPLE_IN_HIGH));//Linear slide rotates to 71 degrees for high basket dropping
-            setArmPosition((int) Math.round(SLIDE_HIGH));//Linear slide extends to 18.5 inches for high basket dropping
-            driveInches("turn",0.5, Math.toRadians(180));
-            driveInches("left",0.5,22);
-            setLiftPosition((int) Math.round(ARM_CLEAR_BARRIER));
+            driveInches("backward",0.5,7.45);
+
+
+
+
         }
 
 
@@ -143,6 +136,13 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
         armMotor.setPower(ARM_POWER);
     }
 
+    private void MotorPower(double speed) {
+        //set MotorPower for the OpMode
+        leftFrontDrive.setPower(speed);
+        leftBackDrive.setPower(speed);
+        rightFrontDrive.setPower(speed);
+        rightBackDrive.setPower(speed);
+    }
 
     private void driveInches(String direction, double speed, double value) {
         int targetPosition;
@@ -197,16 +197,18 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
                 telemetry.update();
 
                 break;
-            case "turn": // Changing the orientation of the robot [For the OpMode code, do Math.toRadians]
-                leftFrontDrive.setTargetPosition(leftFrontDrive.getCurrentPosition() + targetPosition); // Move left side forward
-                leftBackDrive.setTargetPosition(leftBackDrive.getCurrentPosition() + targetPosition); // Move left side forward
-                rightFrontDrive.setTargetPosition(rightFrontDrive.getCurrentPosition() - targetPosition); // Move right side backward
-                rightBackDrive.setTargetPosition(rightBackDrive.getCurrentPosition() - targetPosition);// Move right side backward
-                MotorPower(speed);
+            case "turn": //Changing the orientation of the robot[For the OpMode code, do Math.toRadians
+                leftFrontDrive.setTargetPosition(leftFrontDrive.getCurrentPosition() - targetPosition);
+                leftBackDrive.setTargetPosition(leftBackDrive.getCurrentPosition() - targetPosition);
+                rightFrontDrive.setTargetPosition(rightFrontDrive.getCurrentPosition() + targetPosition);
+                rightBackDrive.setTargetPosition(rightBackDrive.getCurrentPosition() + targetPosition);
                 telemetry.addData("Status", "Turning " + value + " degrees");
                 telemetry.update();
+
                 break;
         }
+
+
     }
 
     private void Telemetry() {
@@ -237,14 +239,6 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
     }
 
-    private void MotorPower(double speed) {
-        //set MotorPower for the OpMode
-        leftFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-    }
-
     public void ExtendArm(double power, long time) {
         //set armMotor(Horizontal) Power
         armMotor.setPower(power);
@@ -265,3 +259,4 @@ public class BlueLeft_RedRightAuto extends LinearOpMode {
         wrist.setPosition(WRIST_COLLECT);
     }
 }
+
