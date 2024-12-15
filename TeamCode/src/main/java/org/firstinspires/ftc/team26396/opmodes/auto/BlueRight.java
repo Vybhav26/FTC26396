@@ -11,13 +11,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name="BlueRight", group="Simple")
 public class BlueRight extends LinearOpMode {
 
+    private static double ARM_POWER = 0.8;
+
     // Declare motor variables
     private DcMotor frontLeftMotor;
     private DcMotor frontRightMotor;
     private DcMotor backLeftMotor;
     private DcMotor backRightMotor;
     private DcMotor armMotor;
-    private Servo wrist = null;
+    private Servo wrist;
 
     // Define constants for wrist servo positions
     private static final double WRIST_COLLECT = 1.0;  // Position for collecting
@@ -59,14 +61,21 @@ public class BlueRight extends LinearOpMode {
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        armMotor = hardwareMap.dcMotor.get("armMotor");
+
+
+        Telemetry();
 
         // Set motor directions (reverse right motors for proper movement)
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setPosition(WRIST_COLLECT);
 
         // Wait for the game to start
         waitForStart();
         wrist.setPosition(WRIST_HOME);
+        setArmPosition(GROUND_POSITION_TICKS);
 
         // Move forward for a specified time
         frontLeftMotor.setPower(POWER);
@@ -83,12 +92,27 @@ public class BlueRight extends LinearOpMode {
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
+    }
+
+    private void Telemetry() {
+        //Initializes telemetry on driver station
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Front Left Power", frontLeftMotor.getPower());
         telemetry.addData("Front Right Power", frontRightMotor.getPower());
         telemetry.addData("Back Left Power", backLeftMotor.getPower());
         telemetry.addData("Back Right Power", backRightMotor.getPower());
-        telemetry.addData("Status", "Task Complete");
         telemetry.update();
+    }
+
+    private void setArmPosition(double targetPosition) {
+        // Safety check to ensure position is within valid range
+        if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
+            targetPosition = LOW_POSITION_TICKS; // Set to low/ground position if out of range
+        }
+
+        // Convert target position in ticks (double) and set motor
+        armMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(ARM_POWER);
     }
 }

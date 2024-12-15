@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 //
 
 @Autonomous(name="Red Right", group="Simple")
+@Disabled
 public class RedRight extends LinearOpMode {
 
     // Constants for motor settings
@@ -66,8 +68,8 @@ public class RedRight extends LinearOpMode {
 
 
         // Set motor directions (reverse right motors for proper movement)
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         // Wait for the game to start
         waitForStart();
 
