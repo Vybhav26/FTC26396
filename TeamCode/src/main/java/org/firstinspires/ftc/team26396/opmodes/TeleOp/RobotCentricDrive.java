@@ -5,10 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
@@ -22,11 +23,13 @@ public class RobotCentricDrive extends LinearOpMode {
     private IntakeCode intakeControl;
     private WristCode wristControl;
     private HangCode hangControl;
-
+    DcMotorEx linearSlideMotor;
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare the motors and servos
-        DcMotor linearSlideMotor = hardwareMap.dcMotor.get("armMotor");
+//        DcMotorEx linearSlideMotor = hardwareMap.get(DCMotorEx,"armMotor");
+         linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
+
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
         CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
         Servo wristServo = hardwareMap.get(Servo.class, "wrist");
@@ -43,11 +46,11 @@ public class RobotCentricDrive extends LinearOpMode {
         // If your robot moves backwards when commanded to go forwards,
         // reverse the left side instead.
         // See the note about this earlier on this page.
-//        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         if (isStopRequested()) return;
@@ -60,7 +63,8 @@ public class RobotCentricDrive extends LinearOpMode {
         imu.initialize(imuParameters);
 
         // Set zero power behavior
-        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        linearSlideMotor.setPositionPIDFCoefficients(10.0);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -75,14 +79,14 @@ public class RobotCentricDrive extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
+            double y = Math.pow(-gamepad1.left_stick_y,3); // Remember, Y stick value is reversed
+            double x = Math.pow(gamepad1.left_stick_x * 1.1,3); // Counteract imperfect strafing
+            double rx = Math.pow(gamepad1.right_stick_x,3);
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 0.8);
             double frontLeftPower = (y + x + rx) / denominator;
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;

@@ -16,7 +16,7 @@ public class PresetArmCode {
     private static final double GROUND_DEGREES = 5.0;   // Default position (0 degrees)
     private static final double LOW_DEGREES = 15.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
-    private static final double MAX_DEGREES = 90.0;     // Position to place into an high basket (70 degrees)
+    private static final double MAX_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
 
     // Formula to calculate ticks per degree
     final double ARM_TICKS_PER_DEGREE =
@@ -52,6 +52,10 @@ public class PresetArmCode {
         setArmPosition(INIT_POSITION_TICKS);  // Set the arm to the ground position by default
 
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     /**
@@ -60,11 +64,19 @@ public class PresetArmCode {
     public void controlArmAndSlide(Gamepad gamepad) {
         // Control the linear slide motor based on left and right triggers
         if (gamepad.left_trigger > 0.1) {
+            linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             linearSlideMotor.setPower(-LINEAR_SLIDE_POWER); // Move linear slide down
         } else if (gamepad.right_trigger > 0.1) {
+            linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             linearSlideMotor.setPower(LINEAR_SLIDE_POWER); // Move linear slide up
         } else {
-            linearSlideMotor.setPower(0); // Stop linear slide movement
+           // linearSlideMotor.setPower(0); // Stop linear slide movement
+            int currentPosition = linearSlideMotor.getCurrentPosition();
+            linearSlideMotor.setTargetPosition(currentPosition);
+            linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            linearSlideMotor.setPower(0.5); // Apply a small holding power
+            //linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         }
 
         // Control the arm position using D-pad inputs (up, down, left, right)
