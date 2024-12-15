@@ -8,8 +8,8 @@ public class HangCode {
     private DcMotor HangMotor2;
 
     // Preset arm positions (in encoder ticks)
-    private final int HangingPosExtend = 2000; //TODO: Edit as Needed
-    private final int HangingPosRetract = 1000; //TODO: Edit as Needed
+    private final int HangingPosExtend = 3700; //TODO: Edit as Needed
+    private final int HangingPosRetract = 250; //TODO: Edit as Needed
     private final int HangZero = 0;
 
     private static final double HangingSlide_POWER = 0.8;
@@ -22,6 +22,9 @@ public class HangCode {
 
         if(HangMotor1.getCurrentPosition() != 0 || HangMotor2.getCurrentPosition() != 0){
             setHangPosition(HangZero);
+            HangMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         }
 
 
@@ -49,19 +52,23 @@ public class HangCode {
             setHangPosition(HangingPosExtend); // Lift to high position, for hanging
         } else if (gamepad.b) {
             setHangPosition(HangingPosRetract); // Once on submerisible, hook itself on it by reducing linearSlide length
+        }else{
+            HangMotor1.setPower(0);
+            HangMotor2.setPower(0);
         }
     }
     // Set Lift position using encoder ticks
     private void setHangPosition(int targetPosition) {
 
-        if(HangMotor1.getCurrentPosition() <= 50 || HangMotor2.getCurrentPosition() <= 0){
-            HangMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            HangMotor1.setPower(0);
 
-            HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            HangMotor2.setPower(0);
-
-        }else{
+//        if(HangMotor1.getCurrentPosition() <= 50 || HangMotor2.getCurrentPosition() <= 50){
+//            //HangMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            //HangMotor1.setPower(0);
+//
+//            //HangMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            HangMotor2.setPower(0);
+//
+//        }else{
             HangMotor1.setTargetPosition(targetPosition);
             HangMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             HangMotor1.setPower(HangingSlide_POWER);
@@ -77,4 +84,4 @@ public class HangCode {
 //    private void resetHangPosition(){
 
 //    }
-}
+//}
