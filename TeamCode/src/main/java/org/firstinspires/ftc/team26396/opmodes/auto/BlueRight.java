@@ -84,7 +84,7 @@ public class BlueRight extends LinearOpMode {
         backRightMotor.setPower(POWER);
 
         // Sleep for the determined time to move forward 10 inches
-        sleep(8890);
+        sleep(4440);
 
         // Stop all motion
         frontLeftMotor.setPower(0);
