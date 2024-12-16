@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -9,20 +8,32 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 //
 
+
 @Autonomous(name="Blue Left", group="Simple")
-@Disabled
 public class BlueLeft extends LinearOpMode {
 
-    // Constants for motor settings
-    private static final double LINEAR_SLIDE_POWER = 0.8;
-    private static final double ARM_POWER = 1.0;
+    private static double ARM_POWER = 0.8;
 
+    // Declare motor variables
+    private DcMotor frontLeftMotor;
+    private DcMotor frontRightMotor;
+    private DcMotor backLeftMotor;
+    private DcMotor backRightMotor;
+    private DcMotor armMotor;
+    private Servo wrist;
+    private CRServo intake;
+
+
+    // Define constants for wrist servo positions
+    private static final double WRIST_COLLECT = 1.0;  // Position for collecting
+    private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
+    private static final double WRIST_HOME = 0.5;    // Home Position
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 0.0;
     private static final double GROUND_DEGREES = 5.0;   // Default position (0 degrees)
     private static final double LOW_DEGREES = 15.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
-    private static final double MAX_DEGREES = 90.0;     // Position to place into an high basket (70 degrees)
+    private static final double MAX_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
 
     // Formula to calculate ticks per degree
     final double ARM_TICKS_PER_DEGREE =
@@ -30,31 +41,20 @@ public class BlueLeft extends LinearOpMode {
                     * 5.2 // gear ratio of the 5.2:1 Yellow Jacket gearbox
                     * 5.0 // external gear reduction, a 20T pinion gear driving a 100T hub-mount gear (5:1 reduction)
                     * 1 / 360.0 *2; // we want ticks per degree, not per rotation
+
+
+    // Pre-calculated arm positions in encoder ticks based on degrees
     private final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
     private final double GROUND_POSITION_TICKS = GROUND_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
 
-    // Declare motor variables
-    private DcMotor frontLeftMotor;
-    private DcMotor frontRightMotor;
-    private DcMotor backLeftMotor;
-    private DcMotor backRightMotor;
-    private  DcMotor armMotor;
-    private CRServo intake;
-    private Servo wrist;
-
-    // Define constants for wrist servo positions
-    private static final double WRIST_COLLECT = 1.0;  // Position for collecting
-    private static final double WRIST_DEPOSIT = 0.0; // Position for depositing
-    private static final double WRIST_HOME = 0.5;
 
 
     // Constants
     private static final double POWER = 0.5; // Motor power
-    private static double SPEED_HALFPOWER = 2.25;
-    private static double SPEED_FULLPOWER = 4.50;
+    private static double INCHES_PER_SEC = 2.25;
 
     //left power = 0 moves left, right power = 0 moves right
     @Override
@@ -64,83 +64,35 @@ public class BlueLeft extends LinearOpMode {
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
-        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        armMotor = hardwareMap.dcMotor.get("armMotor");
         intake = hardwareMap.get(CRServo.class, "intake");
 
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        setArmPosition(INIT_POSITION_TICKS);
 
+
+        Telemetry();
 
         // Set motor directions (reverse right motors for proper movement)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        //wrist.setPosition(WRIST_COLLECT);
-
+        wrist.setPosition(WRIST_COLLECT);
 
         // Wait for the game to start
         waitForStart();
-
-        //wrist.setPosition(WRIST_HOME);
-        //setArmPosition(GROUND_POSITION_TICKS);
-
-
+        wrist.setPosition(WRIST_HOME);
+        setArmPosition(GROUND_POSITION_TICKS);
 
         // Move forward for a specified time
-        frontLeftMotor.setPower(1.0);
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(1.0);
-        backRightMotor.setPower(1.0);
+        frontLeftMotor.setPower(POWER);
+        frontRightMotor.setPower(POWER);
+        backLeftMotor.setPower(POWER);
+        backRightMotor.setPower(POWER);
 
-        // Sleep for the determined time to move forward 30 inches
-        sleep(6670);
-
-        Intake(-1.0,100);
-
-        //Move backward for 20 inches
-        frontLeftMotor.setPower(-1.0);
-        frontRightMotor.setPower(-1.0);
-        backLeftMotor.setPower(-1.0);
-        backRightMotor.setPower(-1.0);
-
-        //sleep for the time to move backward 20 inches
+        // Sleep for the determined time to move forward 10 inches
         sleep(4440);
 
-        //Turn Right
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(0);
-        backRightMotor.setPower(1.0);
-
-        sleep(1000);
-
-        //Move forward 50 inches
-        frontLeftMotor.setPower(1.0);
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(1.0);
-        backRightMotor.setPower(1.0);
-        sleep(11110);
-
-        //Turn Right
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(0);
-        backRightMotor.setPower(1.0);
-
-        sleep(1000);
-
-        //Move backward for 20 inches
-        frontLeftMotor.setPower(-1.0);
-        frontRightMotor.setPower(-1.0);
-        backLeftMotor.setPower(-1.0);
-        backRightMotor.setPower(-1.0);
-
-        sleep(4440);
-
-        setArmPosition(HIGH_POSITION_TICKS);
-
-
+        intake.setPower(-1.0);
+        sleep(1500);
 
         // Stop all motion
         frontLeftMotor.setPower(0);
@@ -148,16 +100,18 @@ public class BlueLeft extends LinearOpMode {
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
+    }
+    private void Telemetry() {
+        //Initializes telemetry on driver station
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Front Left Power", frontLeftMotor.getPower());
         telemetry.addData("Front Right Power", frontRightMotor.getPower());
         telemetry.addData("Back Left Power", backLeftMotor.getPower());
         telemetry.addData("Back Right Power", backRightMotor.getPower());
-        telemetry.addData("Status", "Task Complete");
         telemetry.update();
     }
-    private void Intake(double power, long time) {
-        }
+
+
     private void setArmPosition(double targetPosition) {
         // Safety check to ensure position is within valid range
         if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
