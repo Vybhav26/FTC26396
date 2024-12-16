@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.team26396.opmodes.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.BasicDriveCode;
 
 @TeleOp(name = "TeleOpBasic", group = "TeleOpFINAL")
+@Disabled
 public class FieldCentricDriveBasic extends LinearOpMode {
 
     // Subsystems
