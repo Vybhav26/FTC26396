@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "DRIVECODE", group = "TeleOpFINAL")
+@Disabled
 public class BasicDriveTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
