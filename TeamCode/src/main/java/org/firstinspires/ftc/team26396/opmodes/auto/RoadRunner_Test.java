@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
-
 import androidx.annotation.NonNull;
 
 // RR-specific imports
@@ -27,21 +26,18 @@ public class RoadRunner_Test extends LinearOpMode {
     @Override
     public void runOpMode() {
         // I'm assuming you're at 0,0
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
+        Pose2d initPose = new Pose2d(0, 61.75, Math.toRadians(90.00));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, initPose);
 
         waitForStart();
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(20,-60,0))
-                        .splineTo(new Vector2d(60, -40), Math.toRadians(0))
-
-                        .splineTo(new Vector2d(0, -40), Math.toRadians(0))
-
-                        .splineTo(new Vector2d(0, -33), Math.toRadians(90))
+                drive.actionBuilder(initPose)
+                        .lineToX(58.96)
+                        .lineToX(29.66)
+                        .lineToY(0)
+                        .lineToXSplineHeading(23,Math.toRadians(180.00))
                         .build());
-
-
     }
-
 
 }
