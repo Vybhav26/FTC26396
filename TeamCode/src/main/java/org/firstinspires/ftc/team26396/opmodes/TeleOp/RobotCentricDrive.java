@@ -11,16 +11,17 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
+//import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
 public class RobotCentricDrive extends LinearOpMode {
 
     // Subsystems
     private PresetArmCode armControl;
-    private IntakeCode intakeControl;
+    private ClawCode clawControl;
     private WristCode wristControl;
     private HangCode hangControl;
     DcMotorEx linearSlideMotor;
@@ -31,7 +32,7 @@ public class RobotCentricDrive extends LinearOpMode {
          linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo intakeServo = hardwareMap.get(CRServo.class, "intake");
+        CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
         Servo wristServo = hardwareMap.get(Servo.class, "wrist");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
@@ -71,7 +72,7 @@ public class RobotCentricDrive extends LinearOpMode {
 
         // Initialize subsystems
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
-        intakeControl = new IntakeCode(intakeServo);
+        clawControl = new ClawCode(clawServo);
         wristControl = new WristCode(wristServo);
         hangControl = new HangCode(HangMotor1, HangMotor2);
         waitForStart();
@@ -113,11 +114,11 @@ public class RobotCentricDrive extends LinearOpMode {
              */
 
             // INTAKE CONTROL
-            intakeControl.controlIntake(gamepad1.right_bumper, gamepad1.left_bumper);
+            clawControl.controlClaw(gamepad1);
             /*
             Gamepad1 Trigger:
-            a) Using Left Trigger - pushes block OUTWARD
-            b) Using Right Trigger - take block IN
+            a) Using Left Trigger - pushes claw OUTWARD
+            b) Using Right Trigger - take claw IN
              */
 
             // WRIST CONTROL
@@ -144,7 +145,7 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("Back Right Power", backRightMotor.getPower());
             telemetry.addData("LinearSlide Motor Power", linearSlideMotor.getPower());
             telemetry.addData("Arm Motor Power", armMotor.getPower());
-            telemetry.addData("Intake Power", intakeServo.getPower());
+            telemetry.addData("Claw Power", clawServo.getPower());
             telemetry.addData("Wrist Position", wristServo.getPosition());
             telemetry.addData("Linear Slide Encoder", linearSlideMotor.getCurrentPosition());
             telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());
