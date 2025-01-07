@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -33,8 +34,8 @@ public class RoadRunner_Test extends LinearOpMode {
 
         Actions.runBlocking(
                 drive.actionBuilder(initPose)
-                        .lineToX(58.96)
-                        .lineToX(29.66)
+                        .lineToY(45)
+                        .lineToY(29.66)
                         .lineToY(0)
                         .lineToXSplineHeading(23,Math.toRadians(180.00))
                         .build());

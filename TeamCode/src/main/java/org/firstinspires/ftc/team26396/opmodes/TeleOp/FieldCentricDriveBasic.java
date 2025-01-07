@@ -30,7 +30,7 @@ public class FieldCentricDriveBasic extends LinearOpMode {
     private BasicDriveCode basicDriveControl;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
         // Declare the motors and servos
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");

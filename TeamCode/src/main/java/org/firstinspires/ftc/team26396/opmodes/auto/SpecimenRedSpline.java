@@ -23,7 +23,8 @@ import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 public class SpecimenRedSpline extends LinearOpMode{
     public void runOpMode() {
         // I'm assuming you're at 0,0
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        Pose2d initPose;
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(23.48, -69.05, Math.toRadians(90.00)));
 
         waitForStart();
 
@@ -35,4 +36,8 @@ public class SpecimenRedSpline extends LinearOpMode{
                         .splineTo(new Vector2d(0, -33), Math.toRadians(90))
                         .build());
     }
+
+    //TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(23.48, -69.05, Math.toRadians(90.00)))
+    //.lineTo(new Vector2d(48.62, -66.89))
+    //.build();
 }
