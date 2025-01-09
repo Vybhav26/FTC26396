@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Autonomous(name="Blue Left", group="Simple")
+@Disabled
 public class BlueLeft extends LinearOpMode {
 
     private static double ARM_POWER = 0.8;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.TeleOp;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
+@Disabled
 public class RobotCentricDrive extends LinearOpMode {
 
     // Subsystems
@@ -49,7 +51,7 @@ public class RobotCentricDrive extends LinearOpMode {
         // See the note about this earlier on this page.
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 

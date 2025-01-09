@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Autonomous(name="BlueRight RedLeft", group="Simple")
+@Disabled
 public class RedLeft extends LinearOpMode {
 
     // Declare motor variables

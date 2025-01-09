@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Run All Motors", group="Linear OpMode")
-@Disabled
+@Autonomous(name="TEST AUTO", group="Linear OpMode")
 public class RunAllMotors extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -20,16 +20,16 @@ public class RunAllMotors extends LinearOpMode {
     public void runOpMode() {
 
         // Initialize the hardware variables for all motors
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        leftFrontDrive  = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        leftBackDrive  = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "backRightMotor");
 
         // Set all motors to move in the same direction (FORWARD)
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+      //  rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+      //  rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -46,7 +46,7 @@ public class RunAllMotors extends LinearOpMode {
             rightFrontDrive.setPower(0.5);
             rightBackDrive.setPower(0.5);
 
-            sleep(10000);
+            sleep(3000);
 
             leftFrontDrive.setPower(0);
             leftBackDrive.setPower(0);
@@ -55,8 +55,10 @@ public class RunAllMotors extends LinearOpMode {
 
             // Display run time and motor power
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Left Motors", "Power: %4.2f", 0.5);
-            telemetry.addData("Right Motors", "Power: %4.2f", 0.5);
+            telemetry.addData("Front Right Power", rightFrontDrive.getPower());
+            telemetry.addData("Front Left Power", leftFrontDrive.getPower());
+            telemetry.addData("Back Right Power", rightBackDrive.getPower());
+            telemetry.addData("Back Left Power", leftBackDrive.getPower());
             telemetry.update();
         }
     }
