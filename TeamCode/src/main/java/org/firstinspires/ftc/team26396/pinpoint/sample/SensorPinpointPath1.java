@@ -2,8 +2,6 @@ package org.firstinspires.ftc.team26396.pinpoint.sample;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -15,10 +13,10 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 
-@Autonomous(name="Pinpoint Navigation Sample1", group="Pinpoint")
+@Autonomous(name="Pinpoint Path1 Sample", group="Pinpoint")
 //@Disabled
 
-public class SensorPinpointDriveToPoint extends LinearOpMode {
+public class SensorPinpointPath1 extends LinearOpMode {
 
     DcMotor leftFrontDrive;
     DcMotor rightFrontDrive;
@@ -67,7 +65,7 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
 
         Properties props = new Properties();
         try {
-            props.load(SensorPinpointDriveToPoint.class.getClassLoader().getResourceAsStream("teamcode.properties"));
+            props.load(SensorPinpointPath1.class.getClassLoader().getResourceAsStream("teamcode.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
