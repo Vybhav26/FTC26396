@@ -19,22 +19,47 @@ public class SpecimenBlue {
                 //BLUE BASKET STARTS HERE
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder
-                                        (new Pose2d(20, 60, Math.toRadians(-90)))
+                                        (new Pose2d(-20, 60, Math.toRadians(-90)))
                                 //where is wall y position?
 
 
                                 //Path for Red Basket Specimen Thingy
-                                //Starting from red wall side
-                                .lineToSplineHeading(new Pose2d(20, 40 , Math.toRadians(0)))
+                                //picks up first block
+                                .lineToSplineHeading(new Pose2d(-52, 57 , Math.toRadians(90)))
                                 .waitSeconds(0.5)
-                                //turns right and goes to human player end
-                                .lineToSplineHeading(new Pose2d(60, 40 , Math.toRadians(0)))
+                                //goes to submersible
+                                .lineToSplineHeading(new Pose2d(0, 35 , Math.toRadians(-90)))
                                 .waitSeconds(0.5)
-                                //goes backward and faces toward blocks
-                                .lineToSplineHeading(new Pose2d(0, 40 , Math.toRadians(-90)))
-                                //moves toward blocks
+                                //goes to second block
+                                .lineToSplineHeading(new Pose2d(-49, 40 , Math.toRadians(-90)))
                                 .waitSeconds(0.5)
-                                .lineToSplineHeading(new Pose2d(0, 33 , Math.toRadians(-90)))
+                                //places block near human player
+                                .lineToSplineHeading(new Pose2d(-56, 57 , Math.toRadians(90)))
+                                .waitSeconds(0.5)
+                                //goes to 3rd block
+                                .lineToSplineHeading(new Pose2d(-57, 40 , Math.toRadians(-90)))
+                                .waitSeconds(0.5)
+                                //drops 3rd block and picks 2nd block specimen up
+                                .lineToSplineHeading(new Pose2d(-57, 57 , Math.toRadians(90)))
+                                .waitSeconds(0.5)
+                                //puts second block at submersible
+                                .lineToSplineHeading(new Pose2d(1, 35 , Math.toRadians(-90)))
+                                .waitSeconds(0.5)
+                                //goes back to the 4th block
+                                .lineToSplineHeading(new Pose2d(-59, 40 , Math.toRadians(-135)))
+                                .waitSeconds(0.5)
+                                //drops 4th block, picks up 3rd
+                                .lineToSplineHeading(new Pose2d(-59, 57 , Math.toRadians(90)))
+                                .waitSeconds(0.5)
+                                .lineToSplineHeading(new Pose2d(2, 35 , Math.toRadians(-90)))
+
+
+
+
+
+
+
+
                                 /*
                                 This is Blue Basket Drop, but without Spline
 

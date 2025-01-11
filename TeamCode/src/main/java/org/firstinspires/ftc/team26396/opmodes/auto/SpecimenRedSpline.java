@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
-public class SpecimenRedSpline extends LinearOpMode{
+public class SpecimenRedSpline extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0,0
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -28,11 +28,10 @@ public class SpecimenRedSpline extends LinearOpMode{
         waitForStart();
 
         Actions.runBlocking(
-                drive.actionBuilder(new Pose2d(20, -60, 0))
-                        .splineTo(new Vector2d(20, -40), Math.toRadians(0))
-                        .splineTo(new Vector2d(60, -40), Math.toRadians(0))
-                        .splineTo(new Vector2d(0, -40), Math.toRadians(0))
-                        .splineTo(new Vector2d(0, -33), Math.toRadians(90))
+                drive.actionBuilder(new Pose2d(20, 40, 0))
+                        .splineTo(new Vector2d(60, 40), Math.toRadians(0))
+                        .splineTo(new Vector2d(0, 40), Math.toRadians(-90))
+                        .splineTo(new Vector2d(0, 33), Math.toRadians(-90))
                         .build());
     }
 }
