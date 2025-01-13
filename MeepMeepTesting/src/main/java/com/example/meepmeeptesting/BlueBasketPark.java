@@ -5,9 +5,23 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class BlueBasketPark {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
+
+//        Properties props = new Properties();
+//        try {
+//            props.load(BlueBasketPark.class.getClassLoader().getResourceAsStream("meepmeep.properties"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        System.out.println("input.getProperty(\"x_offset1\") : " + props.getProperty("x_offset1"));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
