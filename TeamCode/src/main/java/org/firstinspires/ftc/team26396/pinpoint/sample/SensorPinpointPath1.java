@@ -65,7 +65,7 @@ public class SensorPinpointPath1 extends LinearOpMode {
 
         Properties props = new Properties();
         try {
-            props.load(SensorPinpointPath1.class.getClassLoader().getResourceAsStream("teamcode.properties"));
+            props.load(SensorPinpointPath1.class.getClassLoader().getResourceAsStream("teamcode_robo2_local.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
