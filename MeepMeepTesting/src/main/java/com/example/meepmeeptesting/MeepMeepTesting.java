@@ -18,18 +18,27 @@ public class MeepMeepTesting {
                 //BLUE BASKET STARTS HERE
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder
-                                        (new Pose2d(20, 65, Math.toRadians(-90)))
-                                // This is for Blue (Basket Side)
+                                        (new Pose2d(0, 65, Math.toRadians(0)))
+                                //Basic Blue Left or Red Right Auto
+                                .lineTo(new Vector2d(48.00, 64.00))
+                                .lineTo(new Vector2d(35.00, 64.00))
+                                .lineTo(new Vector2d(35.00, 24.00))
+                                .lineTo(new Vector2d(54.50, 24.54))
+                                .lineTo(new Vector2d(54.50, 64.00))
+                                .lineTo(new Vector2d(59.00, 64.00))
+                                .lineTo(new Vector2d(39.04, 64.00))
+                                .lineTo(new Vector2d(39.00, 24.24))
+                                .lineTo(new Vector2d(65.50, 24.00))
+                                .lineTo(new Vector2d(65.50, 64.00))
+                                .lineTo(new Vector2d(59.00, 64.00))
+                                .lineTo(new Vector2d(59.00, 24.00))
+                                .lineTo(new Vector2d(71.00, 24.00))
+                                .lineTo(new Vector2d(71.00, 52.00))
+                                .lineTo(new Vector2d(32.00, 52.00))
+                                .lineTo(new Vector2d(32.00, -0.00))
+                                .splineTo(new Vector2d(17.00, -0.00), Math.toRadians(-90.00))
+                                .build());
 
-
-                                //Path for Blue Basket Drop
-                                .lineToSplineHeading(new Pose2d(37, 37, Math.toRadians(-45)))
-                                .lineToSplineHeading(new Pose2d(53, 57, Math.toRadians(45)))
-                                .lineToSplineHeading(new Pose2d(47, 37, Math.toRadians(-45)))
-                                .lineToSplineHeading(new Pose2d(53, 57, Math.toRadians(45)))
-                                .lineToSplineHeading(new Pose2d(59, 37, Math.toRadians(-45)))
-                                .lineToSplineHeading(new Pose2d(53, 57, Math.toRadians(45)))
-                                .lineToSplineHeading(new Pose2d(25, 25, Math.toRadians(0)))
 
                                 /*
                                 This is Blue Basket Drop, but without Spline
@@ -53,7 +62,6 @@ public class MeepMeepTesting {
                                 */
                                 //BLUE BASKET ENDS HERE
 
-                                .build());
 
 
 

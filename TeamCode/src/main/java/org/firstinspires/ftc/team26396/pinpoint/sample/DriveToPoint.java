@@ -40,8 +40,7 @@ public class DriveToPoint {
         IN_BOUNDS
     }
 
-//    private static double xyTolerance = 12;
-    private static double xyTolerance = 50;
+    private static double xyTolerance = 100;
     private static double yawTolerance = 0.0349066;
 
     private static double pGain = 0.008;
@@ -145,7 +144,7 @@ public class DriveToPoint {
             double yPWR = calculatePID(currentPosition, targetPosition, Direction.y);
             double hOutput = calculatePID(currentPosition, targetPosition, Direction.h);
 
-//            System.out.println("xPWR : " + xPWR + " yPWR : " + yPWR + " hOutput : " + hOutput);
+            System.out.println("xPWR : " + xPWR + " yPWR : " + yPWR + " hOutput : " + hOutput);
 
             double heading = currentPosition.getHeading(AngleUnit.RADIANS);
             double cosine = Math.cos(heading);
@@ -157,7 +156,7 @@ public class DriveToPoint {
             calculateMecanumOutput(xOutput * power, yOutput * power, hOutput * power);
         }
 
-//        System.out.println("inBounds(currentPosition,targetPosition) : " + inBounds(currentPosition,targetPosition));
+        System.out.println("inBounds(currentPosition,targetPosition) : " + inBounds(currentPosition,targetPosition));
 
         if(inBounds(currentPosition,targetPosition) == InBounds.IN_BOUNDS){
             atTarget = true;
@@ -165,10 +164,6 @@ public class DriveToPoint {
         else {
             holdTimer.reset();
             atTarget = false;
-        }
-
-        if(atTarget) {
-//            System.out.println("inBounds(currentPosition,targetPosition) : " + inBounds(currentPosition,targetPosition));
         }
 
         if(atTarget && holdTimer.time() > holdTime){
@@ -240,7 +235,7 @@ public class DriveToPoint {
         boolean hInBounds = currPose.getHeading(RADIANS) > (trgtPose.getHeading(RADIANS) - yawTolerance) &&
                 currPose.getHeading(RADIANS) < (trgtPose.getHeading(RADIANS) + yawTolerance);
 
-//        System.out.println("xInBounds :  " + xInBounds + "yInBounds : " + yInBounds + " hInBounds : " + hInBounds) ;
+        System.out.println("xInBounds :  " + xInBounds + "yInBounds : " + yInBounds + " hInBounds : " + hInBounds) ;
 
         if (xInBounds && yInBounds && hInBounds){
             return InBounds.IN_BOUNDS;
