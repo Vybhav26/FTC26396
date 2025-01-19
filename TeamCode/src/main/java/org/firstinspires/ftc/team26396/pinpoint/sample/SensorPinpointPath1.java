@@ -2,8 +2,6 @@ package org.firstinspires.ftc.team26396.pinpoint.sample;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -11,12 +9,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
+import java.io.IOException;
 import java.util.Locale;
+import java.util.Properties;
 
-@Autonomous(name="Pinpoint Navigation Sample", group="Pinpoint")
+@Autonomous(name="Pinpoint Path1 Sample", group="Pinpoint")
 //@Disabled
 
-public class SensorPinpointDriveToPoint extends LinearOpMode {
+public class SensorPinpointPath1 extends LinearOpMode {
 
     DcMotor leftFrontDrive;
     DcMotor rightFrontDrive;
@@ -33,61 +33,50 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
         DRIVE_TO_TARGET_2,
         DRIVE_TO_TARGET_3,
         DRIVE_TO_TARGET_4,
-        DRIVE_TO_TARGET_5,
-        DRIVE_TO_TARGET_6,
-        DRIVE_TO_TARGET_7,
-        DRIVE_TO_TARGET_8,
-        DRIVE_TO_TARGET_9,
-        DRIVE_TO_TARGET_10,
-        DRIVE_TO_TARGET_11,
-        DRIVE_TO_TARGET_12,
-        DRIVE_TO_TARGET_13,
-        DRIVE_TO_TARGET_14,
-        DRIVE_TO_TARGET_15,
-        DRIVE_TO_TARGET_16,
-        DRIVE_TO_TARGET_17
-
-
+        DRIVE_TO_TARGET_5
     }
+
+
+
+//    static final Pose2D TARGET_1 = new Pose2D(DistanceUnit.MM,2000,20,AngleUnit.DEGREES,0);
+//    static final Pose2D TARGET_2 = new Pose2D(DistanceUnit.MM, 2000, -20, AngleUnit.DEGREES, -90);
+//    static final Pose2D TARGET_3 = new Pose2D(DistanceUnit.MM,2600,-2600, AngleUnit.DEGREES,-180);
+//    static final Pose2D TARGET_4 = new Pose2D(DistanceUnit.MM, 100, -2600, AngleUnit.DEGREES, 90);
+//    static final Pose2D TARGET_5 = new Pose2D(DistanceUnit.MM, 100, 0, AngleUnit.DEGREES, 0);
+//    Last working values - Hima - 09 Jan 2025 till target 3
+//    static final Pose2D TARGET_1 = new Pose2D(DistanceUnit.INCH,40,48, AngleUnit.DEGREES,0);
+//    static final Pose2D TARGET_2 = new Pose2D(DistanceUnit.INCH, 40, -48, AngleUnit.DEGREES, -90);
+//    static final Pose2D TARGET_3 = new Pose2D(DistanceUnit.MM,-1200,-1200, AngleUnit.DEGREES,-90);
+//    static final Pose2D TARGET_4 = new Pose2D(DistanceUnit.MM, -1300, 1300, AngleUnit.DEGREES, 0);
+//    static final Pose2D TARGET_5 = new Pose2D(DistanceUnit.INCH, 0, 48, AngleUnit.DEGREES, -90);
+
 //    static final Pose2D TARGET_FORWARD = new Pose2D(DistanceUnit.MM,2000,0,AngleUnit.DEGREES,0);
 //    static final Pose2D TARGET_LEFT = new Pose2D(DistanceUnit.MM,0,200,AngleUnit.DEGREES,0);
 //    static final Pose2D TARGET_ROTATE = new Pose2D(DistanceUnit.MM,0,0,AngleUnit.DEGREES,-90);
 //    static final Pose2D TARGET_ANTI_ROTATE = new Pose2D(DistanceUnit.MM,0,0,AngleUnit.DEGREES,-270);
 
-    //   static final Pose2D TARGET_FORWARD = new Pose2D(DistanceUnit.MM,1000,1000,AngleUnit.DEGREES,0);
-    //   static final Pose2D TARGET_LEFT = new Pose2D(DistanceUnit.MM,0,1000,AngleUnit.DEGREES,0);
-    //   static final Pose2D TARGET_ROTATE = new Pose2D(DistanceUnit.MM,0,0,AngleUnit.DEGREES,-90);
-    //   static final Pose2D TARGET_ANTI_ROTATE = new Pose2D(DistanceUnit.MM,0,0,AngleUnit.DEGREES,-270);
-
-    static final Pose2D TARGET_1 = new Pose2D(DistanceUnit.INCH,48,64,AngleUnit.DEGREES,0);
-    static final Pose2D TARGET_2 = new Pose2D(DistanceUnit.INCH, 35, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_3 = new Pose2D(DistanceUnit.INCH, 35, 24, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_4 = new Pose2D(DistanceUnit.INCH, 54.5, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_5 = new Pose2D(DistanceUnit.INCH, 54.5, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_6 = new Pose2D(DistanceUnit.INCH, 59, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_7 = new Pose2D(DistanceUnit.INCH, 39, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_8 = new Pose2D(DistanceUnit.INCH, 39, 24, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_9 = new Pose2D(DistanceUnit.INCH, 65.5, 24, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_10 = new Pose2D(DistanceUnit.INCH, 65.5, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_11 = new Pose2D(DistanceUnit.INCH, 59, 64, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_12 = new Pose2D(DistanceUnit.INCH, 59, 24, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_13 = new Pose2D(DistanceUnit.INCH, 71, 24, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_14 = new Pose2D(DistanceUnit.INCH, 71, 52, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_15 = new Pose2D(DistanceUnit.INCH, 32, 52, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_16 = new Pose2D(DistanceUnit.INCH, 32, 0, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_17 = new Pose2D(DistanceUnit.INCH, 17, 0, AngleUnit.DEGREES, -90.00);
-
+    static final Pose2D TARGET_FORWARD = new Pose2D(DistanceUnit.MM,1000,1000, AngleUnit.DEGREES,0);
+    static final Pose2D TARGET_LEFT = new Pose2D(DistanceUnit.MM,0,1000, AngleUnit.DEGREES,0);
+    static final Pose2D TARGET_ROTATE = new Pose2D(DistanceUnit.MM,0,0, AngleUnit.DEGREES,-90);
+    static final Pose2D TARGET_ANTI_ROTATE = new Pose2D(DistanceUnit.MM,0,0, AngleUnit.DEGREES,-270);
 
     @Override
     public void runOpMode() {
+
+        Properties props = new Properties();
+        try {
+            props.load(SensorPinpointPath1.class.getClassLoader().getResourceAsStream("teamcode_robo2_local.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
         leftBackDrive   = hardwareMap.get(DcMotor.class, "backLeftMotor");
         rightBackDrive  = hardwareMap.get(DcMotor.class, "backRightMotor");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -97,9 +86,18 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
         leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        Pose2D TARGET_1 = new Pose2D(DistanceUnit.INCH,Double.parseDouble(props.getProperty("target1_x", "40.0")),
+                Double.parseDouble(props.getProperty("target1_y", "48.0")), AngleUnit.DEGREES,0);
+        Pose2D TARGET_2 = new Pose2D(DistanceUnit.INCH, 40, -48, AngleUnit.DEGREES, -90);
+        Pose2D TARGET_3 = new Pose2D(DistanceUnit.MM,-1200,-1200, AngleUnit.DEGREES,-90);
+        Pose2D TARGET_4 = new Pose2D(DistanceUnit.MM, -1300, 1300, AngleUnit.DEGREES, 0);
+        Pose2D TARGET_5 = new Pose2D(DistanceUnit.INCH, 0, 48, AngleUnit.DEGREES, 0);
+
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 //        odo.setOffsets(-142.0, 120.0); //these are tuned for 3110-0002-0001 Product Insight #1
-        odo.setOffsets(22.0, -111.0); //these are tuned for 3110-0002-0001 Product Insight #1
+        odo.setOffsets(Double.parseDouble(props.getProperty("x_offset", "0.0")),
+                Double.parseDouble(props.getProperty("y_offset", "-100.0"))); //these are tuned for 3110-0002-0001 Product Insight #1
+
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
@@ -126,7 +124,7 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
         waitForStart();
         resetRuntime();
 
-        Pose2D initialPose = new Pose2D(DistanceUnit.INCH, -0.0, 64.0, AngleUnit.DEGREES, 0);
+        Pose2D initialPose = new Pose2D(DistanceUnit.INCH, 0, 48.0, AngleUnit.DEGREES, 0);
 
         odo.setPosition(initialPose);
         odo.update();
@@ -139,10 +137,10 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
             telemetry.addData("Current Heading In Loop", odo.getPosition().getHeading(AngleUnit.DEGREES));
             telemetry.update();
 
-            telemetry.addData("Current Position In Loop X : " + odo.getPosition().getX(DistanceUnit.MM),
-                    " Current Position In Loop Y : " + odo.getPosition().getY(DistanceUnit.MM),
-                    " Current Position In Loop Heading : " + odo.getPosition().getHeading(AngleUnit.DEGREES),
-                    " stateMachine : " + stateMachine);
+            System.out.println("Current Position In Loop X : " + odo.getPosition().getX(DistanceUnit.MM)
+                    + " Current Position In Loop Y : " + odo.getPosition().getY(DistanceUnit.MM)
+                    + " Current Position In Loop Heading : " + odo.getPosition().getHeading(AngleUnit.DEGREES)
+                    + " stateMachine : " + stateMachine);
 
             odo.update();
 
@@ -228,78 +226,6 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
                     break;
                 case DRIVE_TO_TARGET_5:
                     if(nav.driveTo(odo.getPosition(),TARGET_5,0.3,1)){
-                        telemetry.addLine("at position #4");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_6;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_6:
-                    if(nav.driveTo(odo.getPosition(),TARGET_6,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_7;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_7:
-                    if(nav.driveTo(odo.getPosition(),TARGET_7,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_8;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_8:
-                    if(nav.driveTo(odo.getPosition(),TARGET_8,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_9;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_9:
-                    if(nav.driveTo(odo.getPosition(),TARGET_9,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_10;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_10:
-                    if(nav.driveTo(odo.getPosition(),TARGET_10,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_11;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_11:
-                    if(nav.driveTo(odo.getPosition(),TARGET_11,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_12;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_12:
-                    if(nav.driveTo(odo.getPosition(),TARGET_12,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_13;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_13:
-                    if(nav.driveTo(odo.getPosition(),TARGET_13,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_14;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_14:
-                    if(nav.driveTo(odo.getPosition(),TARGET_14,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_15;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_15:
-                    if(nav.driveTo(odo.getPosition(),TARGET_15,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_16;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_16:
-                    if(nav.driveTo(odo.getPosition(),TARGET_16,0.3,1)){
-                        telemetry.addLine("There!");
-                        stateMachine = StateMachine.DRIVE_TO_TARGET_17;
-                    }
-                    break;
-                case DRIVE_TO_TARGET_17:
-                    if(nav.driveTo(odo.getPosition(),TARGET_17,0.3,1)){
                         telemetry.addLine("There!");
                         stateMachine = StateMachine.AT_TARGET;
                     }
