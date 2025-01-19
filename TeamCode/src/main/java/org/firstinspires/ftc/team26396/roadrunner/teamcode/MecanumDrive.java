@@ -63,14 +63,22 @@ public class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 0.00198160472;
-        public double lateralInPerTick = 0.0014938409763046226;
-        public double trackWidthTicks = 5939.706298055244;
+        public double inPerTick =
+//                0.0400886987373474; // This is the value calculated by running forward push test. 120 inches traveled/ -2395.75 ticks on 15 jan 2025
+                0.00198160472;
+        public double lateralInPerTick = 0.0012284809085549588;
+//        0.0014938409763046226;
+        public double trackWidthTicks = 6608.001345433271;
+//        7162.462047784944;
+//        5939.706298055244;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.0242035240885112;
-        public double kV = 0.0004125459928024967;
+        public double kS = 0.8981763636843634;
+//                1.0242035240885112;
+        public double kV = 0.00039992007376743265;
+//        0.0004125459928024967;
         public double kA = 0.0001;
+//        0.0001;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -82,11 +90,14 @@ public class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 1;
-        public double lateralGain = 2;
-        public double headingGain = 2; // shared with turn
+        public double axialGain = 2;
+//                1;
+        public double lateralGain = 1;
+//        2;
+        public double headingGain = 1;
+//        2; // shared with turn
 
-        public double axialVelGain = 0.0;
+        public double axialVelGain = 1.0;
         public double lateralVelGain = 0.0;
         public double headingVelGain = 0.0; // shared with turn
     }
@@ -139,9 +150,11 @@ public class MecanumDrive {
             imu = lazyImu.get();
 
             // TODO: reverse encoders if needed
-              // leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-               //leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+               leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+//            rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+//            rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         @Override
@@ -233,15 +246,25 @@ public class MecanumDrive {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+//        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+//        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
         //PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
 
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new DriveLocalizer();
+        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
+//                new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick);
+//                new DriveLocalizer();
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
