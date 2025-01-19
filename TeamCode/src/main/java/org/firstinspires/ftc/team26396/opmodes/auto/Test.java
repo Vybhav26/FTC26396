@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode.teleops;
+package org.firstinspires.ftc.team26396.opmodes.auto;
 
-import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
@@ -51,8 +52,9 @@ public class Test extends LinearOpMode {
             claw = hardwareMap.get(Servo.class, "claw");
         }
 
-        public void closeClaw() {
+        public Action closeClaw() {
             claw.setPosition(0.55); // Adjust to close claw
+            return null;
         }
 
         public void openClaw() {
