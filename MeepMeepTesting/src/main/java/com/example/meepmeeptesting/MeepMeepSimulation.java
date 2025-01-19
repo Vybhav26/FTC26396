@@ -19,18 +19,19 @@ public class MeepMeepSimulation {
                 //BLUE BASKET STARTS HERE
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder
-                                        (new Pose2d(20, 65, Math.toRadians(-90)))
+                                        (new Pose2d(10, 62, Math.toRadians(-90)))
                                         // This is for Blue (Basket Side)
 
 
                         //Path for Blue Basket Drop
-                        .lineToSplineHeading(new Pose2d(37, 37, Math.toRadians(-45)))
-                        .lineToSplineHeading(new Pose2d(53, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(47, 37, Math.toRadians(-45)))
-                        .lineToSplineHeading(new Pose2d(53, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(59, 37, Math.toRadians(-45)))
-                        .lineToSplineHeading(new Pose2d(53, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(25, 25, Math.toRadians(0)))
+                         .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
+                        .lineToSplineHeading(new Pose2d(47, 37, Math.toRadians(-90)))
+                        .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
+                        .lineToSplineHeading(new Pose2d(57, 37, Math.toRadians(-90)))
+                        .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
+                        .lineToSplineHeading(new Pose2d(57, 25, Math.toRadians(0)))
+                        .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
+                        .lineToSplineHeading(new Pose2d(35, 15, Math.toRadians(180)))
 
                         /*
                         This is Blue Basket Drop, but without Spline
