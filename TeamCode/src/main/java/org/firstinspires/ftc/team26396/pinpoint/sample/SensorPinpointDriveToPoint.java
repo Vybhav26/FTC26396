@@ -62,7 +62,7 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
     static final Pose2D TARGET_1 = new Pose2D(DistanceUnit.INCH,48,64,AngleUnit.DEGREES,0);
     static final Pose2D TARGET_2 = new Pose2D(DistanceUnit.INCH, 35, 64, AngleUnit.DEGREES, 0);
     static final Pose2D TARGET_3 = new Pose2D(DistanceUnit.INCH, 35, 24, AngleUnit.DEGREES, 0);
-    static final Pose2D TARGET_4 = new Pose2D(DistanceUnit.INCH, 54.5, 64, AngleUnit.DEGREES, 0);
+    static final Pose2D TARGET_4 = new Pose2D(DistanceUnit.INCH, 54.5, 24, AngleUnit.DEGREES, 0);
     static final Pose2D TARGET_5 = new Pose2D(DistanceUnit.INCH, 54.5, 64, AngleUnit.DEGREES, 0);
     static final Pose2D TARGET_6 = new Pose2D(DistanceUnit.INCH, 59, 64, AngleUnit.DEGREES, 0);
     static final Pose2D TARGET_7 = new Pose2D(DistanceUnit.INCH, 39, 64, AngleUnit.DEGREES, 0);
@@ -126,7 +126,7 @@ public class SensorPinpointDriveToPoint extends LinearOpMode {
         waitForStart();
         resetRuntime();
 
-        Pose2D initialPose = new Pose2D(DistanceUnit.INCH, -0.0, 64.0, AngleUnit.DEGREES, 0);
+        Pose2D initialPose = new Pose2D(DistanceUnit.INCH, 0.0, 64.0, AngleUnit.DEGREES, 0);
 
         odo.setPosition(initialPose);
         odo.update();

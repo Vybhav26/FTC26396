@@ -24,6 +24,7 @@ import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
  * FTC WIRES Autonomous Example for only vision detection using tensorflow and park
  */
 @Autonomous(name = "RR Test")
+@Disabled
 public class RRTEST extends LinearOpMode {
 
     @Override

@@ -19,7 +19,6 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.BasicDriveCode;
 
 @TeleOp(name = "TeleOpBasic", group = "TeleOpFINAL")
-@Disabled
 public class FieldCentricDriveBasic extends LinearOpMode {
 
     // Subsystems
