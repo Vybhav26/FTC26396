@@ -144,7 +144,9 @@ public class DriveToPoint {
             double yPWR = calculatePID(currentPosition, targetPosition, Direction.y);
             double hOutput = calculatePID(currentPosition, targetPosition, Direction.h);
 
-            System.out.println("xPWR : " + xPWR + " yPWR : " + yPWR + " hOutput : " + hOutput);
+            telemetry.addData("xPWR : " + xPWR ,
+                    " yPWR : " + yPWR ,
+                    " hOutput : " + hOutput);
 
             double heading = currentPosition.getHeading(AngleUnit.RADIANS);
             double cosine = Math.cos(heading);
@@ -156,7 +158,7 @@ public class DriveToPoint {
             calculateMecanumOutput(xOutput * power, yOutput * power, hOutput * power);
         }
 
-        System.out.println("inBounds(currentPosition,targetPosition) : " + inBounds(currentPosition,targetPosition));
+        telemetry.addData("inBounds(currentPosition,targetPosition) : " , inBounds(currentPosition,targetPosition));
 
         if(inBounds(currentPosition,targetPosition) == InBounds.IN_BOUNDS){
             atTarget = true;

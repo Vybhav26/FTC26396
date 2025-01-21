@@ -18,7 +18,6 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
-@Disabled
 public class RobotCentricDrive extends LinearOpMode {
 
     // Subsystems
