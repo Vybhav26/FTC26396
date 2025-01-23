@@ -129,7 +129,8 @@ public class RobotCentricDrive extends LinearOpMode {
             // WRIST CONTROL
             wristControl.updateClawPitch(35.0);
             /*
-//  Adjust accordingly
+//  Adjust accordingly - Note that you're normally supposed to make a variable for this,
+// not just directly put in a double
     */
 
 
