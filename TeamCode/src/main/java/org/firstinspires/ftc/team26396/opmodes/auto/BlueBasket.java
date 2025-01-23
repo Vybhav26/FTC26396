@@ -36,7 +36,7 @@ public class BlueBasket extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize the MecanumDrive with the hardware map
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(10, 62, -90.00));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(10, 62, Math.toRadians(-90)));
 
         DcMotorEx linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
@@ -85,25 +85,25 @@ public class BlueBasket extends LinearOpMode {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
                     drive.actionBuilder(new Pose2d(10, 62, Math.toRadians(-90)))
-                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // First drop point
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(47, 37), Math.toRadians(-90)) // Return to collect
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Second drop point
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(57, 37), Math.toRadians(-90)) // Return to collect
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Third drop point
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(57, 25), Math.toRadians(0)) // Return to collect
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Fourth drop point
-//                            .waitSeconds(1)
-//                            .splineTo(new Vector2d(35, 15), Math.toRadians(180)) // Park
-//                            .waitSeconds(1)
-                            .build()
 
-                            //Change t to 0.5 if needed
+
+                             .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // First drop point
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(47, 37), Math.toRadians(-90)) // Return to collect
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Second drop point
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(57, 37), Math.toRadians(-90)) // Return to collect
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Third drop point
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(57, 25), Math.toRadians(0)) // Return to collect
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Fourth drop point
+                            .waitSeconds(0.5)
+                            .splineTo(new Vector2d(35, 15), Math.toRadians(180)) // Park
+                            .waitSeconds(0.5)
+                            .build()
             );
         }
     }

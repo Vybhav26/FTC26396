@@ -14,17 +14,21 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 //import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
+//import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawPitch;
+
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
+@Disabled
 public class RobotCentricDrive extends LinearOpMode {
 
     // Subsystems
     private PresetArmCode armControl;
     private ClawCode clawControl;
-    private WristCode wristControl;
+    private ClawPitch wristControl;
     private HangCode hangControl;
+
     DcMotorEx linearSlideMotor;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,8 +37,10 @@ public class RobotCentricDrive extends LinearOpMode {
          linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
-        Servo wristServo = hardwareMap.get(Servo.class, "wrist");
+        CRServo rollServo = hardwareMap.get(CRServo.class, "roll");
+        Servo yawServo = hardwareMap.get(Servo.class, "yaw");
+        Servo pitchServo = hardwareMap.get(Servo.class, "pitch");
+        Servo clawServo = hardwareMap.get(Servo.class, "claw");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
 
@@ -73,8 +79,8 @@ public class RobotCentricDrive extends LinearOpMode {
 
         // Initialize subsystems
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
-        clawControl = new ClawCode(clawServo);
-        wristControl = new WristCode(wristServo);
+        clawControl = new ClawCode(clawServo, rollServo, yawServo);
+        wristControl = new ClawPitch(pitchServo);
         hangControl = new HangCode(HangMotor1, HangMotor2);
         waitForStart();
 
@@ -115,20 +121,17 @@ public class RobotCentricDrive extends LinearOpMode {
              */
 
             // INTAKE CONTROL
-            clawControl.controlClaw(gamepad1);
+            clawControl.controlClaw(gamepad2);
             /*
-            Gamepad1 Trigger:
-            a) Using Left Trigger - pushes claw OUTWARD
-            b) Using Right Trigger - take claw IN
+//Re-write controls accordingly
              */
 
             // WRIST CONTROL
-            wristControl.controlWrist(gamepad2.square, gamepad2.circle);
+            wristControl.updateClawPitch(35.0);
             /*
-            Gamepad2 Buttons (PS4 Controller):
-            a) Using Square Button - Bends Wrist to the Left
-            b) Using Circle Trigger - Makes Wrist straight
-             */
+//  Adjust accordingly
+    */
+
 
             // HANG CONTROL
             hangControl.controlHang(gamepad1);
@@ -146,8 +149,8 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("Back Right Power", backRightMotor.getPower());
             telemetry.addData("LinearSlide Motor Power", linearSlideMotor.getPower());
             telemetry.addData("Arm Motor Power", armMotor.getPower());
-            telemetry.addData("Claw Power", clawServo.getPower());
-            telemetry.addData("Wrist Position", wristServo.getPosition());
+//            telemetry.addData("Claw Power", clawServo.getPower());
+  //          telemetry.addData("Wrist Position", wristServo.getPosition());
             telemetry.addData("Linear Slide Encoder", linearSlideMotor.getCurrentPosition());
             telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());
             telemetry.addData("Hang Motor1 Encoder", HangMotor1.getCurrentPosition());
