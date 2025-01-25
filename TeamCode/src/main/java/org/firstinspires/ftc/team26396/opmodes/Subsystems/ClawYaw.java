@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawYaw {
     private Servo clawYawServo;
 
-    private static final double YAW_LEFT = 0.1;   // Face left
-    private static final double YAW_RIGHT = 0.8;  // Face right
+    private static final double YAW_LEFT = 0.0;   // Face left
+    private static final double YAW_RIGHT = 0.6;  // Face right
     private static final double YAW_CENTER = 0.5; // Neutral (forward)
 
     public ClawYaw(Servo clawYawServo) {
@@ -23,6 +23,6 @@ public class ClawYaw {
     }
 
     public void resetYaw() {
-        clawYawServo.setPosition(0.4);
+        clawYawServo.setPosition(0.5);
     }
 }

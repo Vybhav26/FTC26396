@@ -49,7 +49,7 @@ public class ClawCode {
             clawYaw.resetYaw();
         }
 
-        if (gamepad.share) {
+        if (gamepad1.y) {
             clawRoll.rotateNormal();
         }
 
