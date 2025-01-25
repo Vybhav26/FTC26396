@@ -499,13 +499,16 @@ public class BlueObservationZoneAuto extends LinearOpMode {
         // Hang
 
         TrajectoryActionBuilder completeTrajectory = drive.actionBuilder(initialPose)
+                .afterDisp(1, arm.raiseArmForLowerBasket())
+                .afterDisp(1, yaw.moveWristCenter())
+                .afterDisp(1, arm.initializeArm())
                 .lineToX(xDestPositionDropSampleInHand)
                 .afterDisp(1, arm.raiseArmForNetzone())
                 .afterDisp(1, linearSlide.extendArmForward())
                 .afterDisp(1, claw.openClaw())
                 .afterDisp(1, linearSlide.retractArmBackward())
                 .strafeTo(targetVectorPickSample1)
-                .afterDisp(1, linearSlide.extendArmForward())
+//                .afterDisp(1, linearSlide.extendArmForward())
                 .afterDisp(1, claw.closeClaw())
                 .strafeTo(targetVectorDropSample1)
                 .strafeTo(targetVectorPickSample2)

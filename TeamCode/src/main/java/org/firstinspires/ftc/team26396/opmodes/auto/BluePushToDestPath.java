@@ -25,8 +25,8 @@ public class BluePushToDestPath extends LinearOpMode {
         DcMotorEx linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
-        Servo wristServo = hardwareMap.get(Servo.class, "wrist");
+        Servo clawServo = hardwareMap.get(Servo.class, "claw");
+        Servo wristServo = hardwareMap.get(Servo.class, "yaw");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
 

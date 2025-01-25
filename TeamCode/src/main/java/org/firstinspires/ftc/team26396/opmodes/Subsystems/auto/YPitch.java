@@ -22,7 +22,7 @@ public class YPitch {
 
     public YPitch(HardwareMap hardwareMap) {
 
-        pitch = (Servo) hardwareMap.get(DcMotor.class, Constants.HardwareConstants.X_YAW_SERVO);
+        pitch = (Servo) hardwareMap.get(DcMotor.class, Constants.HardwareConstants.PITCH_SERVO);
 
         pitch.setPosition(DOWN_POSITION);
 
