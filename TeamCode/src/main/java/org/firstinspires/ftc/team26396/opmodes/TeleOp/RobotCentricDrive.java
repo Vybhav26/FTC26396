@@ -16,17 +16,15 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 //import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawPitch;
 
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
-@Disabled
+//@Disabled
 public class RobotCentricDrive extends LinearOpMode {
 
     // Subsystems
     private PresetArmCode armControl;
     private ClawCode clawControl;
-    private ClawPitch wristControl;
     private HangCode hangControl;
 
     DcMotorEx linearSlideMotor;
@@ -37,7 +35,7 @@ public class RobotCentricDrive extends LinearOpMode {
          linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo rollServo = hardwareMap.get(CRServo.class, "roll");
+        Servo rollServo = hardwareMap.get(Servo.class, "roll");
         Servo yawServo = hardwareMap.get(Servo.class, "yaw");
         Servo pitchServo = hardwareMap.get(Servo.class, "pitch");
         Servo clawServo = hardwareMap.get(Servo.class, "claw");
@@ -79,8 +77,7 @@ public class RobotCentricDrive extends LinearOpMode {
 
         // Initialize subsystems
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
-        clawControl = new ClawCode(clawServo, rollServo, yawServo);
-        wristControl = new ClawPitch(pitchServo);
+        clawControl = new ClawCode(clawServo, rollServo, yawServo, pitchServo);
         hangControl = new HangCode(HangMotor1, HangMotor2);
         waitForStart();
 
@@ -127,7 +124,6 @@ public class RobotCentricDrive extends LinearOpMode {
              */
 
             // WRIST CONTROL
-            wristControl.updateClawPitch(35.0);
             /*
 //  Adjust accordingly - Note that you're normally supposed to make a variable for this,
 // not just directly put in a double
@@ -150,7 +146,7 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("Back Right Power", backRightMotor.getPower());
             telemetry.addData("LinearSlide Motor Power", linearSlideMotor.getPower());
             telemetry.addData("Arm Motor Power", armMotor.getPower());
-//            telemetry.addData("Claw Power", clawServo.getPower());
+            telemetry.addData("Claw Power", clawServo.getPosition());
   //          telemetry.addData("Wrist Position", wristServo.getPosition());
             telemetry.addData("Linear Slide Encoder", linearSlideMotor.getCurrentPosition());
             telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());

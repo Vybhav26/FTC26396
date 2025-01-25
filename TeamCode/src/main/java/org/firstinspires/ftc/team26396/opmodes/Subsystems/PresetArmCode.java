@@ -12,7 +12,7 @@ public class PresetArmCode {
     private static final double ARM_POWER = 1.0;
 
     // Positions in degrees (as doubles)
-    private static final double INIT_DEGREES = 0.0;
+    private static final double INIT_DEGREES = 5.0;
     private static final double GROUND_DEGREES = 5.0;   // Default position (0 degrees)
     private static final double LOW_DEGREES = 15.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
@@ -24,7 +24,7 @@ public class PresetArmCode {
                     * 5.2 // gear ratio of the 5.2:1 Yellow Jacket gearbox
                     * 5.0 // external gear reduction, a 20T pinion gear driving a 100T hub-mount gear (5:1 reduction)
                     * 1 / 360.0 *2; // we want ticks per degree, not per rotation
-
+//            (((1+(46/17))) * (1+(46/11)))
 
     // Pre-calculated arm positions in encoder ticks based on degrees
     private final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
