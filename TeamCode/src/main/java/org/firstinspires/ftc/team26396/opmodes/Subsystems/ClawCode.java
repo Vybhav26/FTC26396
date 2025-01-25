@@ -49,10 +49,6 @@ public class ClawCode {
             clawYaw.resetYaw();
         }
 
-        if (gamepad1.y) {
-            clawRoll.rotateNormal();
-        }
-
         // Additional controls for pitch can be added as needed.
     }
 
