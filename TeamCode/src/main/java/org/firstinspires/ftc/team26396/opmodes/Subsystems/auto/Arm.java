@@ -21,6 +21,8 @@ public class Arm {
     private static final double GROUND_DEGREES = 10.0;   // Default position (0 degrees)
 
     private static final double MIN_DEGREES_FOR_WRIST = 28.0;
+
+    private static final double DEGREES_FOR_SPECIMEN_ON_WALL = 25.0;
     private static final double LOW_DEGREES = 12.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
     private static final double MAX_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
@@ -41,6 +43,8 @@ public class Arm {
     private final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
+
+    private final double DEGREES_FOR_SPECIMEN_ON_WALL_TICKS = DEGREES_FOR_SPECIMEN_ON_WALL * ARM_TICKS_PER_DEGREE;
 
     // Fudge factor for fine control of arm adjustments
     //Larger FudgeFactor = More Jerky Movements
@@ -89,6 +93,10 @@ public class Arm {
 
     public Action raiseArmForSamplePickUpFromFloor() {
         return new RaiseArmForSamplePickupFromFloor();
+    }
+
+    public Action raiseArmForSpecimenPickUpFromWall() {
+        return new RaiseArmForSpecimenFromWall();
     }
 
     private void setArmPosition(double targetPosition) {
@@ -266,6 +274,26 @@ public class Arm {
             // checks lift's current position
 
             return setArmPositionForAction(packet, LOW_POSITION_TICKS, ARM_POWER);
+
+        }
+    }
+
+    public class RaiseArmForSpecimenFromWall implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                armMotor.setPower(ARM_POWER);
+                initialized = true;
+            }
+
+            // checks lift's current position
+
+            return setArmPositionForAction(packet, DEGREES_FOR_SPECIMEN_ON_WALL_TICKS, ARM_POWER);
 
         }
     }
