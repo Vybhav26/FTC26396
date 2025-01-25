@@ -31,11 +31,11 @@ public class RedSampleDrop extends LinearOpMode {
                         .turnTo(Math.toRadians(90))
                         .lineToY(-36)
                         .waitSeconds(.100)
-                        .build()
-                        ));
-                        arm.initializeArm(),
-                        arm.raiseArmForSpecimenPickUpFromWall(),
-                        drive.actionBuilder(new Pose2d(0, -36, 0))
+//                        .build()
+//                        ));
+//                        arm.initializeArm(),
+//                        arm.raiseArmForSpecimenPickUpFromWall(),
+//                        drive.actionBuilder(new Pose2d(0, -36, 0))
                         .turnTo(Math.toRadians(0))
                         .waitSeconds(.100)
                         .lineToX(38)
@@ -56,17 +56,17 @@ public class RedSampleDrop extends LinearOpMode {
                         .strafeTo(new Vector2d(54, -52))
                         .waitSeconds(.100)
                         .turnTo(Math.toRadians(270))
-                        .build(),
-                        arm.initializeArm(),
-                        arm.raiseArmForSpecimenPickUpFromWall(),
-                        drive.actionBuilder(new Pose2d(54, -52, 0))
+//                        .build(),
+                        //arm.initializeArm(),
+                        //arm.raiseArmForSpecimenPickUpFromWall(),
+//                        drive.actionBuilder(new Pose2d(54, -52, 0))
                         .turnTo(Math.toRadians(90))
                         .lineToY(-40)
                         .waitSeconds(.100)
                         .turnTo(Math.toRadians(180))
                         .lineToX(2)
                         .turnTo(Math.toRadians(90))
-                                .build()
+                                .build()));
 
 
 
