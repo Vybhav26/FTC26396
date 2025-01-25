@@ -33,6 +33,14 @@ public final class Constants {
         public static String ARM_MOTOR_NAME  = "liftMotor";
         public static String LINEAR_SLIDE_MOTOR_NAME  = "armMotor";
 
+        public static String ROLL_SERVO = "roll";
+
+        public static String X_YAW_SERVO = "yaw";
+
+        public static String PITCH_SERVO = "pitch";
+
+        public static String CLAW_SERVO = "claw";
+
     }
 
     public static class ConfigurationConstants {
