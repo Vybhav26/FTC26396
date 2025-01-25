@@ -21,8 +21,8 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor backLeftMotor;
     private DcMotor backRightMotor;
     private DcMotor armMotor;
-    private Servo wrist;
-    private CRServo intake;
+  //  private Servo wrist;
+   // private CRServo intake;
 
 
     // Define constants for wrist servo positions
@@ -54,7 +54,7 @@ public class BlueLeft extends LinearOpMode {
 
 
     // Constants
-    private static final double POWER = 0.5; // Motor power
+    private static final double POWER = 0.3; // Motor power
     private static double INCHES_PER_SEC = 2.25;
 
     //left power = 0 moves left, right power = 0 moves right
@@ -65,9 +65,9 @@ public class BlueLeft extends LinearOpMode {
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
-        wrist = hardwareMap.get(Servo.class, "wrist");
+//        wrist = hardwareMap.get(Servo.class, "wrist");
         armMotor = hardwareMap.dcMotor.get("armMotor");
-        intake = hardwareMap.get(CRServo.class, "intake");
+        //intake = hardwareMap.get(CRServo.class, "intake");
 
 
 
@@ -76,11 +76,11 @@ public class BlueLeft extends LinearOpMode {
         // Set motor directions (reverse right motors for proper movement)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        wrist.setPosition(WRIST_COLLECT);
+        //wrist.setPosition(WRIST_COLLECT);
 
         // Wait for the game to start
         waitForStart();
-        wrist.setPosition(WRIST_HOME);
+        //wrist.setPosition(WRIST_HOME);
         setArmPosition(GROUND_POSITION_TICKS);
 
         // Move forward for a specified time
@@ -92,7 +92,7 @@ public class BlueLeft extends LinearOpMode {
         // Sleep for the determined time to move forward 10 inches
         sleep(4440);
 
-        intake.setPower(-1.0);
+        //intake.setPower(-1.0);
         sleep(1500);
 
         // Stop all motion

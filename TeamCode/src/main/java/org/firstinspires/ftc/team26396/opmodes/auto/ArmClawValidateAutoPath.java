@@ -47,9 +47,9 @@ public class ArmClawValidateAutoPath extends LinearOpMode {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
                     new SequentialAction(
-                            arm.initializeArm(),
+//                            arm.initializeArm(),
 //                            waitTrajectory.build(),
-                            arm.raiseArmForWristControl(),
+                            arm.raiseArmForLowerBasket(),
 //                            linearSlide.initLinearSlide(),
 //                            linearSlide.extendArmForward(),
 //                            arm.raiseArmForNetzone(),

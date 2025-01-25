@@ -22,7 +22,7 @@ public class XYaw {
 
     public XYaw(HardwareMap hardwareMap) {
 
-        yaw = (Servo) hardwareMap.get(DcMotor.class, Constants.HardwareConstants.X_YAW_SERVO);
+        yaw = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.X_YAW_SERVO);
 
         yaw.setPosition(RIGHT_POSITION);
 
