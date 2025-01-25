@@ -20,6 +20,25 @@ public final class Constants {
         public static final String APRIL_TAG_LOG_FILE_PATH = SD_CARD_PATH + "AprilTagLogs/";
     }
 
+    public static class HardwareConstants {
+
+        public static String FRONT_LEFT_DRIVE_MOTOR_NAME  = "frontLeftMotor";
+        public static String FRONT_RIGHT_DRIVE_MOTOR_NAME = "frontRightMotor";
+        public static String BACK_LEFT_DRIVE_MOTOR_NAME   = "backLeftMotor";
+        public static String BACK_RIGHT_DRIVE_MOTOR_NAME  = "backRightMotor";
+
+        public static String IMU_NAME  = "imu";
+        public static String HANG_MOTOR_LEFT  = "HM1";
+        public static String HANG_MOTOR_RIGHT  = "HM2";
+        public static String ARM_MOTOR_NAME  = "liftMotor";
+        public static String LINEAR_SLIDE_MOTOR_NAME  = "armMotor";
+
+    }
+
+    public static class ConfigurationConstants {
+        public static boolean USE_VISION  = true;
+    }
+
     public static class DrivebaseConstants {
         public static String FRONT_LEFT_DRIVE_MOTOR_NAME  = "frontLeftDriveMotor";
         public static String FRONT_RIGHT_DRIVE_MOTOR_NAME = "frontRightDriveMotor";
