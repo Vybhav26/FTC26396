@@ -23,6 +23,6 @@ public class ClawYaw {
     }
 
     public void resetYaw() {
-        clawYawServo.setPosition(YAW_CENTER);
+        clawYawServo.setPosition(0.4);
     }
 }

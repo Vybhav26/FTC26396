@@ -11,7 +11,7 @@ public class ClawCode {
     private ClawRoll clawRoll;
 
     private static final double CLAW_OPEN_POSITION = 0.8;   // Fully open
-    private static final double CLAW_CLOSED_POSITION = 0.1; // Fully closed
+    private static final double CLAW_CLOSED_POSITION = 0.5; // Fully closed
     private static final double CLAW_NEUTRAL_POSITION = 0.5; // Neutral (half-open)
 
     public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, Servo clawYawServo, Servo clawPitchServo) {
@@ -25,17 +25,25 @@ public class ClawCode {
     public void controlClaw(Gamepad gamepad) {
 
 
-        if (gamepad.cross) {
+        if (gamepad.left_bumper) {
             clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);
-        } else if (gamepad.circle) {
+        } else if (gamepad.right_bumper) {
             clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);
         } else if (gamepad.share) {
             clawOpenCloseServo.setPosition(CLAW_NEUTRAL_POSITION);
         }
 
-        if (gamepad.left_bumper) {
+        if (gamepad.triangle) {
+            clawPitch.setPickupPosition();
+        } else if (gamepad.cross) {
+            clawPitch.setNeutralPosition();
+        } else if (gamepad.share) {
+            clawPitch.setNeutralPosition();
+        }
+
+        if (gamepad.square) {
             clawYaw.pointLeft();
-        } else if (gamepad.right_bumper) {
+        } else if (gamepad.circle) {
             clawYaw.pointRight();
         } else if (gamepad.share) {
             clawYaw.resetYaw();

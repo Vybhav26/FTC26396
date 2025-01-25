@@ -147,7 +147,9 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("LinearSlide Motor Power", linearSlideMotor.getPower());
             telemetry.addData("Arm Motor Power", armMotor.getPower());
             telemetry.addData("Claw Power", clawServo.getPosition());
-  //          telemetry.addData("Wrist Position", wristServo.getPosition());
+            telemetry.addData("Pitch Position", pitchServo.getPosition());
+            telemetry.addData("Yaw Position", yawServo.getPosition());
+
             telemetry.addData("Linear Slide Encoder", linearSlideMotor.getCurrentPosition());
             telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());
             telemetry.addData("Hang Motor1 Encoder", HangMotor1.getCurrentPosition());
