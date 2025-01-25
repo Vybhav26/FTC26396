@@ -23,7 +23,7 @@ public class Claw {
 
     public Claw(HardwareMap hardwareMap) {
 
-        claw = (Servo) hardwareMap.get(DcMotor.class, Constants.HardwareConstants.CLAW_SERVO);
+        claw = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.CLAW_SERVO);
 
         claw.setPosition(0);
 

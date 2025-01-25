@@ -19,6 +19,8 @@ public class ClawCode {
         this.clawPitch = new ClawPitch(clawPitchServo);
         this.clawYaw = new ClawYaw(clawYawServo);
         this.clawRoll = new ClawRoll(clawRotationServo);
+        clawRoll.rotateNormal();
+
         resetClaw();
     }
 
@@ -27,8 +29,10 @@ public class ClawCode {
 
         if (gamepad.left_bumper) {
             clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);
+            clawRoll.rotateNormal();
         } else if (gamepad.right_bumper) {
             clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);
+            clawRoll.rotateNormal();
         } else if (gamepad.share) {
             clawOpenCloseServo.setPosition(CLAW_NEUTRAL_POSITION);
         }
@@ -48,6 +52,7 @@ public class ClawCode {
         } else if (gamepad.share) {
             clawYaw.resetYaw();
         }
+
 
         // Additional controls for pitch can be added as needed.
     }

@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Autonomous(name="BlueRight", group="Simple")
-@Disabled
 public class BlueRight extends LinearOpMode {
 
     private static double ARM_POWER = 0.8;

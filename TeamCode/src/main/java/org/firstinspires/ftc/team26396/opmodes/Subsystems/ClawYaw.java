@@ -6,7 +6,7 @@ public class ClawYaw {
     private Servo clawYawServo;
 
     private static final double YAW_LEFT = 0.0;   // Face left
-    private static final double YAW_RIGHT = 0.6;  // Face right
+    private static final double YAW_RIGHT = 0.5;  // Face right
     private static final double YAW_CENTER = 0.5; // Neutral (forward)
 
     public ClawYaw(Servo clawYawServo) {

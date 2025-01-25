@@ -12,8 +12,8 @@ public class PresetArmCode {
     private static final double ARM_POWER = 1.0;
 
     // Positions in degrees (as doubles)
-    private static final double INIT_DEGREES = 5.0;
-    private static final double GROUND_DEGREES = 2.0;   // Default position (0 degrees)
+    private static final double INIT_DEGREES = 14.0;
+    private static final double GROUND_DEGREES = 12.0;   // Default position (0 degrees)
     private static final double LOW_DEGREES = 15.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
     private static final double MAX_DEGREES = 90.0;     // Position to place into an high basket (70 degrees)
