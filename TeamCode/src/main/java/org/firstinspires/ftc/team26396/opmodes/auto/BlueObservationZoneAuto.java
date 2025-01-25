@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -10,7 +11,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Arm;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Claw;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.LinearSlide;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name = "Blue Observation Zone Auto", group = "Jan Final")
@@ -21,6 +25,9 @@ public class BlueObservationZoneAuto extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-24, 60, Math.toRadians(-90)));
         Arm arm = new Arm(hardwareMap);
         LinearSlide linearSlide = new LinearSlide(hardwareMap);
+        Claw claw = new Claw(hardwareMap);
+        XYaw yaw = new XYaw(hardwareMap);
+        YPitch pitch = new YPitch(hardwareMap);
 
         /** Overall Steps **/
         // Initial pose near observation area facing the submersible
@@ -491,28 +498,69 @@ public class BlueObservationZoneAuto extends LinearOpMode {
         /** Action 16 **/
         // Hang
 
+        TrajectoryActionBuilder completeTrajectory = drive.actionBuilder(initialPose)
+                .lineToX(xDestPositionDropSampleInHand)
+                .afterDisp(1, arm.raiseArmForNetzone())
+                .afterDisp(1, linearSlide.extendArmForward())
+                .afterDisp(1, claw.openClaw())
+                .afterDisp(1, linearSlide.retractArmBackward())
+                .strafeTo(targetVectorPickSample1)
+                .afterDisp(1, linearSlide.extendArmForward())
+                .afterDisp(1, claw.closeClaw())
+                .strafeTo(targetVectorDropSample1)
+                .strafeTo(targetVectorPickSample2)
+                .strafeTo(targetVectorDropSample2)
+                .turnTo(turnAngleDestPositionDropSample2)
+                .strafeTo(targetVectorPickSample3)
+                .turnTo(headingDestPositionPickSample3)
+                .strafeTo(targetVectorDropSample3)
+                .turnTo(turnAngleDestPositionDropSample3)
+                .turnTo(turnAngleDestPositionHangSpecimen1)
+                .lineToX(xDestPositionHangSpecimen1)
+                .turnTo(headingDestPositionHangSpecimen1)
+                .turnTo(headingDestPositionPickSpecimen2)
+                .lineToX(xDestPositionPickSpecimen2)
+                .turnTo(turnAngleDestPositionHangSpecimen2)
+                .lineToX(xDestPositionHangSpecimen2)
+                .turnTo(headingDestPositionHangSpecimen2)
+                .turnTo(headingDestPositionPickSpecimen3)
+                .lineToX(xDestPositionPickSpecimen3)
+                .turnTo(turnAngleDestPositionHangSpecimen3)
+                .lineToX(xDestPositionHangSpecimen3)
+                .turnTo(headingDestPositionHangSpecimen3)
+                .turnTo(headingDestPositionPickSpecimen4)
+                .lineToX(xDestPositionPickSpecimen4)
+                .turnTo(turnAngleDestPositionHangSpecimen4)
+                .lineToX(xDestPositionHangSpecimen4)
+                .turnTo(headingDestPositionHangSpecimen4)
+                .strafeTo(target1VectorHangRobot)
+                .turnTo(headingDestPositionHangRobot)
+                .strafeTo(targetVectorHangRobot);
+
         if (isStopRequested()) return;
 
         while (!isStopRequested() && !opModeIsActive()) {
             // Define the trajectory for the Blue Basket sequence with waits
-            Actions.runBlocking(new SequentialAction(
-                            initToObservationZone.build(),
-                            obsAreaToPickSample1.build(),
-                            sample1PickToDropSample1.build(),
-                            obsAreaToPickSample2.build(),
-                            sample2PickToDropSample2.build(),
-                            obsAreaToPickSample3.build(),
-                            sample3PickToDropSample3.build(),
-                            obsAreaToHangSpecimen1.build(),
-                            hangAreaToPickSpecimen2.build(),
-                            obsAreaToHangSpecimen2.build(),
-                            hangAreaToPickSpecimen3.build(),
-                            obsAreaToHangSpecimen3.build(),
-                            hangAreaToPickSpecimen4.build(),
-                            obsAreaToHangSpecimen4.build(),
-                            obsAreaToHangRobot.build()
-                    )
-            );
+//            Actions.runBlocking(new SequentialAction(
+//                            initToObservationZone.build(),
+//                            obsAreaToPickSample1.build(),
+//                            sample1PickToDropSample1.build(),
+//                            obsAreaToPickSample2.build(),
+//                            sample2PickToDropSample2.build(),
+//                            obsAreaToPickSample3.build(),
+//                            sample3PickToDropSample3.build(),
+//                            obsAreaToHangSpecimen1.build(),
+//                            hangAreaToPickSpecimen2.build(),
+//                            obsAreaToHangSpecimen2.build(),
+//                            hangAreaToPickSpecimen3.build(),
+//                            obsAreaToHangSpecimen3.build(),
+//                            hangAreaToPickSpecimen4.build(),
+//                            obsAreaToHangSpecimen4.build(),
+//                            obsAreaToHangRobot.build()
+//                    )
+//            );
+
+            Actions.runBlocking(new SequentialAction(completeTrajectory.build()));
         }
     }
 }
