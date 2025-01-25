@@ -498,24 +498,75 @@ public class BlueObservationZoneTestPath {
                 .start();
 
         // Define the trajectory for the Blue Basket sequence with waits
-        myBot.runAction(new SequentialAction(
-            initToObservationZone.build(),
-            obsAreaToPickSample1.build(),
-            sample1PickToDropSample1.build(),
-            obsAreaToPickSample2.build(),
-            sample2PickToDropSample2.build(),
-            obsAreaToPickSample3.build(),
-            sample3PickToDropSample3.build(),
-            obsAreaToHangSpecimen1.build(),
-            hangAreaToPickSpecimen2.build(),
-            obsAreaToHangSpecimen2.build(),
-            hangAreaToPickSpecimen3.build(),
-                obsAreaToHangSpecimen3.build(),
-                hangAreaToPickSpecimen4.build(),
-                obsAreaToHangSpecimen4.build(),
-                obsAreaToHangRobot.build()
-        ));
+//        myBot.runAction(new SequentialAction(
+//            initToObservationZone.build(),
+//            obsAreaToPickSample1.build(),
+//            sample1PickToDropSample1.build(),
+//            obsAreaToPickSample2.build(),
+//            sample2PickToDropSample2.build(),
+//            obsAreaToPickSample3.build(),
+//            sample3PickToDropSample3.build(),
+//            obsAreaToHangSpecimen1.build(),
+//            hangAreaToPickSpecimen2.build(),
+//            obsAreaToHangSpecimen2.build(),
+//            hangAreaToPickSpecimen3.build(),
+//                obsAreaToHangSpecimen3.build(),
+//                hangAreaToPickSpecimen4.build(),
+//                obsAreaToHangSpecimen4.build(),
+//                obsAreaToHangRobot.build()
+//        ));
 
+                myBot.runAction(new SequentialAction(
+                        drive.actionBuilder(initialPose)
+                                .strafeTo(new Vector2d(-48, 48))
+                                .turnTo(Math.toRadians(-90))
+                                .lineToY(44)
+                                // Claw function pickup
+                                .turn(Math.toRadians(180.0))
+                                // Claw function drop
+                                .strafeToLinearHeading(new Vector2d(-55, 48), Math.toRadians(-90))
+                                .strafeToConstantHeading(new Vector2d(-55, 44))
+                                .turnTo(Math.toRadians(90))
+//                                .strafeToLinearHeading(new Vector2d(-55, 48), Math.toRadians(-90))
+//                                .turnTo(Math.toRadians(-135.0))
+//                        .lineToX(xDestPositionDropSampleInHand)
+//                        .afterDisp(1, arm.raiseArmForNetzone())
+//                        .afterDisp(1, linearSlide.extendArmForward())
+//                        .afterDisp(1, claw.openClaw())
+//                        .afterDisp(1, linearSlide.retractArmBackward())
+//                        .strafeTo(targetVectorPickSample1)
+//                        .afterDisp(1, linearSlide.extendArmForward())
+//                        .afterDisp(1, claw.closeClaw())
+//                        .strafeTo(targetVectorDropSample1)
+//                        .strafeTo(targetVectorPickSample2)
+//                        .strafeTo(targetVectorDropSample2)
+//                        .turnTo(turnAngleDestPositionDropSample2)
+//                        .strafeTo(targetVectorPickSample3)
+//                        .turnTo(headingDestPositionPickSample3)
+//                        .strafeTo(targetVectorDropSample3)
+//                        .turnTo(turnAngleDestPositionDropSample3)
+//                        .turnTo(turnAngleDestPositionHangSpecimen1)
+//                        .lineToX(xDestPositionHangSpecimen1)
+//                        .turnTo(headingDestPositionHangSpecimen1)
+//                        .turnTo(headingDestPositionPickSpecimen2)
+//                        .lineToX(xDestPositionPickSpecimen2)
+//                        .turnTo(turnAngleDestPositionHangSpecimen2)
+//                        .lineToX(xDestPositionHangSpecimen2)
+//                        .turnTo(headingDestPositionHangSpecimen2)
+//                        .turnTo(headingDestPositionPickSpecimen3)
+//                        .lineToX(xDestPositionPickSpecimen3)
+//                        .turnTo(turnAngleDestPositionHangSpecimen3)
+//                        .lineToX(xDestPositionHangSpecimen3)
+//                        .turnTo(headingDestPositionHangSpecimen3)
+//                        .turnTo(headingDestPositionPickSpecimen4)
+//                        .lineToX(xDestPositionPickSpecimen4)
+//                        .turnTo(turnAngleDestPositionHangSpecimen4)
+//                        .lineToX(xDestPositionHangSpecimen4)
+//                        .turnTo(headingDestPositionHangSpecimen4)
+//                        .strafeTo(target1VectorHangRobot)
+//                        .turnTo(headingDestPositionHangRobot)
+//                        .strafeTo(targetVectorHangRobot)
+                        .build()));
    }
 
 }
