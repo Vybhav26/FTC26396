@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,7 +21,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name = "BluePushToDestPath")
-public class BluePushToDestPath extends LinearOpMode {
+public class BluePushToNetZone extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize the MecanumDrive with the hardware map
@@ -35,54 +35,30 @@ public class BluePushToDestPath extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        // Wait for the start signal
         waitForStart();
 
         if (opModeIsActive()) {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
-                    drive.actionBuilder(new Pose2d(-24, 60, Math.toRadians(-90)))
-//                .strafeTo(new Vector2d(-36,12))
+                    new SequentialAction(drive.actionBuilder(
+                                    new Pose2d(24, 60, Math.toRadians(-90)))
                             .waitSeconds(1)
-                            .splineTo(new Vector2d(-40, 12), -90)
+                            .splineToLinearHeading(new Pose2d(46, 12, Math.toRadians(-90)), 0)
                             .waitSeconds(1)
-//                .lineToY(20)
-                            .turnTo(Math.toRadians(-180))
+                            .strafeTo(new Vector2d(48, 48))
+                            .turnTo(Math.toRadians(-135))
                             .waitSeconds(1)
-                            .lineToX(-46)
+                            .strafeTo(new Vector2d(54, 54))
                             .waitSeconds(1)
-                            .turnTo(Math.toRadians(-180))
+                            .splineToLinearHeading(new Pose2d(54, 12, Math.toRadians(-90)), 0)
                             .waitSeconds(1)
-                            .strafeTo(new Vector2d(-48,50))
+                            .strafeTo(new Vector2d(54, 54))
+                            .turnTo(Math.toRadians(-135))
                             .waitSeconds(1)
-                            .strafeTo(new Vector2d(-46, 12))
-                            .waitSeconds(1)
-                            .lineToX(-54)
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-56,50))
-                            .waitSeconds(1)
-                            .lineToX(-54)
-                            .waitSeconds(1)
-                            .turnTo(Math.toRadians(360))
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-54,12))
-                            .waitSeconds(1)
-                            .lineToX(-62)
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-62,48))
-                            .waitSeconds(1)
+                            .splineToLinearHeading(new Pose2d(60, 12, Math.toRadians(-90)), 0)
+                            .strafeTo(new Vector2d(60, 54))
                             .build()
-
-
-//                    new Pose2d(-24, 58, Math.toRadians(-90)))
-//                            .strafeTo(new Vector2d(-36,10))
-//                            .strafeTo(new Vector2d(-48,57))
-////                            .strafeTo(new Vector2d(-47,10))
-////                            .strafeTo(new Vector2d(-60,57))
-////                            .strafeTo(new Vector2d(-55,10))
-////                            .strafeTo(new Vector2d(-61,57))
-//                            .build()
-            );
+            ));
         }
     }
 }
