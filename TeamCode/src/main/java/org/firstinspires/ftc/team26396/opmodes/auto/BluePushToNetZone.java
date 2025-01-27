@@ -20,7 +20,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-@Autonomous(name = "BluePushToDestPath")
+@Autonomous(name = "BluePushToNetPath")
 public class BluePushToNetZone extends LinearOpMode {
     @Override
     public void runOpMode() {

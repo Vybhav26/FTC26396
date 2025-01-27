@@ -31,7 +31,7 @@ public class BlueObservationPark extends LinearOpMode {
 
         DcMotorEx linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
-        DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
+        //DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
 //        Servo clawServo = hardwareMap.get(Servo.class, "claw");
         //Servo wristServo = hardwareMap.get(Servo.class, "wrist");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
@@ -81,12 +81,12 @@ public class BlueObservationPark extends LinearOpMode {
             Actions.runBlocking(
 
                     drive.actionBuilder(new Pose2d(-12, 60, Math.toRadians(180)))
-                            .afterDisp(1, arm.raiseArmForLowerBasket())
-                            .waitSeconds(0.5)
-                            .afterDisp(1, yaw.moveWristCenter())
-                            .waitSeconds(0.5)
+                            //.afterDisp(1, arm.raiseArmForLowerBasket())
+                            //.waitSeconds(0.5)
+                            //.afterDisp(1, yaw.moveWristCenter())
+                            //.waitSeconds(0.5)
                             .strafeTo(new Vector2d(-60,60))
-                            .afterDisp(1, arm.deactivaeArm())
+                            //.afterDisp(1, arm.deactivaeArm())
 
 
                             .build()

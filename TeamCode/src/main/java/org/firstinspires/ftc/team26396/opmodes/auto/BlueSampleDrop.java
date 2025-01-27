@@ -11,23 +11,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Arm;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Claw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.LinearSlide;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Arm;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
-import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
-import javax.xml.xpath.XPath;
-
-@Autonomous(name="Red Sample Drop")
-public class RedSampleDrop extends LinearOpMode {
+@Autonomous(name="Blue Sample Drop")
+public class BlueSampleDrop extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0,0
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, -60,0 ));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60,0 ));
         // Define arm positions using the constants from the Arm class
 
         Arm arm = new Arm(hardwareMap);
@@ -38,12 +30,12 @@ public class RedSampleDrop extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        drive.actionBuilder(new Pose2d(0, -60,Math.toRadians(0)))
-//                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
-//                                .waitSeconds(.100)
-//                                .afterDisp(.5, yaw.moveWristCenter())
+                        drive.actionBuilder(new Pose2d(0, 60,Math.toRadians(0)))
+                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
+                                .waitSeconds(.100)
+                                .afterDisp(.5, yaw.moveWristCenter())
 //                        .waitSeconds(.100)
-                                .strafeTo(new Vector2d(0, -33))
+                                .strafeTo(new Vector2d(0, 33))
                         //.turnTo(Math.toRadians(90))
                         //.lineToY(-36)
                         .waitSeconds(.100)
@@ -53,21 +45,21 @@ public class RedSampleDrop extends LinearOpMode {
 //                        arm.raiseArmForSpecimenPickUpFromWall(),
 //                        drive.actionBuilder(new Pose2d(0, -36, 0))
                         //.turnTo(Math.toRadians(0))
-                        .lineToX(20)
-                        .turnTo(Math.toRadians(90))
-                        .lineToY(-6)
+                        .lineToX(-36)
+                        .turnTo(Math.toRadians(-90))
+                        .lineToY(6)
                         .waitSeconds(.100)
-                        .strafeTo(new Vector2d(36, -6))
+                        .strafeTo(new Vector2d(-48, 6))
                         .waitSeconds(.100)
-                        .lineToY(-58)
-                        .lineToY(-6)
-                        .strafeTo(new Vector2d(42, -6))
+                        .lineToY(58)
+                        .lineToY(6)
+                        .strafeTo(new Vector2d(-56, 6))
                         .waitSeconds(.100)
-                        .lineToY(-58)
-                        .lineToY(-6)
-                        .strafeTo(new Vector2d(60, -6))
+                        .lineToY(58)
+                        .lineToY(6)
+                        .strafeTo(new Vector2d(-60, 6))
                         .waitSeconds(.100)
-                        .lineToY(-58)
+                        .lineToY(58)
                        // .strafeTo(new Vector2d(57, -52))
                         //.waitSeconds(.100)
                         //.turnTo(Math.toRadians(270))

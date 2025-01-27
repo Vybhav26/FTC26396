@@ -76,15 +76,12 @@ public class BlueBasketPark extends LinearOpMode {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
                     drive.actionBuilder(new Pose2d(12, 60, Math.toRadians(-90)))
-                            .afterDisp(1, arm.raiseArmForLowerBasket())
-                            .waitSeconds(0.5)
-                            .afterDisp(1, yaw.moveWristCenter())
-                            .waitSeconds(0.5)
+//                            .afterDisp(1, arm.raiseArmForLowerBasket())
+//                            .waitSeconds(0.5)
+//                            .afterDisp(1, yaw.moveWristCenter())
+//                            .waitSeconds(0.5)
                             .strafeTo(new Vector2d(60,60))
-                            .afterDisp(1, arm.deactivaeArm())
-
-
-
+                           // .afterDisp(1, arm.deactivaeArm())
                             .build()
             );
         }

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 //import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
-
+;
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
 //@Disabled
 public class RobotCentricDrive extends LinearOpMode {
@@ -91,7 +91,11 @@ public class RobotCentricDrive extends LinearOpMode {
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 2);
+            double speed = 2;
+            if(gamepad1.left_trigger >0.1){
+                speed = 1.5;
+            }
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), speed);
             double frontLeftPower = (y + x + rx) / denominator;
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;
@@ -118,7 +122,8 @@ public class RobotCentricDrive extends LinearOpMode {
              */
 
             // INTAKE CONTROL
-            clawControl.controlClaw(gamepad2);
+            clawControl.controlClawPS4(gamepad2);
+            clawControl.controlClawLogitech(gamepad1);
             /*
 //Re-write controls accordingly
              */
