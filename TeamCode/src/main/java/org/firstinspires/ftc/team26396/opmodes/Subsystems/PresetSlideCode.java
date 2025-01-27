@@ -11,8 +11,8 @@ public class PresetSlideCode {
     final double SLIDE_TICKS_PER_DEGREE =
             145.1 * 5.2 * 5.0 * (1 / 360.0 * 2); // Encoder ticks per degree calculation
 
-    final double MAX_POSITION = (180 * SLIDE_TICKS_PER_DEGREE); // Max position in encoder ticks
-    final double MID_POSITION = (90 * SLIDE_TICKS_PER_DEGREE); // Mid position in encoder ticks
+    final double MAX_POSITION = (10 * SLIDE_TICKS_PER_DEGREE); // Max position in encoder ticks
+    final double MID_POSITION = (5 * SLIDE_TICKS_PER_DEGREE); // Mid position in encoder ticks
     final double MIN_POSITION = 0.0; // Min position in encoder ticks
     final double LINEAR_SLIDE_POWER = 0.5; // Power applied to the linear slide motor
 
