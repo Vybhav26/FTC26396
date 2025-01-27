@@ -11,9 +11,9 @@ public class PresetSlideCode {
     final double SLIDE_TICKS_PER_DEGREE =
             145.1 * 5.2 * 5.0 * (1 / 360.0 * 2); // Encoder ticks per degree calculation
 
-    final int MAX_POSITION = (int)(180 * SLIDE_TICKS_PER_DEGREE); // Max position in encoder ticks
-    final int MID_POSITION = (int)(90 * SLIDE_TICKS_PER_DEGREE); // Mid position in encoder ticks
-    final int MIN_POSITION = 0; // Min position in encoder ticks
+    final double MAX_POSITION = (180 * SLIDE_TICKS_PER_DEGREE); // Max position in encoder ticks
+    final double MID_POSITION = (90 * SLIDE_TICKS_PER_DEGREE); // Mid position in encoder ticks
+    final double MIN_POSITION = 0.0; // Min position in encoder ticks
     final double LINEAR_SLIDE_POWER = 0.5; // Power applied to the linear slide motor
 
     private DcMotor linearSlideMotor; // Declare the linear slide motor
@@ -96,7 +96,7 @@ public class PresetSlideCode {
     }
 
     // Method to set the current position of the linear slide motor
-    public void setCurrentPosition(int position) {
+    public void setCurrentPosition(double position) {
         // Ensure the position is within the allowed range
         if (position < MIN_POSITION) {
             position = MIN_POSITION;  // Set to minimum if out of range
@@ -110,7 +110,7 @@ public class PresetSlideCode {
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);  // Switch back to running with encoder
 
         // Set the target position (the motor will move to this target position)
-        linearSlideMotor.setTargetPosition(position);
+        linearSlideMotor.setTargetPosition((int)position);
         linearSlideMotor.setPower(LINEAR_SLIDE_POWER);  // Apply power to move to the target position
     }
 }
