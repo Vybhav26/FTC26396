@@ -30,13 +30,15 @@ public class RedBasketPark extends LinearOpMode {
 
         DcMotorEx linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
-        DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
-        Servo wristServo = hardwareMap.get(Servo.class, "wrist");
+        //DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
+        //CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
+        //Servo wristServo = hardwareMap.get(Servo.class, "wrist");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
 
-
+        Arm arm = new Arm(hardwareMap);
+        XYaw yaw = new XYaw(hardwareMap);
+        YPitch pitch = new YPitch(hardwareMap);
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
@@ -65,7 +67,7 @@ public class RedBasketPark extends LinearOpMode {
         // Set zero power behavior
         linearSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         linearSlideMotor.setPositionPIDFCoefficients(10.0);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Wait for the start signal
@@ -76,8 +78,13 @@ public class RedBasketPark extends LinearOpMode {
         if (opModeIsActive()) {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
-                    drive.actionBuilder(new Pose2d(-12, -60, Math.toRadians(90))).
-                            strafeTo(new Vector2d(-60,-60))
+                    drive.actionBuilder(new Pose2d(-12, -60, Math.toRadians(90)))
+//                            .afterDisp(1, arm.raiseArmForLowerBasket())
+//                            .waitSeconds(0.5)
+//                            .afterDisp(1, yaw.moveWristCenter())
+//                            .waitSeconds(0.5)
+                            .strafeTo(new Vector2d(-60,-60))
+                            //.afterDisp(1, arm.deactivaeArm())
 
 
 

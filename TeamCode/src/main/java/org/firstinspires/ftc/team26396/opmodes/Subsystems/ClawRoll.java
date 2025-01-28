@@ -15,16 +15,16 @@ public class ClawRoll {
     }
 
     public void rotateNormal() {
-        if(clawRotationServo != null) {
 
             clawRotationServo.setPosition(ROTATION_POSITION_NORMAL);
-        }
     }
 
+    public void roatateReverse() {
+
+        clawRotationServo.setPosition(ROTATION_POSITION_INIT);
+    }
 
     public void resetRoll() {
-        if(clawRotationServo != null) {
         clawRotationServo.setPosition(ROTATION_POSITION_INIT);
-        }
     }
 }

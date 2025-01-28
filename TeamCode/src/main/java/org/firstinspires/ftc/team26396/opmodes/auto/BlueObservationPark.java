@@ -31,9 +31,9 @@ public class BlueObservationPark extends LinearOpMode {
 
         DcMotorEx linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
-        DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
-        Servo wristServo = hardwareMap.get(Servo.class, "wrist");
+        //DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
+//        Servo clawServo = hardwareMap.get(Servo.class, "claw");
+        //Servo wristServo = hardwareMap.get(Servo.class, "wrist");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
         Arm arm = new Arm(hardwareMap);
@@ -68,7 +68,7 @@ public class BlueObservationPark extends LinearOpMode {
         // Set zero power behavior
         linearSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         linearSlideMotor.setPositionPIDFCoefficients(10.0);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HangMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Wait for the start signal
@@ -81,12 +81,12 @@ public class BlueObservationPark extends LinearOpMode {
             Actions.runBlocking(
 
                     drive.actionBuilder(new Pose2d(-12, 60, Math.toRadians(180)))
-                            .afterDisp(1, arm.raiseArmForLowerBasket())
-                            .waitSeconds(0.5)
-                            .afterDisp(1, yaw.moveWristCenter())
-                            .waitSeconds(0.5)
+                            //.afterDisp(1, arm.raiseArmForLowerBasket())
+                            //.waitSeconds(0.5)
+                            //.afterDisp(1, yaw.moveWristCenter())
+                            //.waitSeconds(0.5)
                             .strafeTo(new Vector2d(-60,60))
-                            .afterDisp(1, arm.deactivaeArm())
+                            //.afterDisp(1, arm.deactivaeArm())
 
 
                             .build()
