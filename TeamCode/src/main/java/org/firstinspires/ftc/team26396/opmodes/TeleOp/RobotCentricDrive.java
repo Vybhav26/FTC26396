@@ -17,7 +17,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 //import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
-;
+
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
 //@Disabled
 public class RobotCentricDrive extends LinearOpMode {
@@ -32,16 +32,15 @@ public class RobotCentricDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare the motors and servos
 //        DcMotorEx linearSlideMotor = hardwareMap.get(DCMotorEx,"armMotor");
-         linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
+         linearSlideMotor = (DcMotorEx) hardwareMap.get(DcMotor.class, "armMotor");
 
-        DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
         Servo rollServo = hardwareMap.get(Servo.class, "roll");
         Servo yawServo = hardwareMap.get(Servo.class, "yaw");
         Servo pitchServo = hardwareMap.get(Servo.class, "pitch");
         Servo clawServo = hardwareMap.get(Servo.class, "claw");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
-
+        DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
 
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
@@ -91,7 +90,7 @@ public class RobotCentricDrive extends LinearOpMode {
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
-            double speed = 2;
+            double speed = 2.5;
             if(gamepad1.left_trigger >0.1){
                 speed = 1.5;
             }
@@ -159,6 +158,27 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("Arm Motor Encoder", armMotor.getCurrentPosition());
             telemetry.addData("Hang Motor1 Encoder", HangMotor1.getCurrentPosition());
             telemetry.addData("Hang Motor2 Encoder", HangMotor2.getCurrentPosition());
+            if (gamepad1.a) {
+                telemetry.addData("Button", "A1 Pressed");
+            }
+            if (gamepad1.b) {
+                telemetry.addData("Button", "B1 Pressed");
+            }
+            if (gamepad1.x) {
+                telemetry.addData("Button", "X1 Pressed");
+            }
+            if (gamepad1.y) {
+                telemetry.addData("Button", "y1 Pressed");
+            }
+            if (gamepad2.right_bumper) {
+                telemetry.addData("Bumper2", "Right Pressed");
+            }
+            if (gamepad2.circle) {
+                telemetry.addData("Button", "Circle2 Pressed");
+            }
+            if (gamepad2.cross) {
+                telemetry.addData("Button", "Cross2 Pressed");
+            }
             telemetry.update();
         }
     }

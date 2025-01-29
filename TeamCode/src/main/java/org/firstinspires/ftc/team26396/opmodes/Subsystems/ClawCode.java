@@ -2,7 +2,7 @@ package org.firstinspires.ftc.team26396.opmodes.Subsystems;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.CRServo;
 
 public class ClawCode {
     private Servo clawOpenCloseServo;
@@ -31,19 +31,27 @@ public class ClawCode {
 
     public void controlClawLogitech(Gamepad logitechGamepad) {
         // Claw control on the Logitech controller (Button A)
-        if (logitechGamepad.a) {
+/*
+       if(logitechGamepad.y){
+           clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);
+       }
+       if(logitechGamepad.x){
+           clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
+
+       }
+*/
+
             // Toggle claw open/close/neutral on the same button
-            if (!isClawOpen) {
+            if (logitechGamepad.y && !isClawOpen) {
                 clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Open claw
                 isClawOpen = true;
-            } else if (isClawOpen && !isClawNeutral()) {
+            } else if (logitechGamepad.y && isClawOpen) {
                 clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
                 isClawOpen = false;
-            } else {
-                clawOpenCloseServo.setPosition(CLAW_NEUTRAL_POSITION);  // Set claw to neutral
-                isClawOpen = false;  // It's now neutral, so reset the flag
             }
-        }
+
+
+
     }
 
     public void controlClawPS4(Gamepad ps4Gamepad) {

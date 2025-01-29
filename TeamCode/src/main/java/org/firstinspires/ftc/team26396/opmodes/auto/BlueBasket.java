@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -41,8 +42,8 @@ public class BlueBasket extends LinearOpMode {
         DcMotorEx linearSlideMotor = (DcMotorEx)hardwareMap.get(DcMotor.class, "armMotor");
 
         DcMotor armMotor = hardwareMap.dcMotor.get("liftMotor");
-        CRServo clawServo = hardwareMap.get(CRServo.class, "claw");
-        Servo wristServo = hardwareMap.get(Servo.class, "wrist");
+        Servo clawServo = hardwareMap.get(Servo.class, "claw");
+      //  Servo wristServo = hardwareMap.get(Servo.class, "wrist");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
         DcMotor HangMotor2 = hardwareMap.dcMotor.get("HM2");
 
@@ -90,8 +91,10 @@ public class BlueBasket extends LinearOpMode {
 
 
                              .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // First drop point
+                            //.clawOpen()
                             .waitSeconds(0.5)
                             .splineTo(new Vector2d(47, 37), Math.toRadians(-90)) // Return to collect
+                            //.clawClose()
                             .waitSeconds(0.5)
                             .splineTo(new Vector2d(52, 57), Math.toRadians(45))  // Second drop point
                             .waitSeconds(0.5)
@@ -108,5 +111,29 @@ public class BlueBasket extends LinearOpMode {
                             .build()
             );
         }
+
+/*
+        public void clawOpen() { clawServo.setPosition(CLAW_OPEN_POSITION);}
+
+        public void clawClose(){    clawServo.setPosition(CLAW_CLOSED_POSITION);}
+
+        public void clawUp(){}
+
+        public void clawDown(){}
+
+        public void clawRotateHorizontal(){}
+
+        public void clawRotateNormal(){}
+
+        public void clawHighBasket() {
+        clawUp();
+        clawOpen();
+
+
+        }
+
+        public void linearSlidePresets
+  */
     }
-}
+
+    }
