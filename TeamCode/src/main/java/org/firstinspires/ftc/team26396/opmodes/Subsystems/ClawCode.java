@@ -29,73 +29,63 @@ public class ClawCode {
         resetClaw(); // Set claw to default neutral state
     }
 
+    private boolean prevYPressed = false;  // Track previous button state
+
     public void controlClawLogitech(Gamepad logitechGamepad) {
-        // Claw control on the Logitech controller (Button A)
+        boolean currentYPressed = logitechGamepad.y;
 
-       if(logitechGamepad.y){
-           clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);
-       }
-       if(logitechGamepad.x){
-           clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
+        // Toggle claw only when Y is pressed and was not pressed in the previous cycle
+        if (currentYPressed && !prevYPressed) {
+            if (!isClawOpen) {
+                clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Open claw
+            } else {
+                clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
+            }
+            isClawOpen = !isClawOpen;  // Toggle state
+        }
 
-       }
-
-
-            // Toggle claw open/close/neutral on the same button
-//            if (logitechGamepad.y && !isClawOpen) {
-//                clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Open claw
-//                isClawOpen = true;
-//            } else if (logitechGamepad.y && isClawOpen) {
-//                clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
-//                isClawOpen = false;
-//            }
-
-
-
+        prevYPressed = currentYPressed;  // Update previous state
     }
 
+
+    private boolean prevCirclePressed = false;  // Track previous button state
+    private boolean prevBumperPressed = false;
     public void controlClawPS4(Gamepad ps4Gamepad) {
+        boolean currentCirclePressed = ps4Gamepad.circle;
+        boolean currentBumperPressed = ps4Gamepad.right_bumper;
 
-        // Pitch control on PS4 controller - Toggle between pickup/neutral positions
-        if (ps4Gamepad.circle) {
+        // Toggle claw only when Circle is pressed and was not pressed in the previous cycle
+        if (currentCirclePressed && !prevCirclePressed) {
             if (!isPitchPickup) {
-                clawPitch.setPickupPosition();  // Set pitch to pickup position
-                isPitchPickup = true;
+                clawPitch.setNeutralPosition();
             } else {
-                clawPitch.setNeutralPosition();  // Set pitch to neutral position
-                isPitchPickup = false;
+                clawPitch.setPickupPosition();
             }
+            isPitchPickup = !isPitchPickup;  // Toggle state
         }
 
-        // Roll control on PS4 controller - Toggle between normal/reverse
-        if (ps4Gamepad.right_bumper) {
-            if (isRollNormal) {
-                clawRoll.resetRoll();  // Reverse claw roll
-                isRollNormal = false;
-            } else {
-                clawRoll.rotateNormal();  // Normal claw roll
-                isRollNormal = true;
-            }
+        prevCirclePressed = currentCirclePressed;  // Update previous state
+
+    if(currentBumperPressed && !prevBumperPressed){
+        if(!isRollNormal){
+            clawRoll.resetRoll();  // Reverse claw roll
+
+        }else{
+            clawRoll.rotateNormal();  // Normal claw roll
         }
-
-//        // Yaw control on PS4 controller
-//        if (ps4Gamepad.square) {
-//            if (!isYawLeft) {
-//                clawYaw.pointLeft();  // Rotate yaw left
-//                isYawLeft = true;
-//            }
-//        } else if (ps4Gamepad.circle) {
-//            if (isYawLeft) {
-//                clawYaw.pointRight();  // Rotate yaw right
-//                isYawLeft = false;
-//            }
-//        }
-
+        isRollNormal = !isRollNormal;
+    }
+        prevBumperPressed = currentBumperPressed;
         // Reset all positions using the "Share" button
         if (ps4Gamepad.cross) {
             resetClaw();  // Reset claw, pitch, yaw, and roll to neutral
         }
+
     }
+
+
+
+
 
     public void resetClaw() {
         clawOpenCloseServo.setPosition(CLAW_NEUTRAL_POSITION);  // Set claw to neutral
