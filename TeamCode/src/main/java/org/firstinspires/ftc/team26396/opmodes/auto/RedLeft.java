@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Autonomous(name="BlueRight RedLeft", group="Simple")
+@Disabled
 public class RedLeft extends LinearOpMode {
 
     // Declare motor variables

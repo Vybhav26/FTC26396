@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name = "Roadrunner Basic Auto")
+@Disabled
 public class RoadRunner_Test extends LinearOpMode {
 
     @Override

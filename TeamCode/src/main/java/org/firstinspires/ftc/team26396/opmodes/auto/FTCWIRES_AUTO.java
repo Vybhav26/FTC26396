@@ -56,6 +56,7 @@ import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
  * FTC WIRES Autonomous Example for only vision detection using tensorflow and park
  */
 @Autonomous(name = "FTC Wires IntoTheDeep", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
+@Disabled
 public class FTCWIRES_AUTO extends LinearOpMode {
 
     public static String TEAM_NAME = "Pack-A-Punch"; //TODO: Enter team Name

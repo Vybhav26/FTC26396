@@ -16,11 +16,13 @@ public class LinearSlide {
     private static final double LINEAR_SLIDE_POWER = 0.5;
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 14.0;
-    private static final double GROUND_DEGREES = 10.0;   // Default position (0 degrees)
-    private static final double MIN_DEGREES_FOR_WRIST = 28.0;
-    private static final double LOW_DEGREES = 12.0;     // Position to pick up from the ground (15 degrees)
-    private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
-    private static final double MAX_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
+    private static final double EXTEND_FULL_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
+
+    private static final double RETRACT_FULL_DEGREES = 0.0;
+
+    private static final double EXTEND_HALF_DEGREES = 50.0;
+
+    private static final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES = 50.0;
 
     // Formula to calculate ticks per degree
     final double LINEAR_SLIDE_TICKS_PER_DEGREE = 19.2032086;
@@ -32,11 +34,10 @@ public class LinearSlide {
 
     // Pre-calculated arm positions in encoder ticks based on degrees
     private final double INIT_POSITION_TICKS = INIT_DEGREES* LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double GROUND_POSITION_TICKS = GROUND_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double MIN_POS_FOR_WRIST_TICKS = MIN_DEGREES_FOR_WRIST * LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double LOW_POSITION_TICKS = LOW_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double HIGH_POSITION_TICKS = HIGH_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double MAX_POSITION_TICKS = MAX_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES_TICKS = EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private final double EXTEND_FULL_DEGREES_TICKS = EXTEND_FULL_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private final double RETRACT_FULL_DEGREES_TICKS = RETRACT_FULL_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private final double EXTEND_HALF_DEGREES_TICKS = EXTEND_HALF_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
 
     // Fudge factor for fine control of arm adjustments
     //Larger FudgeFactor = More Jerky Movements
@@ -82,7 +83,7 @@ public class LinearSlide {
                 initialized = true;
             }
 
-            // checks lift's current position
+            
             return setLinearSlidePosition(packet, INIT_POSITION_TICKS, LINEAR_SLIDE_POWER);
 
         }
@@ -102,9 +103,9 @@ public class LinearSlide {
                 initialized = true;
             }
 
-            // checks lift's current position
+            
 
-            return setLinearSlidePosition(packet, MIN_POS_FOR_WRIST_TICKS, LINEAR_SLIDE_POWER);
+            return setLinearSlidePosition(packet, EXTEND_FULL_DEGREES_TICKS, LINEAR_SLIDE_POWER);
 
         }
     }
@@ -123,8 +124,8 @@ public class LinearSlide {
                 initialized = true;
             }
 
-            // checks lift's current position
-            return setLinearSlidePosition(packet, INIT_POSITION_TICKS, LINEAR_SLIDE_POWER);
+            
+            return setLinearSlidePosition(packet, RETRACT_FULL_DEGREES_TICKS, LINEAR_SLIDE_POWER);
 
         }
     }
@@ -143,17 +144,36 @@ public class LinearSlide {
                 initialized = true;
             }
 
-            // checks lift's current position
-            return setLinearSlidePosition(packet, MAX_POSITION_TICKS, LINEAR_SLIDE_POWER);
+            
+            return setLinearSlidePosition(packet, EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES_TICKS, LINEAR_SLIDE_POWER);
 
         }
     }
 
+    public class ExtendSlideHalfLength implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
+                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                initialized = true;
+            }
+
+            
+            return setLinearSlidePosition(packet, EXTEND_HALF_DEGREES_TICKS, LINEAR_SLIDE_POWER);
+
+        }
+    }
 
     private boolean setLinearSlidePosition(TelemetryPacket packet, double targetPosition, double linearSlidePower) {
 
-        if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
-            targetPosition = LOW_POSITION_TICKS; // Set to low/ground position if out of range
+        if (targetPosition < INIT_POSITION_TICKS || targetPosition > (EXTEND_FULL_DEGREES_TICKS+5.0)) {
+            targetPosition = INIT_POSITION_TICKS; // Set to low/ground position if out of range
         }
 
         // Convert target position in ticks (double) and set motor
@@ -173,7 +193,5 @@ public class LinearSlide {
             linearSlideMotor.setPower(0);
             return false;
         }
-        // overall, the action powers the lift until it surpasses
-        // 3000 encoder ticks, then powers it off
     }
 }

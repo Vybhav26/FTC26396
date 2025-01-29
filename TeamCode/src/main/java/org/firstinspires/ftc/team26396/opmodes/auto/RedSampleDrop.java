@@ -30,10 +30,10 @@ public class RedSampleDrop extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, -60,0 ));
         // Define arm positions using the constants from the Arm class
 
-        Arm arm = new Arm(hardwareMap);
-
-        XYaw yaw = new XYaw(hardwareMap);
-        YPitch pitch=new YPitch(hardwareMap);
+//        Arm arm = new Arm(hardwareMap);
+//
+//        XYaw yaw = new XYaw(hardwareMap);
+//        YPitch pitch=new YPitch(hardwareMap);
         waitForStart();
 
         Actions.runBlocking(
@@ -42,7 +42,7 @@ public class RedSampleDrop extends LinearOpMode {
 //                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
 //                                .waitSeconds(.100)
 //                                .afterDisp(.5, yaw.moveWristCenter())
-                                .lineToY(-33)
+                                .strafeTo(new Vector2d(0,-33))
                                 .waitSeconds(.100)
 //                        arm.initializeArm(),
 //                        arm.raiseArmForSpecimenPickUpFromWall(),

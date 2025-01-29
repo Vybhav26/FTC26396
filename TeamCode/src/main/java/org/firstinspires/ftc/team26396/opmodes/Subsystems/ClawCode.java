@@ -31,7 +31,7 @@ public class ClawCode {
 
     public void controlClawLogitech(Gamepad logitechGamepad) {
         // Claw control on the Logitech controller (Button A)
-/*
+
        if(logitechGamepad.y){
            clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);
        }
@@ -39,16 +39,16 @@ public class ClawCode {
            clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
 
        }
-*/
+
 
             // Toggle claw open/close/neutral on the same button
-            if (logitechGamepad.y && !isClawOpen) {
-                clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Open claw
-                isClawOpen = true;
-            } else if (logitechGamepad.y && isClawOpen) {
-                clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
-                isClawOpen = false;
-            }
+//            if (logitechGamepad.y && !isClawOpen) {
+//                clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Open claw
+//                isClawOpen = true;
+//            } else if (logitechGamepad.y && isClawOpen) {
+//                clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Close claw
+//                isClawOpen = false;
+//            }
 
 
 

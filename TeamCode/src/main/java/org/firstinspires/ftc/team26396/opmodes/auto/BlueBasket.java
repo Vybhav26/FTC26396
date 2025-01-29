@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name = "BlueBasket")
+@Disabled
 public class BlueBasket extends LinearOpMode {
     @Override
     public void runOpMode() {

@@ -1,42 +1,32 @@
-package org.firstinspires.ftc.team26396.opmodes.auto;
+package com.example.meepmeeptesting10;
 
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.noahbres.meepmeep.MeepMeep;
+import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
+import com.noahbres.meepmeep.roadrunner.DriveShim;
+import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Arm;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Claw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.LinearSlide;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
-import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
+public class BlueObservationZonePreLoadedTestPath {
 
-@Autonomous(name = "Blue Observation Zone Auto", group = "Jan Final")
-@Disabled
-public class BlueObservationZoneAuto extends LinearOpMode {
-    @Override
-    public void runOpMode() {
-        // Initialize the MecanumDrive with the hardware map
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-24, 60, Math.toRadians(-90)));
-        Arm arm = new Arm(hardwareMap);
-        LinearSlide linearSlide = new LinearSlide(hardwareMap);
-        Claw claw = new Claw(hardwareMap);
-        XYaw yaw = new XYaw(hardwareMap);
-        YPitch pitch = new YPitch(hardwareMap);
+        public static void main(String[] args) {
+            MeepMeep meepMeep = new MeepMeep(800);
+
+            RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
+                    // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+
+                    .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                    .build();
+
+            DriveShim drive = myBot.getDrive();
 
         /** Overall Steps **/
         // Initial pose near observation area facing the submersible
-        // Game begins with one sample with the robot
-        // Turn towards the observation area
-        // Go towards the observation area, can enter the area, make sure the human doesn't have his hand in there at that time
-        // Drop the sample
+        // Game begins with one specimen with the robot
+        // Go towards the submersible
+        // Hang the sample
         // Strafe towards the first sample (closest to the submersible)
         // Strafe back towards the observation area
         // Pick the sample
@@ -83,12 +73,11 @@ public class BlueObservationZoneAuto extends LinearOpMode {
 
         /** Trajectory 1 **/
         // Initial pose near observation area facing the submersible
-        // Game begins with one sample with the robot
-        // Turn towards the observation area
-        // Go towards the observation area, can enter the area, make sure the human doesn't have his hand in there at that time
+        // Game begins with one specimen with the robot
+        // Go towards the submersible
 
         /** Action 1 **/
-        // Drop the sample
+        // Hang the sample
 
         /** Trajectory 2 **/
         // Strafe towards the first sample (closest to the submersible)
@@ -190,38 +179,58 @@ public class BlueObservationZoneAuto extends LinearOpMode {
 
         /** Trajectory 1 **/
         // Initial pose near observation area facing the submersible
-        // Game begins with one sample with the robot
-        // Turn towards the observation area
-        // Go towards the observation area, can enter the area, make sure the human doesn't have his hand in there at that time
-        double xPositionInit = -16.0;
-        double yPositionInit = 58.0;
-        double headingInit = Math.toRadians(180.0);
+        // Game begins with one specimen with the robot
+        // Go towards the submersible
+
+        double xPositionInit = -12.0;
+        double yPositionInit = 60.0;
+        double headingInit = Math.toRadians(-90.0);
 
         Pose2d initialPose = new Pose2d(xPositionInit, yPositionInit, headingInit);
 
-        double xDestPositionDropSampleInHand = -36.0;
-        double yDestPositionDropSampleInHand = yPositionInit;
-        double headingDestPositionDropSampleInHand = Math.toRadians(180.0);
+        double xDestPositionDropSampleInHand = 0;
+        double yDestPositionDropSampleInHand = 42;
+        double headingDestPositionDropSampleInHand = Math.toRadians(-90.0);
 
-        TrajectoryActionBuilder initToObservationZone = drive.actionBuilder(initialPose)
+        TrajectoryActionBuilder initToSubmersible = drive.actionBuilder(initialPose)
 //                .turnTo(Math.toRadians(headingDestPositionDropSampleInHand));
-                .lineToX(xDestPositionDropSampleInHand);
+                .strafeTo(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand));
 
         /** Action 1 **/
-        // Drop the sample
+        // Hang the sample
 
         /** Trajectory 2 **/
         // Strafe towards the first sample (closest to the submersible)
-        double xDestPositionPickSample1 = xDestPositionDropSampleInHand;
-        double yDestPositionPickSample1 = 24.0;
+        double xDestPositionPickSample1 = -46.0;
+        double yDestPositionPickSample1 = 20.0;
         double headingDestPositionPickSample1 = headingDestPositionDropSampleInHand;
 
         Pose2d initPosePickSample1 = new Pose2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand, headingDestPositionDropSampleInHand);
 
         Vector2d targetVectorPickSample1 = new Vector2d(xDestPositionPickSample1, yDestPositionPickSample1);
 
-        TrajectoryActionBuilder obsAreaToPickSample1 = drive.actionBuilder(initPosePickSample1)
-                .strafeTo(targetVectorPickSample1);
+        TrajectoryActionBuilder submersibleToPushAllSamplesToObsArea = initToSubmersible.endTrajectory().fresh()
+//                .lineToY(yDestPositionDropSampleInHand - 4)
+//                .strafeTo(targetVectorPickSample1);
+//                .splineToSplineHeading(new Pose2d(xDestPositionPickSample1, yDestPositionPickSample1, headingDestPositionPickSample1), -Math.toRadians(-45));
+//                .strafeToSplineHeading(new Vector2d(xDestPositionPickSample1, yDestPositionPickSample1), headingDestPositionPickSample1);
+//                .turnTo(Math.toRadians(90))
+//                .strafeTo(new Vector2d(-36, 34))
+
+//                .strafeToConstantHeading(new Vector2d(-36, 34));
+                .strafeToLinearHeading(new Vector2d(-36, 34), Math.toRadians(65));
+//                .splineToLinearHeading(new Pose2d(-48, 14, Math.toRadians(-90)), Math.toRadians(0));
+//                .splineToSplineHeading(new Pose2d(-48, 14, Math.toRadians(-90)), Math.toRadians(-180));
+//                .splineToConstantHeading(new Vector2d(-30, 24), Math.toRadians(0));
+//                .splineTo(new Vector2d(-40.31, 13.15), Math.toRadians(120.10));
+
+
+//                .splineTo(new Vector2d(-48, 12), Math.toRadians(-180));
+//                .splineTo(new Vector2d(-34, 34), Math.toRadians(90));
+//                .splineTo(new Vector2d(xDestPositionPickSample1, yDestPositionPickSample1), Math.toRadians(111))
+//                .turnTo(Math.toRadians(-90))
+//                .lineToY(54.0)
+//                .strafeToSplineHeading(new Vector2d(-54, 48), Math.toRadians(-90));
 
         /** Action 2 **/
         // Pick the sample
@@ -358,8 +367,8 @@ public class BlueObservationZoneAuto extends LinearOpMode {
         Pose2d targetPosePickSpecimen2 = new Pose2d(xDestPositionPickSpecimen2, yDestPositionPickSpecimen2, headingDestPositionPickSpecimen2);
 
         TrajectoryActionBuilder hangAreaToPickSpecimen2 = drive.actionBuilder(initPosePickSpecimen2)
-                .turnTo(headingDestPositionPickSpecimen2)
-                .lineToX(xDestPositionPickSpecimen2);
+                        .turnTo(headingDestPositionPickSpecimen2)
+                                .lineToX(xDestPositionPickSpecimen2);
 //                        .splineToLinearHeading(targetPosePickSpecimen2, Math.toRadians(90.0));
 //                .strafeTo(targetVectorPickSpecimen2)
 //                .turnTo(headingDestPositionPickSpecimen2);
@@ -493,79 +502,39 @@ public class BlueObservationZoneAuto extends LinearOpMode {
 
         TrajectoryActionBuilder obsAreaToHangRobot = drive.actionBuilder(initPoseHangRobot)
 //                .splineToSplineHeading(targePoseHangRobot, tangentDestPositionHangRobot);
-                .strafeTo(target1VectorHangRobot)
-                .turnTo(headingDestPositionHangRobot)
-                .strafeTo(targetVectorHangRobot);
+                        .strafeTo(target1VectorHangRobot)
+                        .turnTo(headingDestPositionHangRobot)
+                                .strafeTo(targetVectorHangRobot);
 
         /** Action 16 **/
         // Hang
 
-        TrajectoryActionBuilder completeTrajectory = drive.actionBuilder(initialPose)
-                .afterDisp(1, arm.raiseArmForLowerBasket())
-                .afterDisp(1, yaw.moveWristCenter())
-                .afterDisp(1, arm.initializeArm())
-                .lineToX(xDestPositionDropSampleInHand)
-                .afterDisp(1, arm.raiseArmForNetzone())
-                .afterDisp(1, linearSlide.extendArmForward())
-                .afterDisp(1, claw.openClaw())
-                .afterDisp(1, linearSlide.retractArmBackward())
-                .strafeTo(targetVectorPickSample1)
-//                .afterDisp(1, linearSlide.extendArmForward())
-                .afterDisp(1, claw.closeClaw())
-                .strafeTo(targetVectorDropSample1)
-                .strafeTo(targetVectorPickSample2)
-                .strafeTo(targetVectorDropSample2)
-                .turnTo(turnAngleDestPositionDropSample2)
-                .strafeTo(targetVectorPickSample3)
-                .turnTo(headingDestPositionPickSample3)
-                .strafeTo(targetVectorDropSample3)
-                .turnTo(turnAngleDestPositionDropSample3)
-                .turnTo(turnAngleDestPositionHangSpecimen1)
-                .lineToX(xDestPositionHangSpecimen1)
-                .turnTo(headingDestPositionHangSpecimen1)
-                .turnTo(headingDestPositionPickSpecimen2)
-                .lineToX(xDestPositionPickSpecimen2)
-                .turnTo(turnAngleDestPositionHangSpecimen2)
-                .lineToX(xDestPositionHangSpecimen2)
-                .turnTo(headingDestPositionHangSpecimen2)
-                .turnTo(headingDestPositionPickSpecimen3)
-                .lineToX(xDestPositionPickSpecimen3)
-                .turnTo(turnAngleDestPositionHangSpecimen3)
-                .lineToX(xDestPositionHangSpecimen3)
-                .turnTo(headingDestPositionHangSpecimen3)
-                .turnTo(headingDestPositionPickSpecimen4)
-                .lineToX(xDestPositionPickSpecimen4)
-                .turnTo(turnAngleDestPositionHangSpecimen4)
-                .lineToX(xDestPositionHangSpecimen4)
-                .turnTo(headingDestPositionHangSpecimen4)
-                .strafeTo(target1VectorHangRobot)
-                .turnTo(headingDestPositionHangRobot)
-                .strafeTo(targetVectorHangRobot);
+        meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)
+                .setDarkMode(true)
+                .setBackgroundAlpha(0.95f)
+                .addEntity(myBot)
+                .start();
 
-        if (isStopRequested()) return;
+        // Define the trajectory for the Blue Basket sequence with waits
+        myBot.runAction(new SequentialAction(
+                initToSubmersible.build(),
+                submersibleToPushAllSamplesToObsArea.build()
+//            sample1PickToDropSample1.build(),
+//            obsAreaToPickSample2.build(),
+//            sample2PickToDropSample2.build(),
+//            obsAreaToPickSample3.build(),
+//            sample3PickToDropSample3.build(),
+//            obsAreaToHangSpecimen1.build(),
+//            hangAreaToPickSpecimen2.build(),
+//            obsAreaToHangSpecimen2.build(),
+//            hangAreaToPickSpecimen3.build(),
+//                obsAreaToHangSpecimen3.build(),
+//                hangAreaToPickSpecimen4.build(),
+//                obsAreaToHangSpecimen4.build(),
+//                obsAreaToHangRobot.build()
+        ));
 
-        while (!isStopRequested() && !opModeIsActive()) {
-            // Define the trajectory for the Blue Basket sequence with waits
-//            Actions.runBlocking(new SequentialAction(
-//                            initToObservationZone.build(),
-//                            obsAreaToPickSample1.build(),
-//                            sample1PickToDropSample1.build(),
-//                            obsAreaToPickSample2.build(),
-//                            sample2PickToDropSample2.build(),
-//                            obsAreaToPickSample3.build(),
-//                            sample3PickToDropSample3.build(),
-//                            obsAreaToHangSpecimen1.build(),
-//                            hangAreaToPickSpecimen2.build(),
-//                            obsAreaToHangSpecimen2.build(),
-//                            hangAreaToPickSpecimen3.build(),
-//                            obsAreaToHangSpecimen3.build(),
-//                            hangAreaToPickSpecimen4.build(),
-//                            obsAreaToHangSpecimen4.build(),
-//                            obsAreaToHangRobot.build()
-//                    )
-//            );
 
-            Actions.runBlocking(new SequentialAction(completeTrajectory.build()));
-        }
-    }
+   }
+
 }

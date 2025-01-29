@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.team26396.opmodes.auto;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,62 +16,44 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Arm;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Claw;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.LinearSlide;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-@Autonomous(name = "BluePushToDestPath")
-public class BluePushToDestPath extends LinearOpMode {
+@Autonomous(name = "BluePickDropSpecimenToHumanAutoPath")
+@Disabled
+public class BluePickDropSpecimenToHumanAutoPath extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize the MecanumDrive with the hardware map
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-24, 60, Math.toRadians(-90)));
-
-       // Arm arm = new Arm(hardwareMap);
-        //LinearSlide linearSlide = new LinearSlide(hardwareMap);
-        //Claw claw = new Claw(hardwareMap);
-        //XYaw yaw = new XYaw(hardwareMap);
-        //YPitch pitch = new YPitch(hardwareMap);
-
-       // if (isStopRequested()) return;
+        Arm arm = new Arm(hardwareMap);
+        LinearSlide linearSlide = new LinearSlide(hardwareMap);
 
         // Wait for the start signal
         waitForStart();
 
-        if (opModeIsActive()) {
-            // Define the trajectory for the Blue Basket sequence with waits
+        if (isStopRequested()) return;
+
+        while (!isStopRequested() && !opModeIsActive()) {
+          // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
                     drive.actionBuilder(new Pose2d(-24, 60, Math.toRadians(-90)))
-//                .strafeTo(new Vector2d(-36,12))
                             .waitSeconds(1)
-                            .splineTo(new Vector2d(-40, 12), -90)
+                            .splineToLinearHeading(new Pose2d(-36, 24, Math.toRadians(-180)), -90)
                             .waitSeconds(1)
-//                .lineToY(20)
-                            .turnTo(Math.toRadians(-180))
+                            .strafeTo(new Vector2d(-36, 48))
+                            .turnTo(Math.toRadians(135))
                             .waitSeconds(1)
-                            .lineToX(-46)
+                            .strafeTo(new Vector2d(-44, 24))
+                            .turnTo(Math.toRadians(180))
                             .waitSeconds(1)
-                            .turnTo(Math.toRadians(-180))
+                            .strafeTo(new Vector2d(-44, 48))
+                            .turnTo(Math.toRadians(135))
+                            .strafeTo(new Vector2d(-53, 24))
+                            .turnTo(Math.toRadians(180))
                             .waitSeconds(1)
-                            .strafeTo(new Vector2d(-48,50))
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-46, 12))
-                            .waitSeconds(1)
-                            .lineToX(-54)
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-56,50))
-                            .waitSeconds(1)
-                            .lineToX(-54)
-                            .waitSeconds(1)
-                            .turnTo(Math.toRadians(360))
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-54,12))
-                            .waitSeconds(1)
-                            .lineToX(-62)
-                            .waitSeconds(1)
-                            .strafeTo(new Vector2d(-62,48))
+                            .strafeTo(new Vector2d(-53, 48))
+                            .turnTo(Math.toRadians(90))
                             .waitSeconds(1)
                             .build()
 
