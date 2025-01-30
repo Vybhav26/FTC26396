@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
