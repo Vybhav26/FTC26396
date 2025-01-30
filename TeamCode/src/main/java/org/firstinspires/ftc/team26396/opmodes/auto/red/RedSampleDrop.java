@@ -8,11 +8,13 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name="Red Sample Drop", group = "Red Alliance", preselectTeleOp = "RobotCentricDrive")
+@Disabled
 public class RedSampleDrop extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0,0

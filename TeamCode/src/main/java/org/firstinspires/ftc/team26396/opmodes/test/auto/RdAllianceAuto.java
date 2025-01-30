@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.team26396.opmodes.auto.blue;
+package org.firstinspires.ftc.team26396.opmodes.test.auto;
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
 
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.Arm;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.Claw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.LinearSlide;
@@ -19,9 +20,9 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-@Autonomous(name="Blue Auto", group = "Blue Alliance", preselectTeleOp = "RobotCentricDrive")
-public class BlueAllianceAuto extends LinearOpMode {
-
+@Autonomous(name="Red Auto", group = "Red Alliance", preselectTeleOp = "RobotCentricDrive")
+@Disabled
+public class RdAllianceAuto extends LinearOpMode {
     private final Servo claw;
     private final DcMotorEx linearSlideMotor;
     private final Servo pitch;
@@ -33,7 +34,7 @@ public class BlueAllianceAuto extends LinearOpMode {
     public static String TEAM_NAME = "Pack-A-Punch";
     public static int TEAM_NUMBER = 26396;
 
-    public BlueAllianceAuto(Servo claw, DcMotorEx linearSlideMotor, Servo pitch, Servo yaw, Servo roll, DcMotorEx armMotor) {
+    public RdAllianceAuto(Servo claw, DcMotorEx linearSlideMotor, Servo pitch, Servo yaw, Servo roll, DcMotorEx armMotor) {
         this.claw = claw;
         this.linearSlideMotor = linearSlideMotor;
         this.pitch = pitch;
@@ -86,28 +87,28 @@ public class BlueAllianceAuto extends LinearOpMode {
         }
 
         public void runAutonoumousMode() {
-            Pose2d initPose = new Pose2d(0, 70, Math.toRadians(90)); // Starting Pose
-            Pose2d SpecimenHang = new Pose2d(0, 27, Math.toRadians(-90));
-            Pose2d MoveSample1 = new Pose2d(49, 35, Math.toRadians(-90));
-            Pose2d PickSample1 = new Pose2d(49, 24, Math.toRadians(-90));
-            Pose2d PositionSample1 = new Pose2d(49, 49, Math.toRadians(44));
-            Pose2d Sample1High = new Pose2d(57, 58, 44);
-            Pose2d PickSample2 = new Pose2d(59, 25, -90);
-            Pose2d Sample2High = new Pose2d(61, 49, 62.49);
-            Pose2d PickSample3 = new Pose2d(69, 33, -90);
-            Pose2d Sample3High = new Pose2d(68, 52, 83.38);
-            Pose2d Ascent1 = new Pose2d(27, 5, 180);
+            Pose2d initPose = new Pose2d(0, -70, Math.toRadians(90)); // Mirrored Starting Pose
+            Pose2d SpecimenHang = new Pose2d(0, -27, Math.toRadians(-90));
+            Pose2d MoveSample1 = new Pose2d(-49, -35, Math.toRadians(-90));
+            Pose2d PickSample1 = new Pose2d(-49, -24, Math.toRadians(-90));
+            Pose2d PositionSample1 = new Pose2d(-49, -49, Math.toRadians(44));
+            Pose2d Sample1High = new Pose2d(-57, -58, Math.toRadians(44));
+            Pose2d PickSample2 = new Pose2d(-59, -25, Math.toRadians(-90));
+            Pose2d Sample2High = new Pose2d(-61, -49, Math.toRadians(62.49));
+            Pose2d PickSample3 = new Pose2d(-69, -33, Math.toRadians(-90));
+            Pose2d Sample3High = new Pose2d(-68, -52, Math.toRadians(83.38));
+            Pose2d Ascent1 = new Pose2d(-27, -5, Math.toRadians(180));
 
-            Pose2d initPose1 = new Pose2d(0, 60, 180.00);
-            Pose2d Pose1 = new Pose2d(0, 33, 180.00);
-            Pose2d Pose2 = new Pose2d(-35, 33, 180.00);
-            Pose2d Pose3 = new Pose2d(-35, -5, 90);
-            Pose2d Pose4 = new Pose2d(-44, -5, 90);
-            Pose2d Pose5 = new Pose2d(-44, 40, 90);
-            Pose2d Pose6 = new Pose2d(-44, -5, 90);
-            Pose2d Pose9 = new Pose2d(-55, 6, 90);
-            Pose2d Pose10 = new Pose2d(-55, 40, 90);
-            Pose2d Pose11 = new Pose2d(-55, 6, 90);
+            Pose2d initPose1 = new Pose2d(0, -60, 180.00);
+            Pose2d Pose1 = new Pose2d(0, -33, 180.00);
+            Pose2d Pose2 = new Pose2d(35, -33, 180.00);
+            Pose2d Pose3 = new Pose2d(35, 5, 90);
+            Pose2d Pose4 = new Pose2d(44, 5, 90);
+            Pose2d Pose5 = new Pose2d(44, -40, 90);
+            Pose2d Pose6 = new Pose2d(44, 5, 90);
+            Pose2d Pose9 = new Pose2d(55, -6, 90);
+            Pose2d Pose10 = new Pose2d(55, -40, 90);
+            Pose2d Pose11 = new Pose2d(55, -6, 90);
 
             double waitSecondsBeforeDrop = 0;
             if (startPosition == START_POSITION.LEFT) {
