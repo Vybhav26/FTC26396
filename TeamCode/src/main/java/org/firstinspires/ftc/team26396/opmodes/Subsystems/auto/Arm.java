@@ -14,8 +14,9 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
 public class Arm {
     private final DcMotorEx armMotor;
-    private static final double LINEAR_SLIDE_POWER = 0.8;
     private static final double ARM_POWER = 0.5;
+
+    private static final double RETRACT_ARM_POWER = -0.5;
 
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 14.0;
@@ -136,7 +137,7 @@ public class Arm {
         double currentPosition = armMotor.getCurrentPosition();
         packet.put("Arm Position", currentPosition);
 
-        if (currentPosition < targetPosition) {
+        if (currentPosition < (MAX_POSITION_TICKS+5.0) && currentPosition >= DEGREES_FOR_SPECIMEN_ON_FLOOR_TICKS) {
             // true causes the action to rerun
             return true;
         } else {
@@ -156,8 +157,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             return setArmPositionForAction(packet, INIT_POSITION_TICKS, ARM_POWER);
@@ -174,8 +175,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -194,8 +195,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(RETRACT_ARM_POWER);
             }
 
             // checks lift's current position
@@ -214,8 +215,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -233,8 +234,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -253,8 +254,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -273,8 +274,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -293,8 +294,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -313,8 +314,8 @@ public class Arm {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                armMotor.setPower(ARM_POWER);
                 initialized = true;
+                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
