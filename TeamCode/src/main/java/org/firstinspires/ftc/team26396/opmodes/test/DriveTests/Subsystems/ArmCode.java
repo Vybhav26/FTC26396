@@ -110,5 +110,7 @@ public class ArmCode {
         } else {
             liftMotor.setPower(0.1); //or 0, whatever stops jerking
         }
+
+
     }
 }

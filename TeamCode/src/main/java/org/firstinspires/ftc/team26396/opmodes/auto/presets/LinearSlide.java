@@ -6,23 +6,31 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.team26396.constants.Constants;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetSlideCode;
 
-public class LinearSlide {
+public class LinearSlide extends PresetSlideCode {
 
     private final DcMotorEx linearSlideMotor;
     private static final double LINEAR_SLIDE_POWER = 0.5;
+
+    private static final double RETRACT_LINEAR_SLIDE_POWER = -0.5;
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 14.0;
-    private static final double EXTEND_FULL_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
+    private static final double EXTEND_FULL_DEGREES = 85.0;     // Position to place into an high basket (70 degrees)
 
     private static final double RETRACT_FULL_DEGREES = 0.0;
 
     private static final double EXTEND_HALF_DEGREES = 50.0;
 
     private static final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES = 50.0;
+
+    private static final double MAX_LENGTH = 1800;
+
+    private static final double MIN_LENGTH = 5.0;
 
     // Formula to calculate ticks per degree
     final double LINEAR_SLIDE_TICKS_PER_DEGREE = 19.2032086;
@@ -48,9 +56,11 @@ public class LinearSlide {
 
         linearSlideMotor = (DcMotorEx) hardwareMap.get(DcMotor.class, Constants.HardwareConstants.LINEAR_SLIDE_MOTOR_NAME);
 
+        linearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     public Action initLinearSlide() {
@@ -78,9 +88,9 @@ public class LinearSlide {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
-                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 initialized = true;
+                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
             }
 
             
@@ -98,12 +108,10 @@ public class LinearSlide {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
-                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 initialized = true;
+                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
             }
-
-            
 
             return setLinearSlidePosition(packet, EXTEND_FULL_DEGREES_TICKS, LINEAR_SLIDE_POWER);
 
@@ -119,13 +127,12 @@ public class LinearSlide {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
-                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 initialized = true;
+                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                linearSlideMotor.setPower(RETRACT_LINEAR_SLIDE_POWER);
             }
 
-            
-            return setLinearSlidePosition(packet, RETRACT_FULL_DEGREES_TICKS, LINEAR_SLIDE_POWER);
+            return setLinearSlidePosition(packet, RETRACT_FULL_DEGREES_TICKS, RETRACT_LINEAR_SLIDE_POWER);
 
         }
     }
@@ -139,12 +146,11 @@ public class LinearSlide {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
-                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 initialized = true;
+                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
             }
 
-            
             return setLinearSlidePosition(packet, EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES_TICKS, LINEAR_SLIDE_POWER);
 
         }
@@ -159,9 +165,9 @@ public class LinearSlide {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
-                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 initialized = true;
+                linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
             }
 
             
@@ -172,23 +178,35 @@ public class LinearSlide {
 
     private boolean setLinearSlidePosition(TelemetryPacket packet, double targetPosition, double linearSlidePower) {
 
+        packet.addLine("Target Position : " + targetPosition);
+
         if (targetPosition < INIT_POSITION_TICKS || targetPosition > (EXTEND_FULL_DEGREES_TICKS+5.0)) {
             targetPosition = INIT_POSITION_TICKS; // Set to low/ground position if out of range
         }
 
         // Convert target position in ticks (double) and set motor
-        double currentPosition = linearSlideMotor.getCurrentPosition();
-        packet.put("Linear Slide Position", currentPosition);
-
         linearSlideMotor.setTargetPosition((int) targetPosition);
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlideMotor.setPower(linearSlidePower);
 
-        if (currentPosition < targetPosition) {
+        double currentPosition = linearSlideMotor.getCurrentPosition();
+        packet.put("Linear Slide Position", currentPosition);
+        packet.addLine("Current Position : " + currentPosition);
+
+        if (currentPosition < MAX_LENGTH) {
+
+            packet.put("In else condition", "Linear Slide");
+
             // true causes the action to rerun
+            linearSlideMotor.setTargetPosition((int) currentPosition);
+            linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            linearSlideMotor.setPower(linearSlidePower);
             return true;
         } else {
             // false stops action rerun
+
+            packet.put("In else condition", "Linear Slide");
             linearSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             linearSlideMotor.setPower(0);
             return false;

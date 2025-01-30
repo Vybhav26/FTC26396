@@ -45,6 +45,8 @@ public class ClawCode {
         }
 
         prevYPressed = currentYPressed;  // Update previous state
+
+
     }
 
 
@@ -77,8 +79,12 @@ public class ClawCode {
     }
         prevBumperPressed = currentBumperPressed;
         // Reset all positions using the "Share" button
+
         if (ps4Gamepad.cross) {
-            resetClaw();  // Reset claw, pitch, yaw, and roll to neutral
+            submerisibleClaw();  // Reset claw, pitch, yaw, and roll to neutral
+        }
+        if(ps4Gamepad.dpad_right){
+            clawPitch.setHangPosition();
         }
 
     }
@@ -87,11 +93,22 @@ public class ClawCode {
 
 
 
-    public void resetClaw() {
-        clawOpenCloseServo.setPosition(CLAW_NEUTRAL_POSITION);  // Set claw to neutral
-        clawPitch.resetPitch();  // Reset pitch to neutral
+    public void submerisibleClaw() {
+        clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Set claw to neutral
+        clawPitch.setHangPosition();  // Reset pitch to neutral
         clawYaw.resetYaw();  // Reset yaw to neutral position
         clawRoll.resetRoll();  // Reset roll to neutral position
+        isClawOpen = false;  // Reset claw state to neutral
+        isRollNormal = true;  // Reset roll state to normal
+        isYawLeft = false;  // Reset yaw state to neutral
+        isPitchPickup = false;  // Reset pitch state to neutral
+    }
+
+    public void resetClaw() {
+        clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Set claw to neutral
+        clawPitch.setNeutralPosition();  // Reset pitch to neutral
+        clawYaw.resetYaw();  // Reset yaw to neutral position
+        clawRoll.rotateNormal();  // Reset roll to neutral position
         isClawOpen = false;  // Reset claw state to neutral
         isRollNormal = true;  // Reset roll state to normal
         isYawLeft = false;  // Reset yaw state to neutral
