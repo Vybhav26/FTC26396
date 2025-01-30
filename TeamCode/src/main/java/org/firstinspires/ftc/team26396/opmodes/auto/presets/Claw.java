@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.presets;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -11,7 +13,7 @@ import org.firstinspires.ftc.team26396.constants.Constants;
 
 public class Claw {
 
-    private final Servo claw;
+    private static final Servo claw = hardwareMap.get(Servo.class, "claw");
 
     private static final double OPEN_POSITION = 0.8;     // Position to place into an high basket (70 degrees)
 
@@ -20,8 +22,6 @@ public class Claw {
     private static final double NEUTRAL_POSITION = 0.5;
 
     public Claw(HardwareMap hardwareMap) {
-
-        claw = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.CLAW_SERVO);
 
         claw.setPosition(0);
 
@@ -35,7 +35,7 @@ public class Claw {
         return new OpenClaw();
     }
 
-    public class CloseClaw implements Action {
+    public static class CloseClaw implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -54,7 +54,7 @@ public class Claw {
         }
     }
 
-    public class OpenClaw implements Action {
+    public static class OpenClaw implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -73,7 +73,7 @@ public class Claw {
         }
     }
 
-    private boolean setClawPosition(TelemetryPacket packet, double position) {
+    private static boolean setClawPosition(TelemetryPacket packet, double position) {
 
         return position < claw.getPosition();
     }

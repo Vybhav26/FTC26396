@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.presets;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -14,7 +16,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetSlideCode;
 
 public class LinearSlide extends PresetSlideCode {
 
-    private final DcMotorEx linearSlideMotor;
+    private static final DcMotorEx linearSlideMotor = (DcMotorEx) hardwareMap.get(DcMotor.class, "armMotor");
     private static final double LINEAR_SLIDE_POWER = 0.5;
 
     private static final double RETRACT_LINEAR_SLIDE_POWER = -0.5;
@@ -33,7 +35,7 @@ public class LinearSlide extends PresetSlideCode {
     private static final double MIN_LENGTH = 5.0;
 
     // Formula to calculate ticks per degree
-    final double LINEAR_SLIDE_TICKS_PER_DEGREE = 19.2032086;
+    static final double LINEAR_SLIDE_TICKS_PER_DEGREE = 19.2032086;
 //            145.1 // encoder ticks per rotation of the bare RS-555 motor
 //                    * 5.2 // gear ratio of the 5.2:1 Yellow Jacket gearbox
 //                    * 5.0 // external gear reduction, a 20T pinion gear driving a 100T hub-mount gear (5:1 reduction)
@@ -41,10 +43,10 @@ public class LinearSlide extends PresetSlideCode {
 
 
     // Pre-calculated arm positions in encoder ticks based on degrees
-    private final double INIT_POSITION_TICKS = INIT_DEGREES* LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private static final double INIT_POSITION_TICKS = INIT_DEGREES* LINEAR_SLIDE_TICKS_PER_DEGREE;
     private final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES_TICKS = EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double EXTEND_FULL_DEGREES_TICKS = EXTEND_FULL_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
-    private final double RETRACT_FULL_DEGREES_TICKS = RETRACT_FULL_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private static final double EXTEND_FULL_DEGREES_TICKS = EXTEND_FULL_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
+    private static final double RETRACT_FULL_DEGREES_TICKS = RETRACT_FULL_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
     private final double EXTEND_HALF_DEGREES_TICKS = EXTEND_HALF_DEGREES * LINEAR_SLIDE_TICKS_PER_DEGREE;
 
     // Fudge factor for fine control of arm adjustments
@@ -53,8 +55,6 @@ public class LinearSlide extends PresetSlideCode {
 
 
     public LinearSlide(HardwareMap hardwareMap) {
-
-        linearSlideMotor = (DcMotorEx) hardwareMap.get(DcMotor.class, Constants.HardwareConstants.LINEAR_SLIDE_MOTOR_NAME);
 
         linearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -67,7 +67,7 @@ public class LinearSlide extends PresetSlideCode {
         return new InitLinearSlide();
     }
 
-    public Action extendArmForward() {
+    public static Action extendArmForward() {
         return new ExtendLinearSlide();
     }
 
@@ -99,7 +99,7 @@ public class LinearSlide extends PresetSlideCode {
         }
     }
 
-    public class ExtendLinearSlide implements Action {
+    public static class ExtendLinearSlide implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -118,7 +118,7 @@ public class LinearSlide extends PresetSlideCode {
         }
     }
 
-    public class RetractArmBackward implements Action {
+    public static class RetractArmBackward implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -176,7 +176,7 @@ public class LinearSlide extends PresetSlideCode {
         }
     }
 
-    private boolean setLinearSlidePosition(TelemetryPacket packet, double targetPosition, double linearSlidePower) {
+    private static boolean setLinearSlidePosition(TelemetryPacket packet, double targetPosition, double linearSlidePower) {
 
         packet.addLine("Target Position : " + targetPosition);
 

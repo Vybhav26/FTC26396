@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team26396.opmodes.auto;
+package org.firstinspires.ftc.team26396.opmodes.auto.blue;
 
 
 // RR-specific imports
@@ -6,20 +6,18 @@ package org.firstinspires.ftc.team26396.opmodes.auto;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Arm;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Claw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.LinearSlide;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.Roll;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.XYaw;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.auto.YPitch;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.Arm;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.Claw;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.LinearSlide;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.Roll;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name="Blue Hang Specimen Simple Auto Path")
