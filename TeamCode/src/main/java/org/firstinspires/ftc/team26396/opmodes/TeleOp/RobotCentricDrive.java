@@ -16,15 +16,17 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 //import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawPitch;
 
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
-//@Disabled
+@Disabled
 public class RobotCentricDrive extends LinearOpMode {
 
     // Subsystems
     private PresetArmCode armControl;
     private ClawCode clawControl;
+    private ClawPitch wristControl;
     private HangCode hangControl;
 
     DcMotorEx linearSlideMotor;
@@ -77,6 +79,7 @@ public class RobotCentricDrive extends LinearOpMode {
         // Initialize subsystems
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
         clawControl = new ClawCode(clawServo, rollServo, yawServo, pitchServo);
+        wristControl = new ClawPitch(pitchServo);
         hangControl = new HangCode(HangMotor1, HangMotor2);
         waitForStart();
 
@@ -117,7 +120,7 @@ public class RobotCentricDrive extends LinearOpMode {
             c) Using Dpad UP - Lift to highest position, for hanging
             d) Using Dpad DOWN - Lift to Lowest position, pick up blocks from submersible
             e) Using Dpad LEFT - Lift to low position, i.e Low Basket
-            f) Using Dpad RIGHT - Lift to high position, i.e Upper Basket
+            f) Using Dpad BLUERIGHT - Lift to high position, i.e Upper Basket
              */
 
             // INTAKE CONTROL
@@ -128,6 +131,7 @@ public class RobotCentricDrive extends LinearOpMode {
              */
 
             // WRIST CONTROL
+           // wristControl.updateClawPitch(35.0);
             /*
 //  Adjust accordingly - Note that you're normally supposed to make a variable for this,
 // not just directly put in a double
@@ -150,7 +154,7 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("Back Right Power", backRightMotor.getPower());
             telemetry.addData("LinearSlide Motor Power", linearSlideMotor.getPower());
             telemetry.addData("Arm Motor Power", armMotor.getPower());
-            telemetry.addData("Claw Power", clawServo.getPosition());
+//            telemetry.addData("Claw Power", clawServo.getPower());
             telemetry.addData("Pitch Position", pitchServo.getPosition());
             telemetry.addData("Yaw Position", yawServo.getPosition());
 

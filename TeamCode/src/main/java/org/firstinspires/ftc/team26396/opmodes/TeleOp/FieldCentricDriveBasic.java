@@ -94,7 +94,7 @@ public class FieldCentricDriveBasic extends LinearOpMode {
             c) Using Dpad UP - Lift to highest position, for hanging
             d) Using Dpad DOWN - Lift to Lowest position, pick up blocks from submersible
             e) Using Dpad LEFT - Lift to low position, i.e Low Basket
-            f) Using Dpad RIGHT - Lift to high position, i.e Upper Basket
+            f) Using Dpad BLUERIGHT - Lift to high position, i.e Upper Basket
              */
 
             // INTAKE CONTROL

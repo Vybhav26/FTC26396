@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 
 import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
@@ -19,43 +20,18 @@ public class MeepMeepSimulation {
                 //BLUE BASKET STARTS HERE
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder
-                                        (new Pose2d(10, 62, Math.toRadians(-90)))
-                                        // This is for Blue (Basket Side)
-
-
-                        //Path for Blue Basket Drop
-                         .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(47, 37, Math.toRadians(-90)))
-                        .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(57, 37, Math.toRadians(-90)))
-                        .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(57, 25, Math.toRadians(0)))
-                        .lineToSplineHeading(new Pose2d(52, 57, Math.toRadians(45)))
-                        .lineToSplineHeading(new Pose2d(35, 15, Math.toRadians(180)))
-
-                        /*
-                        This is Blue Basket Drop, but without Spline
-
-                        .forward(2)
-                        .turn(Math.toRadians(45))
-                        .forward(35)
-                        .turn(Math.toRadians(-45))
-                        .forward(-25)
-                        .turn(Math.toRadians(90))
-                        .turn(Math.toRadians(-70))
-                        .forward(30)
-                        .forward(-30)
-                        .turn(Math.toRadians(70))
-                        .turn(Math.toRadians(-60))
-                        .forward(30)
-                        .forward(-30)
-                        .turn(Math.toRadians(60))
-                        .turn(Math.toRadians(-110))
-                        .forward(50)
-                        */
-            //BLUE BASKET ENDS HERE
-
-                            .build());
+                                        (new Pose2d(0, 70, Math.toRadians(90.00))) //Starting Position
+                                .splineTo(new Vector2d(0, 27), Math.toRadians(270.00)) //Moves to hang 1 specimen on high chamber
+                                .lineTo(new Vector2d(49, 35)) //Moves to Sample 1
+                                .lineTo(new Vector2d(49, 24)) //Picks up Sample 1
+                                .splineTo(new Vector2d(48, 49), Math.toRadians(44)) //Moves in position to put Sample 1 in high basket
+                                .splineTo(new Vector2d(57, 58), Math.toRadians(44)) //Puts Sample 1 in high basket
+                                .splineTo(new Vector2d(59, 25), Math.toRadians(-90)) //Moves/picks up Sample 2
+                                .splineTo(new Vector2d(61, 49), Math.toRadians(62.49)) //Moves/puts  Sample 2 to/in high basket
+                                .splineTo(new Vector2d(69, 33), Math.toRadians(-59.14)) //Moves/picks up Sample 3
+                                .splineTo(new Vector2d(68, 52), Math.toRadians(83.38)) //Moves/puts  Sample 3 to/in high basket
+                                .splineTo(new Vector2d(27, 5), Math.toRadians(180.00)) //Moves to accomplish Level 1 Hang
+                                .build());
 
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
