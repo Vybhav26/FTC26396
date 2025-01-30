@@ -20,7 +20,7 @@ public class LinearSlide extends PresetSlideCode {
     private static final double RETRACT_LINEAR_SLIDE_POWER = -0.5;
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 14.0;
-    private static final double EXTEND_FULL_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
+    private static final double EXTEND_FULL_DEGREES = 85.0;     // Position to place into an high basket (70 degrees)
 
     private static final double RETRACT_FULL_DEGREES = 0.0;
 
@@ -28,7 +28,7 @@ public class LinearSlide extends PresetSlideCode {
 
     private static final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES = 50.0;
 
-    private static final double MAX_LENGTH = 2200;
+    private static final double MAX_LENGTH = 1800;
 
     private static final double MIN_LENGTH = 5.0;
 
@@ -185,10 +185,6 @@ public class LinearSlide extends PresetSlideCode {
         }
 
         // Convert target position in ticks (double) and set motor
-
-
-
-
         linearSlideMotor.setTargetPosition((int) targetPosition);
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -200,6 +196,8 @@ public class LinearSlide extends PresetSlideCode {
 
         if (currentPosition < MAX_LENGTH) {
 
+            packet.put("In else condition", "Linear Slide");
+
             // true causes the action to rerun
             linearSlideMotor.setTargetPosition((int) currentPosition);
             linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -207,6 +205,8 @@ public class LinearSlide extends PresetSlideCode {
             return true;
         } else {
             // false stops action rerun
+
+            packet.put("In else condition", "Linear Slide");
             linearSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             linearSlideMotor.setPower(0);
             return false;

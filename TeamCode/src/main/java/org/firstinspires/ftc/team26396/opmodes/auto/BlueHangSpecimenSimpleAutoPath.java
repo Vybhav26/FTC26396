@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -37,12 +38,16 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         waitForStart();
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)));
+        TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
+                .waitSeconds(3);
 
         Action initializeRobot = tab1.build();
 
         TrajectoryActionBuilder tab2 = tab1.endTrajectory().fresh()
-                .lineToY(-48.0);
+//                .waitSeconds(2)
+                .strafeTo(new Vector2d(0, -50))
+                .waitSeconds(3);
+//                .lineToY(-48.0);
 
         Action moveToPositionToHangSample = tab2.build();
 
@@ -55,37 +60,77 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
         );
 
         TrajectoryActionBuilder tab3 = tab2.endTrajectory().fresh()
-                        .lineToY(-58.0);
+//                        .waitSeconds(1)
+                        .lineToY(-58.0)
+                .waitSeconds(3);
 
         Action completeHang = tab3.build();
 
-        Actions.runBlocking(
-                new SequentialAction(initializeRobot,
-                        new ParallelAction(
-                                arm.raiseArmForLowerBasket(),
-                                linearSlide.extendArmForward(),
-                                pitch.moveWristDown(),
-                                yaw.moveWristCenter(),
-                                roll.rotate90Clockwise(),
-                                claw.openClaw()
-                        ),
-                        moveToPositionToHangSample,
-                        completeHang
-
-//                        .stopAndAdd(arm.raiseArmForLowerBasket())
-//                        .stopAndAdd(linearSlide.extendArmForward())
-//                        .stopAndAdd(pitch.moveWristDown())
-//                        .stopAndAdd(yaw.moveWristCenter())
-//                        .stopAndAdd(roll.rotate90Clockwise())
-//                        .lineToY(-48.0)
-//                        .stopAndAdd(linearSlide.retractArmBackward())
-//                        .endTrajectory().fresh()
-//                        .lineToY(-58.0)
-//                        .build()
-        ));
+        Action fullAction = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
+                        .stopAndAdd(arm.raiseArmForLowerBasket())
+                                .stopAndAdd(linearSlide.extendArmForward())
+                .waitSeconds(2)
+//                                        .stopAndAdd(pitch.moveWristUp())
+//                                                .stopAndAdd(yaw.moveWristLeft())
+//                                                        .stopAndAdd(roll.rotate90Clockwise())
+//                                                                .stopAndAdd(claw.openClaw())
+                                                                    .stopAndAdd(linearSlide.retractArmBackward())
+                                                                        .waitSeconds(2)
+                                                                                .strafeTo(new Vector2d(0, -50))
+                                                                                        .build();
 
 
+        telemetry.addData("Linear Slide Position : ", tab2.endTrajectory().fresh());
+        telemetry.update();
 
+//        Actions.runBlocking(fullAction);
+
+//        Actions.runBlocking(
+//                new SequentialAction(initializeRobot,
+////                        moveToPositionToHangSample,
+//                        new ParallelAction(
+//                                arm.raiseArmForLowerBasket(),
+//                                linearSlide.extendArmForward(),
+//                                pitch.moveWristUp(),
+//                                yaw.moveWristLeft(),
+//                                roll.rotate90Clockwise(),
+//                                claw.openClaw()
+//                        ),
+////                        linearSlide.retractArmBackward(),
+////                        new SleepAction(2.0),
+////                        arm.raiseArmForLowerBasket(),
+////                        linearSlide.extendArmForward(),
+////                        pitch.moveWristUp(),
+////                        yaw.moveWristLeft(),
+////                        roll.rotate90Clockwise(),
+////                        claw.openClaw(),
+////                        moveToPositionToHangSample,
+////                        new SleepAction(2.0),
+//                        completeHang
+//
+////                        .stopAndAdd(arm.raiseArmForLowerBasket())
+////                        .stopAndAdd(linearSlide.extendArmForward())
+////                        .stopAndAdd(pitch.moveWristDown())
+////                        .stopAndAdd(yaw.moveWristCenter())
+////                        .stopAndAdd(roll.rotate90Clockwise())
+////                        .lineToY(-48.0)
+////                        .stopAndAdd(linearSlide.retractArmBackward())
+////                        .endTrajectory().fresh()
+////                        .lineToY(-58.0)
+////                        .build()
+//        ));
+
+        Actions.runBlocking(initializeRobot);
+        Actions.runBlocking(arm.raiseArmForLowerBasket());
+        Actions.runBlocking(linearSlide.extendArmForward());
+        Actions.runBlocking(pitch.moveWristUp());
+        Actions.runBlocking(yaw.moveWristLeft());
+        Actions.runBlocking(roll.rotate90Clockwise());
+        Actions.runBlocking(moveToPositionToHangSample);
+//        Actions.runBlocking(claw.openClaw());
+        Actions.runBlocking(linearSlide.retractArmBackward());
+        Actions.runBlocking(arm.raiseArmForSpecimenPickUpFromWall());
+        Actions.runBlocking(completeHang);
 
     }
 }
