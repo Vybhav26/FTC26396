@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.presets;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -11,7 +13,7 @@ import org.firstinspires.ftc.team26396.constants.Constants;
 
 public class Roll {
 
-    private final Servo roll;
+    private static final Servo  roll = (Servo) hardwareMap.get(Servo.class, "roll");;
 
     private static final double TURN_NINETY_CLOCKWISE_DEGREES = 0.5;
 
@@ -20,9 +22,6 @@ public class Roll {
     private static final double INIT_POSITION = 0.0;
 
     public Roll(HardwareMap hardwareMap) {
-
-        roll = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.ROLL_SERVO);
-
         roll.setPosition(INIT_POSITION);
 
     }
@@ -58,7 +57,7 @@ public class Roll {
         }
     }
 
-    public class Rotate90Clockwise implements Action {
+    public static class Rotate90Clockwise implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -96,7 +95,7 @@ public class Roll {
         }
     }
 
-    private boolean setRollPosition(TelemetryPacket packet, double position) {
+    private static boolean setRollPosition(TelemetryPacket packet, double position) {
 
         return position < roll.getPosition();
     }

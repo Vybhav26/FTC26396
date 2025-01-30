@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.presets;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -11,7 +13,8 @@ import org.firstinspires.ftc.team26396.constants.Constants;
 
 public class YPitch {
 
-    private final Servo pitch;
+    private static final Servo pitch = (Servo) hardwareMap.get(Servo.class, "pitch");
+
 
     private static final double UP_POSITION = 0.3;     // Position to place into an high basket (70 degrees)
 
@@ -20,9 +23,6 @@ public class YPitch {
     private static final double MIDDLE_POSITION = 0.0;
 
     public YPitch(HardwareMap hardwareMap) {
-
-        pitch = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.PITCH_SERVO);
-
         pitch.setPosition(DOWN_POSITION);
 
     }
@@ -39,7 +39,7 @@ public class YPitch {
         return new MoveWristToMiddle();
     }
 
-    public class MoveWristUp implements Action {
+    public static class MoveWristUp implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -96,7 +96,7 @@ public class YPitch {
         }
     }
 
-    private boolean setPitchPosition(TelemetryPacket packet, double position) {
+    private static boolean setPitchPosition(TelemetryPacket packet, double position) {
 
         return position < pitch.getPosition();
     }
