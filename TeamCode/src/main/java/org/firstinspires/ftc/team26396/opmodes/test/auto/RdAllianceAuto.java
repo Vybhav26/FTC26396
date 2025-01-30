@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,8 +21,8 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name="Red Auto", group = "Red Alliance", preselectTeleOp = "RobotCentricDrive")
-public class RedAllianceAuto extends LinearOpMode {
-
+@Disabled
+public class RdAllianceAuto extends LinearOpMode {
     private final Servo claw;
     private final DcMotorEx linearSlideMotor;
     private final Servo pitch;
