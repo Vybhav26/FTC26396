@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.team26396.opmodes.Subsystems;
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.Subsystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class IntakeCode {
 
