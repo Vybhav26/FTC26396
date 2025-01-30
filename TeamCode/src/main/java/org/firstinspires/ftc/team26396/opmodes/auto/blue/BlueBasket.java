@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.blue;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 // RR-specific imports
@@ -20,6 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
 @Autonomous(name = "BlueBasket", group = "Blue Alliance",preselectTeleOp = "RobotCentricDrive")
+@Disabled
 public class BlueBasket extends LinearOpMode {
     @Override
     public void runOpMode() {
