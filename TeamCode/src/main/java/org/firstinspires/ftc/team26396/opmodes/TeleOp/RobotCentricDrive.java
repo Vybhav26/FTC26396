@@ -1,21 +1,17 @@
 package org.firstinspires.ftc.team26396.opmodes.TeleOp;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
-//import org.firstinspires.ftc.team26396.opmodes.Subsystems.IntakeCode;
-import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
-//import org.firstinspires.ftc.team26396.opmodes.Subsystems.WristCode;
+
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
@@ -92,7 +88,7 @@ public class RobotCentricDrive extends LinearOpMode {
             // but only if at least one is out of the range [-1, 1]
             double speed = 2.5;
             if(gamepad1.left_trigger >0.1){
-                speed = 1.5;
+                speed = 1.2;
             }
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), speed);
             double frontLeftPower = (y + x + rx) / denominator;
@@ -106,6 +102,7 @@ public class RobotCentricDrive extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
             // ARM CONTROL
             armControl.controlArmAndSlide(gamepad2);
+            armControl.pickSpecimenFromWall(gamepad1);
             /*
             LINEAR SLIDE
             Gamepad2 Trigger:
@@ -118,6 +115,8 @@ public class RobotCentricDrive extends LinearOpMode {
             d) Using Dpad DOWN - Lift to Lowest position, pick up blocks from submersible
             e) Using Dpad LEFT - Lift to low position, i.e Low Basket
             f) Using Dpad RIGHT - Lift to high position, i.e Upper Basket
+
+            Gamepad1 Right Bumper:
              */
 
             // INTAKE CONTROL

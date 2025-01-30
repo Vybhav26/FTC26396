@@ -15,6 +15,7 @@ public class PresetArmCode {
     private static final double INIT_DEGREES = 14.0;
     private static final double GROUND_DEGREES = 10.0;   // Default position (0 degrees)
     private static final double LOW_DEGREES = 17.0;     // Position to pick up from the ground (15 degrees)
+    private static final double PICK_FROM_WALL_DEGREES = 28.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
     private static final double MAX_DEGREES = 90.0;     // Position to place into an high basket (70 degrees)
 
@@ -30,6 +31,7 @@ public class PresetArmCode {
     private final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
     private final double GROUND_POSITION_TICKS = GROUND_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double PFW_POSITION_TICKS =   PICK_FROM_WALL_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
 
@@ -61,6 +63,12 @@ public class PresetArmCode {
     /**
      * @param gamepad The gamepad used to control the robot's subsystems
      */
+    public void pickSpecimenFromWall(Gamepad logitechGamepad){
+
+        if(logitechGamepad.right_bumper){
+            setArmToWall();
+        }
+    }
     public void controlArmAndSlide(Gamepad gamepad) {
         // Control the linear slide motor based on left and right triggers
         if (gamepad.left_trigger > 0.1) {
@@ -112,6 +120,10 @@ public class PresetArmCode {
 
     private void setArmToGround() {
         setArmPosition(GROUND_POSITION_TICKS); // Set to default position
+    }
+
+    private void setArmToWall() {
+        setArmPosition(PFW_POSITION_TICKS); // Lift to place piece in the higher basket
     }
 
     private void setArmToLow() {
