@@ -145,6 +145,15 @@ public class PresetArmCode {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setPower(ARM_POWER);
     }
+
+
+    public void POSITION1 (){
+        //trajectory
+        //raising your arm
+        //extend linear slide
+        //claw stuff
+
+    }
 }
 /*
 package org.firstinspires.ftc.team26396.opmodes.Subsystems;
