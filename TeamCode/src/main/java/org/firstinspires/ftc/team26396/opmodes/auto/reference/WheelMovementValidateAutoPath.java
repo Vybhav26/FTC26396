@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,8 +15,8 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-@Autonomous(name = "Arm Motor Validate", group = "Initial Validation")
-public class ArmMotorValidateAutoPath extends LinearOpMode {
+@Autonomous(name = "Wheel Movement Validate", group = "Initial Validation")
+public class WheelMovementValidateAutoPath extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -46,27 +47,12 @@ public class ArmMotorValidateAutoPath extends LinearOpMode {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
                     new SequentialAction(
-//                            arm.initializeArm(),
-//                            waitTrajectory.build(),
-                            arm.raiseArmForLowerBasket(),
-//                            arm.raiseArmForLowerBasket(),
-//                            linearSlide.initLinearSlide(),
-                            linearSlide.extendArmForward(),
-//                            arm.raiseArmForNetzone(),
-//                            waitTrajectory.build(),
-//                            arm.raiseArmForSamplePickUpFromFloor(),
-//                            waitTrajectory.build(),
-//                            arm.raiseArmForLowerBasket(),
-//                            arm.raiseArmForSamplePickUpFromFloor(),
-//                            waitTrajectory.build(),
-//                            arm.raiseArmForUpperBasket(),
-//                            waitTrajectory.build(),
-//                            arm.initializeArm(),
-                            new SleepAction(1),
-                            linearSlide.retractSlideBackward(),
-//                            linearSlide.extendSlideForPickFromPool(),
-                            new SleepAction(1),
-                            arm.deactivateArm()
+                            drive.actionBuilder(new Pose2d(0, 0, 0))
+                                    .lineToX(10)
+                                    .strafeTo(new Vector2d(10, 10))
+//                                    .lineToX(0)
+                                    .lineToY(0)
+                                    .build()
                     )
             );
         }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team26396.opmodes.auto.reference;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -41,10 +42,10 @@ public class ArmClawValidateAutoPath extends LinearOpMode {
 
         Pose2d initPose = new Pose2d(-24, 60, Math.toRadians(-90));
 
-        TrajectoryActionBuilder testTrajectory = drive.actionBuilder(initPose)
-                .afterDisp(5, () -> {
-                    arm.raiseArmForMoving();
-                });
+        TrajectoryActionBuilder testTrajectory = drive.actionBuilder(initPose);
+//                .afterDisp(5, () -> {
+//                    arm.raiseArmForMoving();
+//                });
 
         // Wait for the start signal
         waitForStart();
@@ -53,7 +54,9 @@ public class ArmClawValidateAutoPath extends LinearOpMode {
             // Define the trajectory for the Blue Basket sequence with waits
             Actions.runBlocking(
                     new SequentialAction(testTrajectory.build(),
-
+//                                arm.raiseArmForHighRungHang(),
+                            arm.raiseArmForLowerBasket(),
+                            new SleepAction(1),
 //                            new ParallelAction(testTrajectory.build()),
 //                            arm.initializeArm(),
 //                            waitTrajectory.build(),
@@ -72,12 +75,27 @@ public class ArmClawValidateAutoPath extends LinearOpMode {
 //                            arm.initializeArm(),
 //                            linearSlide.retractArmBackward(),
 //                            linearSlide.extendSlideForPickFromPool(),
-                            yaw.moveWristCenter(),
-                            pitch.moveWristMiddle(),
+//                            yaw.moveWristCenter(),
+//                            pitch.moveWristMiddle(),
                             claw.openClaw(),
+                            new SleepAction(2),
                             claw.closeClaw(),
+                            new SleepAction(2),
+                            claw.openClaw(),
+                            new SleepAction(2),
+                            pitch.moveWristUp(),
+                            new SleepAction(2),
                             pitch.moveWristDown(),
-                            yaw.moveWristCenter(),
+                            new SleepAction(2),
+                            pitch.moveWristMiddle(),
+                            new SleepAction(2),
+                            pitch.moveWristDown(),
+                            new SleepAction(2),
+                            pitch.moveWristUp(),
+                            new SleepAction(2),
+                            pitch.moveWristDown(),
+                            new SleepAction(1),
+//                            yaw.moveWristCenter(),
                             arm.deactivateArm()
                     )
             );
