@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.team26396.constants.Constants;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 
 public class Arm {
-    private static DcMotorEx armMotor = null;
-    private static final double LINEAR_SLIDE_POWER = 0.8;
+    public final DcMotorEx armMotor;
     private static final double ARM_POWER = 0.5;
 
     private static final double RETRACT_ARM_POWER = -0.5;
@@ -30,12 +30,18 @@ public class Arm {
 
     private static final double DEGREES_FOR_MOVING_HEIGHT = 30.0;
 
+    private static final double ARM_POSITION_FOR_MOVING_HEIGHT = 600.0;
+
+    private static final double ARM_POSITION_FOR_HIGH_RUNG = 1480;
+
+    private static final double ARM_POSITION_FOR_INIT = 200;
+
     private static final double LOW_DEGREES = 12.0;     // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
     private static final double MAX_DEGREES = 95.0;     // Position to place into an high basket (70 degrees)
 
     // Formula to calculate ticks per degree
-    static final double ARM_TICKS_PER_DEGREE =
+    final double ARM_TICKS_PER_DEGREE =
 //            19.2032086;
             145.1 // encoder ticks per rotation of the bare RS-555 motor
                     * 5.2 // gear ratio of the 5.2:1 Yellow Jacket gearbox
@@ -44,16 +50,15 @@ public class Arm {
 
 
     // Pre-calculated arm positions in encoder ticks based on degrees
-    private static final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
-    private static final double GROUND_POSITION_TICKS = GROUND_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double INIT_POSITION_TICKS = INIT_DEGREES* ARM_TICKS_PER_DEGREE;
+    private final double GROUND_POSITION_TICKS = GROUND_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double MIN_POS_FOR_WRIST_TICKS = MIN_DEGREES_FOR_WRIST * ARM_TICKS_PER_DEGREE;
-    private static final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
-    private static final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
-    private static final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double LOW_POSITION_TICKS = LOW_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double HIGH_POSITION_TICKS = HIGH_DEGREES * ARM_TICKS_PER_DEGREE;
+    private final double MAX_POSITION_TICKS = MAX_DEGREES * ARM_TICKS_PER_DEGREE;
     private final double DEGREES_FOR_MOVING_HEIGHT_TICKS = DEGREES_FOR_MOVING_HEIGHT * ARM_TICKS_PER_DEGREE;
-    private static final double DEGREES_FOR_SPECIMEN_ON_FLOOR_TICKS = DEGREES_FOR_SPECIMEN_ON_FLOOR * ARM_TICKS_PER_DEGREE;
+    private final double DEGREES_FOR_SPECIMEN_ON_FLOOR_TICKS = DEGREES_FOR_SPECIMEN_ON_FLOOR * ARM_TICKS_PER_DEGREE;
     private final double DEGREES_FOR_SPECIMEN_ON_WALL_TICKS = DEGREES_FOR_SPECIMEN_ON_WALL * ARM_TICKS_PER_DEGREE;
-
 
     // Fudge factor for fine control of arm adjustments
     //Larger FudgeFactor = More Jerky Movements
@@ -64,15 +69,15 @@ public class Arm {
     private double armTargetPosition = GROUND_POSITION_TICKS;
 
     public Arm(HardwareMap hardwareMap) {
-        armMotor = hardwareMap.get(DcMotorEx.class, "liftMotor");
+        armMotor = hardwareMap.get(DcMotorEx.class, Constants.HardwareConstants.ARM_MOTOR_NAME);
 
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         armMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Configure motors
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
         setArmPosition(INIT_POSITION_TICKS);  // Set the arm to the ground position by default
     }
 
@@ -92,7 +97,7 @@ public class Arm {
         return new RaiseArmForNetZone();
     }
 
-    public static Action raiseArmForLowerBasket() {
+    public Action raiseArmForLowerBasket() {
         return new RaiseArmForLowerBasket();
     }
 
@@ -112,6 +117,15 @@ public class Arm {
         return new RaiseArmForMoving();
     }
 
+    public Action raiseArmForHighRungHang() {
+        return new RaiseArmForSpecimenHangForHighRung();
+    }
+
+    public Action moveUpRelativePosition(double deltaToMove) {
+        return new MoveArmUpDownRelatively(deltaToMove);
+    }
+
+
     private void setArmPosition(double targetPosition) {
         // Safety check to ensure position is within valid range
         if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
@@ -120,38 +134,29 @@ public class Arm {
 
         // Convert target position in ticks (double) and set motor
         armMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         armMotor.setPower(ARM_POWER);
     }
 
-    private static boolean setArmPositionForAction(TelemetryPacket packet, double targetPosition, double armPower) {
-
-        if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
-            targetPosition = LOW_POSITION_TICKS; // Set to low/ground position if out of range
-        }
+    private boolean setArmPositionForAction(TelemetryPacket packet, double targetPosition, double armPower) {
 
         // Convert target position in ticks (double) and set motor
         armMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         armMotor.setPower(armPower);
 
-        double currentPosition = armMotor.getCurrentPosition();
-        packet.put("Arm Position", currentPosition);
-
-        if (currentPosition < (MAX_POSITION_TICKS+5.0) && currentPosition >= DEGREES_FOR_SPECIMEN_ON_FLOOR_TICKS) {
-            // true causes the action to rerun
-            return true;
-        } else {
-            // false stops action rerun
-            armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-            armMotor.setPower(0);
-            return false;
-        }
+        return false;
     }
 
-    public static class InitializeArm implements Action {
+    private class MoveArmUpDownRelatively implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
+        private double deltaPosition;
+
+        public MoveArmUpDownRelatively(double deltaToMove) {
+
+            deltaPosition = deltaToMove;
+        }
 
         // actions are formatted via telemetry packets as below
         @Override
@@ -159,15 +164,19 @@ public class Arm {
             // powers on motor, if it is not on
             if (!initialized) {
                 initialized = true;
-                armMotor.setPower(ARM_POWER);
+//                armMotor.setPower(ARM_POWER);
             }
 
-            return setArmPositionForAction(packet, INIT_POSITION_TICKS, ARM_POWER);
+            double currentPos = armMotor.getCurrentPosition();
+            double deltaPositionTicks = deltaPosition * ARM_TICKS_PER_DEGREE;
+            double newPosition = currentPos + deltaPositionTicks;
+            packet.addLine("currentPos : " + currentPos + " deltaPosition : " + deltaPosition + " deltaPositionTicks : " + deltaPositionTicks + " newPosition : " + newPosition);
 
+            return setArmPositionForAction(packet, newPosition, ARM_POWER);
         }
     }
 
-    public class RaiseArmForWristControl implements Action {
+    private class InitializeArm implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -177,17 +186,15 @@ public class Arm {
             // powers on motor, if it is not on
             if (!initialized) {
                 initialized = true;
-                armMotor.setPower(ARM_POWER);
+//                armMotor.setPower(ARM_POWER);
             }
 
-            // checks lift's current position
-
-            return setArmPositionForAction(packet, MIN_POS_FOR_WRIST_TICKS, ARM_POWER);
+            return setArmPositionForAction(packet, ARM_POSITION_FOR_INIT, ARM_POWER);
 
         }
     }
 
-    public static class DeactivateArm implements Action {
+private class RaiseArmForWristControl implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -197,27 +204,7 @@ public class Arm {
             // powers on motor, if it is not on
             if (!initialized) {
                 initialized = true;
-                armMotor.setPower(RETRACT_ARM_POWER);
-            }
-
-            // checks lift's current position
-
-            return setArmPositionForAction(packet, INIT_POSITION_TICKS, ARM_POWER);
-
-        }
-    }
-
-    public class RaiseArmForNetZone implements Action {
-        // checks if the lift motor has been powered on
-        private boolean initialized = false;
-
-        // actions are formatted via telemetry packets as below
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            // powers on motor, if it is not on
-            if (!initialized) {
-                initialized = true;
-                armMotor.setPower(ARM_POWER);
+//                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -226,7 +213,8 @@ public class Arm {
 
         }
     }
-    public static class RaiseArmForLowerBasket implements Action {
+
+    private class DeactivateArm implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -236,7 +224,46 @@ public class Arm {
             // powers on motor, if it is not on
             if (!initialized) {
                 initialized = true;
-                armMotor.setPower(ARM_POWER);
+//                armMotor.setPower(RETRACT_ARM_POWER);
+            }
+
+            // checks lift's current position
+
+            return setArmPositionForAction(packet, ARM_POSITION_FOR_INIT, RETRACT_ARM_POWER);
+
+        }
+    }
+
+    private class RaiseArmForNetZone implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+//                armMotor.setPower(ARM_POWER);
+            }
+
+            // checks lift's current position
+
+            return setArmPositionForAction(packet, MIN_POS_FOR_WRIST_TICKS, ARM_POWER);
+
+        }
+    }
+    private class RaiseArmForLowerBasket implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+//                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
@@ -246,7 +273,7 @@ public class Arm {
         }
     }
 
-    public static class RaiseArmForHighBasket implements Action {
+    private class RaiseArmForHighBasket implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -266,7 +293,7 @@ public class Arm {
         }
     }
 
-    public class RaiseArmForSpecimenPickupFromWall implements Action {
+    private class RaiseArmForSpecimenPickupFromWall implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -286,7 +313,27 @@ public class Arm {
         }
     }
 
-    public static class RaiseArmForSamplePickupFromFloor implements Action {
+    private class RaiseArmForSpecimenHangForHighRung implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+                armMotor.setPower(ARM_POWER);
+            }
+
+            // checks lift's current position
+
+            return setArmPositionForAction(packet, ARM_POSITION_FOR_HIGH_RUNG, ARM_POWER);
+
+        }
+    }
+
+    private class RaiseArmForSamplePickupFromFloor implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -306,7 +353,7 @@ public class Arm {
         }
     }
 
-    public class RaiseArmForMoving implements Action {
+    private class RaiseArmForMoving implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -316,7 +363,7 @@ public class Arm {
             // powers on motor, if it is not on
             if (!initialized) {
                 initialized = true;
-                armMotor.setPower(ARM_POWER);
+//                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position
