@@ -13,6 +13,7 @@ import org.firstinspires.ftc.team26396.opmodes.Subsystems.ClawCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.HangCode;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetArmCode;
 //import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetSlideCode;
+import org.firstinspires.ftc.team26396.opmodes.Subsystems.SlidePreset;
 
 @TeleOp(name = "TeleOpRobotCentric", group = "TeleOpFINAL")
 //@Disabled
@@ -23,6 +24,7 @@ public class RobotCentricDrive extends LinearOpMode {
 //    private PresetSlideCode slideControl;
     private ClawCode clawControl;
     private HangCode hangControl;
+    private SlidePreset slideControl;
 
     DcMotorEx linearSlideMotor;
     @Override
@@ -73,7 +75,8 @@ public class RobotCentricDrive extends LinearOpMode {
 
         // Initialize subsystems
         armControl = new PresetArmCode(linearSlideMotor, armMotor);
-   //     slideControl = new PresetSlideCode(linearSlideMotor);
+
+        slideControl = new SlidePreset(hardwareMap);
         clawControl = new ClawCode(clawServo, rollServo, yawServo, pitchServo);
         hangControl = new HangCode(HangMotor1, HangMotor2);
         waitForStart();
@@ -105,7 +108,7 @@ public class RobotCentricDrive extends LinearOpMode {
             // ARM CONTROL
             armControl.controlArmAndSlide(gamepad2);
             armControl.pickSpecimenFromWall(gamepad1);
-          //  slideControl.controlSlide(gamepad2);
+            slideControl.controlSlide(gamepad2);
             /*
             LINEAR SLIDE
             Gamepad2 Trigger:
