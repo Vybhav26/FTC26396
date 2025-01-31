@@ -84,10 +84,6 @@ public class ClawCode {
             submerisibleClaw();  // Reset claw, pitch, yaw, and roll to neutral
         }
 
-        if(ps4Gamepad.dpad_right){
-            clawRoll.rotateNormal(); //Check if needed
-            clawPitch.setHangPosition(); //Check if needed
-        }
 
     }
 

@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.team26396.constants.Constants;
 import org.firstinspires.ftc.team26396.opmodes.Subsystems.PresetSlideCode;
 
-public class LinearSlide extends PresetSlideCode {
+public class LinearSlide  {
 
     private static final DcMotorEx linearSlideMotor = (DcMotorEx) hardwareMap.get(DcMotor.class, "armMotor");
     private static final double LINEAR_SLIDE_POWER = 0.5;
