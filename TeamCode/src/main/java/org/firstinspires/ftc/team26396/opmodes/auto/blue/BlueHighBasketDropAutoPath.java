@@ -6,6 +6,7 @@ package org.firstinspires.ftc.team26396.opmodes.auto.blue;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -21,7 +22,7 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-@Autonomous(name="Blue Hang Specimen Simple Auto Path")
+@Autonomous(name="Blue High Basket Drop Auto Path")
 public class BlueHighBasketDropAutoPath extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0, 60, facing the basket
@@ -38,32 +39,82 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         waitForStart();
 
-        double xDestPositionDropSampleInHand = 48;
-        double yDestPositionDropSampleInHand = 48;
+        double xDestPositionDropSampleInHand = 50;
+        double yDestPositionDropSampleInHand = 50;
         double headingDestPositionDropSampleInHand = Math.toRadians(0.0);
 
-        Action fullAction = drive.actionBuilder(initialPose)
-                .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45))
-//                .waitSeconds(1)
-                .stopAndAdd(arm.raiseArmForUpperBasket())
-                .stopAndAdd(new SleepAction(1))
-                .stopAndAdd(linearSlide.extendArmForward())
-                .stopAndAdd(pitch.moveWristUp())
-                .stopAndAdd(claw.openClaw())
-                .stopAndAdd(pitch.moveWristDown())
-                .stopAndAdd(linearSlide.retractSlideBackward())
-                .stopAndAdd(arm.deactivateArm())
-                .turnTo(Math.toRadians(-90))
-                .lineToY(38)
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45))
-                .waitSeconds(1)
-//                .turnTo(Math.toRadians(0))
-                .strafeTo(new Vector2d(38, 24))
-                .build();
+        TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
+                .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45));
 
+
+        Action sleepAction1Second = new SleepAction(1);
+        Action sleepAction2Seconds = new SleepAction(2);
+        Action sleepAction3Seconds = new SleepAction(3);
+
+        TrajectoryActionBuilder basketToFirstSample =
+                goToBasketFromInitPosition.endTrajectory().fresh()
+                        .turnTo(Math.toRadians(-90))
+                        .lineToY(38);
+
+        TrajectoryActionBuilder firstSampleToBasket =
+                basketToFirstSample.endTrajectory().fresh()
+                        .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45));
+
+        Action goToBasketFromInitPositionAction = goToBasketFromInitPosition.build();
+        Action basketToFirstSampleAction = basketToFirstSample.build();
+        Action firstSampleToBasketAction = firstSampleToBasket.build();
+
+        Action fullAction = new SequentialAction(
+                // Init position to basket with pre-loaded sample
+                goToBasketFromInitPositionAction,
+                // Drop the sample into the basket
+                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch),
+                // Go from basket to the first sample
+                firstSampleToBasketAction,
+                // Pick up first sample
+                buildCommonActionToPickSample(basketToFirstSample, arm, linearSlide, claw, pitch),
+                // Drop the sample into the basket
+                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch));
+                // Go from basket to the second sample
 
         Actions.runBlocking(fullAction);
 
+    }
+
+    public Action buildCommonActionForDroppingToBasket(TrajectoryActionBuilder inputTrajectory, Arm arm, LinearSlide linearSlide, Claw claw, YPitch pitch) {
+
+        Action dropSampleIntoHighBasketAction = inputTrajectory.endTrajectory().fresh()
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(arm.raiseArmForUpperBasket())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(linearSlide.extendArmForward())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(pitch.moveWristUp())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(claw.openClaw())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(pitch.moveWristDown())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(linearSlide.retractSlideBackward())
+                .stopAndAdd(new SleepAction(3))
+                .stopAndAdd(arm.deactivateArm())
+                .stopAndAdd(new SleepAction(2))
+                .build();
+
+        return dropSampleIntoHighBasketAction;
+    }
+
+    public Action buildCommonActionToPickSample(TrajectoryActionBuilder inputTrajectory, Arm arm, LinearSlide linearSlide, Claw claw, YPitch pitch) {
+
+        Action dropSampleIntoHighBasketAction = inputTrajectory.endTrajectory().fresh()
+                .stopAndAdd(linearSlide.moveSlideRelatively(50))
+                .stopAndAdd(claw.openClaw())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(claw.closeClaw())
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(linearSlide.moveSlideRelatively(-50))
+                .build();
+
+        return dropSampleIntoHighBasketAction;
     }
 }

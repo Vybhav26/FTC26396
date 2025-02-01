@@ -194,7 +194,30 @@ public class Arm {
         }
     }
 
-private class RaiseArmForWristControl implements Action {
+    private class ResetArm implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+//                armMotor.setPower(ARM_POWER);
+            }
+
+            armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            return false;
+        }
+    }
+
+    public Action resetArm() {
+        return new ResetArm();
+    }
+
+    private class RaiseArmForWristControl implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -283,7 +306,7 @@ private class RaiseArmForWristControl implements Action {
             // powers on motor, if it is not on
             if (!initialized) {
                 initialized = true;
-                armMotor.setPower(ARM_POWER);
+//                armMotor.setPower(ARM_POWER);
             }
 
             // checks lift's current position

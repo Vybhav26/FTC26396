@@ -84,6 +84,45 @@ public class LinearSlide {
         return new ExtendSlideForPickFromPool();
     }
 
+    public Action moveSlideRelatively(double delta) {
+        return new MoveSlideForwardOrBackWardRelative(delta);
+    }
+
+    public Action resetLinearSlide() {
+        return new ResetSlidePosition();
+    }
+
+    public class MoveSlideForwardOrBackWardRelative implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        private double deltaPos;
+
+        public MoveSlideForwardOrBackWardRelative(double deltaPosition) {
+
+            deltaPos = deltaPosition;
+        }
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+//                linearSlideMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
+            }
+
+            double currentPos = linearSlideMotor.getCurrentPosition();
+//            double deltaPosition = ;
+            double newPosition = currentPos + deltaPos;
+            packet.addLine("currentPos : " + currentPos + " deltaPosition : " + deltaPos + " newPosition : " + newPosition);
+
+            return setLinearSlidePosition(packet, newPosition, LINEAR_SLIDE_POWER);
+
+        }
+    }
+
     public class InitLinearSlide implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
@@ -186,11 +225,29 @@ public class LinearSlide {
 
         // Convert target position in ticks (double) and set motor
         linearSlideMotor.setTargetPosition((int) targetPosition);
-//        linearSlideMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         linearSlideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         linearSlideMotor.setPower(linearSlidePower);
 
         return false;
 
+    }
+
+    private class ResetSlidePosition implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+//                armMotor.setPower(ARM_POWER);
+            }
+
+            linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            return false;
+        }
     }
 }

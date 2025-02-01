@@ -49,7 +49,7 @@ public class ParallelTest extends LinearOpMode {
                         .waitSeconds(0.3)
 
                         // 6. Retract the linear slide
-                        .afterTime(0, slide.retractArmBackward())
+                        .afterTime(0, slide.retractSlideBackward())
                         .waitSeconds(0.5)
 
                         .build()
