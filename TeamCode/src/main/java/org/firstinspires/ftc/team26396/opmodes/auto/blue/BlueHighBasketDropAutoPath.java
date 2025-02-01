@@ -53,8 +53,9 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
         TrajectoryActionBuilder basketToFirstSample =
                 goToBasketFromInitPosition.endTrajectory().fresh()
-                        .turnTo(Math.toRadians(135))
-                        .lineToY(38);
+                        .turnTo(Math.toRadians(-105))
+                        .strafeTo(new Vector2d(48, 39));
+//                        .lineToY(38);
 
         TrajectoryActionBuilder firstSampleToBasket =
                 basketToFirstSample.endTrajectory().fresh()
@@ -97,16 +98,18 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .lineToX(56)
                 // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
-//                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(.5))
                 // Open the claw to drop the sample
                 .stopAndAdd(claw.openClaw())
-//                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(1))
                 // Move the wrist back - wrist down method may be misleading
                 .stopAndAdd(pitch.moveWristDown())
 //                .stopAndAdd(new SleepAction(1))
                 // Retract slide backward
+                .lineToX(52)
+                .stopAndAdd(new SleepAction(.5))
                 .stopAndAdd(linearSlide.retractSlideBackward())
-                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(2))
                 // Bring the arm back down
                 .stopAndAdd(arm.deactivateArm())
 //                .stopAndAdd(new SleepAction(2))
@@ -124,7 +127,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .stopAndAdd(new SleepAction(1))
                 .stopAndAdd(claw.closeClaw())
                 .stopAndAdd(new SleepAction(1))
-                .stopAndAdd(linearSlide.moveSlideRelatively(-100))
+//                .stopAndAdd(linearSlide.moveSlideRelatively(-100))
                 .build();
 
         return pickSampleFromFloor;
