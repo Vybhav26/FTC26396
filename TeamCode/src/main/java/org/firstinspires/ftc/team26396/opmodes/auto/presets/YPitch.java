@@ -14,9 +14,9 @@ public class YPitch {
 
     private final Servo pitch;
 
-    private static final double DOWN_POSITION = 1.0;     // Position to place into an high basket (70 degrees)
+    private static final double DOWN_POSITION = 0.6;     // Position to place into an high basket (70 degrees)
 
-    private static final double UP_POSITION = 0.3;
+    private static final double UP_POSITION = 0.0;
 
     private static final double MIDDLE_POSITION = 0.5;
 

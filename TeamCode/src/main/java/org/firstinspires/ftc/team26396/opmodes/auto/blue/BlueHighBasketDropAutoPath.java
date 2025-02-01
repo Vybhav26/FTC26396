@@ -39,8 +39,8 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         waitForStart();
 
-        double xDestPositionDropSampleInHand = 50;
-        double yDestPositionDropSampleInHand = 50;
+        double xDestPositionDropSampleInHand = 52;
+        double yDestPositionDropSampleInHand = 52;
         double headingDestPositionDropSampleInHand = Math.toRadians(0.0);
 
         TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
