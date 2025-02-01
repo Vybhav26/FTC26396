@@ -6,8 +6,8 @@ public class ClawRoll {
 //    private Servo clawRotationServo = null;
     private Servo clawRotationServo;
 
-    private static final double ROTATION_POSITION_INIT = 0.0;  // Initial rotation
-    private static final double ROTATION_POSITION_NORMAL = 0.6; // Normal rotation
+    private static final double ROTATION_POSITION_INIT = 0.5;//was 0  // Initial rotation
+    private static final double ROTATION_POSITION_NORMAL = 1; //was .6 Normal rotation
 
     public ClawRoll(Servo clawRotationServo) {
         this.clawRotationServo = clawRotationServo;

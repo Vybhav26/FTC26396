@@ -14,7 +14,7 @@ public class SlidePreset {
     private final int HIGH_POSITION = 1500;
 
     public SlidePreset(HardwareMap hardwareMap) {
-        slideMotor = hardwareMap.get(DcMotor.class, "slideMotor");
+        slideMotor = hardwareMap.get(DcMotor.class, "armMotor");
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -11,13 +11,13 @@ public class LinearSlidePresetTest extends LinearOpMode {
 
     // Define preset positions (in encoder ticks)
     private final int GROUND_POSITION = 0;
-    private final int LOW_POSITION = 500;
-    private final int MID_POSITION = 1000;
-    private final int HIGH_POSITION = 1500;
+    private final int LOW_POSITION = -500;
+    private final int MID_POSITION = -1000;
+    private final int HIGH_POSITION = -1500;
 
     @Override
     public void runOpMode() {
-        slideMotor = hardwareMap.get(DcMotor.class, "slideMotor");
+        slideMotor = hardwareMap.get(DcMotor.class, "armMotor");
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -39,6 +39,7 @@ public class LinearSlidePresetTest extends LinearOpMode {
             }
 
             telemetry.addData("Current Position", slideMotor.getCurrentPosition());
+
             telemetry.update();
         }
     }
