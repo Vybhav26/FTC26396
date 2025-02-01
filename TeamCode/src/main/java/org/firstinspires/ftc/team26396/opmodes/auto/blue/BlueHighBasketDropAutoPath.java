@@ -40,7 +40,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         waitForStart();
 
         double xDestPositionDropSampleInHand = 52;
-        double yDestPositionDropSampleInHand = 52;
+        double yDestPositionDropSampleInHand = 50;
         double headingDestPositionDropSampleInHand = Math.toRadians(0.0);
 
         TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
@@ -53,7 +53,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
         TrajectoryActionBuilder basketToFirstSample =
                 goToBasketFromInitPosition.endTrajectory().fresh()
-                        .turnTo(Math.toRadians(-90))
+                        .turnTo(Math.toRadians(135))
                         .lineToY(38);
 
         TrajectoryActionBuilder firstSampleToBasket =
@@ -70,9 +70,11 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 // Drop the sample into the basket
                 buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch),
                 // Go from basket to the first sample
-                firstSampleToBasketAction,
+                basketToFirstSampleAction,
                 // Pick up first sample
                 buildCommonActionToPickSample(basketToFirstSample, arm, linearSlide, claw, pitch),
+                // First sample to basket
+                firstSampleToBasketAction,
                 // Drop the sample into the basket
                 buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch));
                 // Go from basket to the second sample
@@ -84,21 +86,30 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
     public Action buildCommonActionForDroppingToBasket(TrajectoryActionBuilder inputTrajectory, Arm arm, LinearSlide linearSlide, Claw claw, YPitch pitch) {
 
         Action dropSampleIntoHighBasketAction = inputTrajectory.endTrajectory().fresh()
-                .stopAndAdd(new SleepAction(1))
+//                .stopAndAdd(new SleepAction(1))
+                // Raise the arm to upper basket height
                 .stopAndAdd(arm.raiseArmForUpperBasket())
                 .stopAndAdd(new SleepAction(1))
+                // Extend the slide
                 .stopAndAdd(linearSlide.extendArmForward())
                 .stopAndAdd(new SleepAction(1))
+                // Move towards the basket
+                .lineToX(56)
+                // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
-                .stopAndAdd(new SleepAction(1))
+//                .stopAndAdd(new SleepAction(1))
+                // Open the claw to drop the sample
                 .stopAndAdd(claw.openClaw())
-                .stopAndAdd(new SleepAction(1))
+//                .stopAndAdd(new SleepAction(1))
+                // Move the wrist back - wrist down method may be misleading
                 .stopAndAdd(pitch.moveWristDown())
-                .stopAndAdd(new SleepAction(1))
+//                .stopAndAdd(new SleepAction(1))
+                // Retract slide backward
                 .stopAndAdd(linearSlide.retractSlideBackward())
-                .stopAndAdd(new SleepAction(3))
+                .stopAndAdd(new SleepAction(1))
+                // Bring the arm back down
                 .stopAndAdd(arm.deactivateArm())
-                .stopAndAdd(new SleepAction(2))
+//                .stopAndAdd(new SleepAction(2))
                 .build();
 
         return dropSampleIntoHighBasketAction;
@@ -106,15 +117,16 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
     public Action buildCommonActionToPickSample(TrajectoryActionBuilder inputTrajectory, Arm arm, LinearSlide linearSlide, Claw claw, YPitch pitch) {
 
-        Action dropSampleIntoHighBasketAction = inputTrajectory.endTrajectory().fresh()
-                .stopAndAdd(linearSlide.moveSlideRelatively(50))
+        Action pickSampleFromFloor = inputTrajectory.endTrajectory().fresh()
+                .stopAndAdd(pitch.moveWristUp())
+//                .stopAndAdd(linearSlide.moveSlideRelatively(100))
                 .stopAndAdd(claw.openClaw())
                 .stopAndAdd(new SleepAction(1))
                 .stopAndAdd(claw.closeClaw())
                 .stopAndAdd(new SleepAction(1))
-                .stopAndAdd(linearSlide.moveSlideRelatively(-50))
+                .stopAndAdd(linearSlide.moveSlideRelatively(-100))
                 .build();
 
-        return dropSampleIntoHighBasketAction;
+        return pickSampleFromFloor;
     }
 }

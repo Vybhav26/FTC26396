@@ -21,7 +21,7 @@ public class ClawCode {
 
     public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, Servo clawYawServo, Servo clawPitchServo) {
         this.clawOpenCloseServo = clawOpenCloseServo;
-        this.clawPitch = new ClawPitch(clawPitchServo);
+      //  this.clawPitch = new ClawPitch(clawPitchServo);
         this.clawYaw = new ClawYaw(clawYawServo);
         this.clawRoll = new ClawRoll(clawRotationServo);
         clawRoll.rotateNormal(); // Set initial position for roll

@@ -24,7 +24,7 @@ public class XYaw {
 
         yaw = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.X_YAW_SERVO);
 
-//        yaw.setPosition(RIGHT_POSITION);
+        yaw.setPosition(CENTER_POSITION);
 
     }
 

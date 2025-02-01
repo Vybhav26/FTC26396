@@ -32,7 +32,7 @@ public class Arm {
 
     private static final double ARM_POSITION_FOR_MOVING_HEIGHT = 600.0;
 
-    private static final double ARM_POSITION_FOR_HIGH_RUNG = 1480;
+    private static final double ARM_POSITION_FOR_HIGH_RUNG = 1425.2;
 
     private static final double ARM_POSITION_FOR_INIT = 200;
 

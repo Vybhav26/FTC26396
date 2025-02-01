@@ -72,6 +72,9 @@ public class PresetArmCode {
     }
     public void controlArmAndSlide(Gamepad gamepad) {
         // Control the linear slide motor based on left and right triggers
+
+
+
         if (gamepad.left_trigger > 0.1) {
             linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             linearSlideMotor.setPower(-LINEAR_SLIDE_POWER); // Move linear slide down

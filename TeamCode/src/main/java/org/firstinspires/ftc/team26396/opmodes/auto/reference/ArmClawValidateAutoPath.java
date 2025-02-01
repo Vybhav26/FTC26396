@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.Arm;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.Claw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.LinearSlide;
+import org.firstinspires.ftc.team26396.opmodes.auto.presets.Roll;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
@@ -28,6 +29,7 @@ public class ArmClawValidateAutoPath extends LinearOpMode {
         YPitch pitch = new YPitch(hardwareMap);
         XYaw yaw = new XYaw(hardwareMap);
         Claw claw = new Claw(hardwareMap);
+        Roll roll = new Roll(hardwareMap);
 
         TrajectoryActionBuilder waitTrajectory = drive.actionBuilder(initialPose)
                 .waitSeconds(1);
@@ -57,6 +59,7 @@ public class ArmClawValidateAutoPath extends LinearOpMode {
 //                                arm.raiseArmForHighRungHang(),
                             arm.raiseArmForLowerBasket(),
                             new SleepAction(1),
+                            roll.rotate90Clockwise(),
 //                            new ParallelAction(testTrajectory.build()),
 //                            arm.initializeArm(),
 //                            waitTrajectory.build(),
