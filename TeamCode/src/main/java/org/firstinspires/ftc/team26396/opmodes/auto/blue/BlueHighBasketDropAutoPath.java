@@ -26,7 +26,7 @@ import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 public class BlueHighBasketDropAutoPath extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0, 60, facing the basket
-        Pose2d initialPose = new Pose2d(0, 60, Math.toRadians(0));
+        Pose2d initialPose = new Pose2d(24, 60, Math.toRadians(0));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // Define arm positions using the constants from the Arm class
 
@@ -54,7 +54,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         TrajectoryActionBuilder basketToFirstSample =
                 goToBasketFromInitPosition.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(47.5, 35.5));
+                        .strafeTo(new Vector2d(46.5, 34.5));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder firstSampleToBasket =
@@ -64,7 +64,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         TrajectoryActionBuilder basketToSecondSample =
                 firstSampleToBasket.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(57.5, 35.5));
+                        .strafeTo(new Vector2d(56.5, 34.5));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder secondSampleToBasket =
@@ -89,7 +89,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 // First sample to basket
                 firstSampleToBasketAction,
                 // Drop the sample into the basket
-                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch)),
+                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch),
                 // Go from basket to the second sample
                 basketToSecondSampleAction,
                 // Drop the sample into the basket
@@ -146,6 +146,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .stopAndAdd(new SleepAction(1))
                 .stopAndAdd(claw.closeClaw())
                 .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(arm.raiseArmForUpperBasket())
 //                .stopAndAdd(linearSlide.moveSlideRelatively(-100))
                 .build();
 

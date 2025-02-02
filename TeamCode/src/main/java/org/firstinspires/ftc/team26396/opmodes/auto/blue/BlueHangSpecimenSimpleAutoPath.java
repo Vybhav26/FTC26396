@@ -46,7 +46,7 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
 
         TrajectoryActionBuilder tab2 = tab1.endTrajectory().fresh()
 //                .waitSeconds(2)
-                .strafeTo(new Vector2d(0, -50));
+                .strafeTo(new Vector2d(0, -15));
 //                .waitSeconds(3);
 //                .lineToY(-48.0);
 
