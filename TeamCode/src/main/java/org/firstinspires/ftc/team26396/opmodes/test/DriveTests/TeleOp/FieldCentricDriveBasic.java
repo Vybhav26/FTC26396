@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team26396.opmodes.TeleOp;
+package org.firstinspires.ftc.team26396.opmodes.test.DriveTests.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
