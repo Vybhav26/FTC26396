@@ -19,7 +19,7 @@ public class BlueBasket {
                 //BLUE BASKET STARTS HERE
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder
-                                        (new Pose2d(20, 65, Math.toRadians(-90)))
+                                        (new Pose2d(67.5, 60, Math.toRadians(-90)))
 
 
                                 //Path for Blue Basket Drop

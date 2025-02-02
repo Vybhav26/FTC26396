@@ -33,55 +33,58 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
         LinearSlide linearSlide = new LinearSlide(hardwareMap);
 
         XYaw yaw = new XYaw(hardwareMap);
-        YPitch pitch=new YPitch(hardwareMap);
+        YPitch pitch = new YPitch(hardwareMap);
         Roll roll = new Roll(hardwareMap);
         Claw claw = new Claw(hardwareMap);
         waitForStart();
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
-                .waitSeconds(3);
+        if (opModeIsActive() && !isStopRequested()) {
+            new Arm.DeactivateArm();
 
-        Action initializeRobot = tab1.build();
+            TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
+                    .waitSeconds(3);
 
-        TrajectoryActionBuilder tab2 = tab1.endTrajectory().fresh()
+            Action initializeRobot = tab1.build();
+
+            TrajectoryActionBuilder tab2 = tab1.endTrajectory().fresh()
 //                .waitSeconds(2)
-                .strafeTo(new Vector2d(0, -50))
-                .waitSeconds(3);
+                    .strafeTo(new Vector2d(0, -50))
+                    .waitSeconds(3);
 //                .lineToY(-48.0);
 
-        Action moveToPositionToHangSample = tab2.build();
+            Action moveToPositionToHangSample = tab2.build();
 
-        Action hangSample = new ParallelAction(
-                arm.raiseArmForLowerBasket(),
-                linearSlide.extendArmForward(),
-                pitch.moveWristDown(),
-                yaw.moveWristCenter(),
-                roll.rotate90Clockwise()
-        );
+            Action hangSample = new ParallelAction(
+                    arm.raiseArmForLowerBasket(),
+                    linearSlide.extendArmForward(),
+                    pitch.moveWristDown(),
+                    yaw.moveWristCenter(),
+                    roll.rotate90Clockwise()
+            );
 
-        TrajectoryActionBuilder tab3 = tab2.endTrajectory().fresh()
+            TrajectoryActionBuilder tab3 = tab2.endTrajectory().fresh()
 //                        .waitSeconds(1)
-                        .lineToY(-58.0)
-                .waitSeconds(3);
+                    .lineToY(-58.0)
+                    .waitSeconds(3);
 
-        Action completeHang = tab3.build();
+            Action completeHang = tab3.build();
 
-        Action fullAction = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
-                        .stopAndAdd(arm.raiseArmForLowerBasket())
-                                .stopAndAdd(linearSlide.extendArmForward())
-                .waitSeconds(2)
+            Action fullAction = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
+                    .stopAndAdd(arm.raiseArmForLowerBasket())
+                    .stopAndAdd(linearSlide.extendArmForward())
+                    .waitSeconds(2)
 //                                        .stopAndAdd(pitch.moveWristUp())
 //                                                .stopAndAdd(yaw.moveWristLeft())
 //                                                        .stopAndAdd(roll.rotate90Clockwise())
 //                                                                .stopAndAdd(claw.openClaw())
-                                                                    .stopAndAdd(linearSlide.retractArmBackward())
-                                                                        .waitSeconds(2)
-                                                                                .strafeTo(new Vector2d(0, -50))
-                                                                                        .build();
+                    .stopAndAdd(linearSlide.retractArmBackward())
+                    .waitSeconds(2)
+                    .strafeTo(new Vector2d(0, -50))
+                    .build();
 
 
-        telemetry.addData("Linear Slide Position : ", tab2.endTrajectory().fresh());
-        telemetry.update();
+            telemetry.addData("Linear Slide Position : ", tab2.endTrajectory().fresh());
+            telemetry.update();
 
 //        Actions.runBlocking(fullAction);
 
@@ -120,17 +123,18 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
 ////                        .build()
 //        ));
 
-        Actions.runBlocking(initializeRobot);
-        Actions.runBlocking(arm.raiseArmForLowerBasket());
-        Actions.runBlocking(linearSlide.extendArmForward());
-        Actions.runBlocking(pitch.moveWristUp());
-        Actions.runBlocking(yaw.moveWristLeft());
-        Actions.runBlocking(roll.rotate90Clockwise());
-        Actions.runBlocking(moveToPositionToHangSample);
+            Actions.runBlocking(initializeRobot);
+            Actions.runBlocking(arm.raiseArmForLowerBasket());
+            Actions.runBlocking(linearSlide.extendArmForward());
+            Actions.runBlocking(pitch.moveWristUp());
+            Actions.runBlocking(yaw.moveWristLeft());
+            Actions.runBlocking(roll.rotate90Clockwise());
+            Actions.runBlocking(moveToPositionToHangSample);
 //        Actions.runBlocking(claw.openClaw());
-        Actions.runBlocking(linearSlide.retractArmBackward());
-        Actions.runBlocking(arm.raiseArmForSpecimenPickUpFromWall());
-        Actions.runBlocking(completeHang);
+            Actions.runBlocking(linearSlide.retractArmBackward());
+            Actions.runBlocking(arm.raiseArmForSpecimenPickUpFromWall());
+            Actions.runBlocking(completeHang);
 
+        }
     }
 }

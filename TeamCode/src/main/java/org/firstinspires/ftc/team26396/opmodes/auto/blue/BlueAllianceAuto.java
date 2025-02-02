@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.blue;
-
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
 
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -18,225 +17,276 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.Roll;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
+// ... (previous imports remain the same)
 
 @Autonomous(name="Blue Auto", group = "Blue Alliance", preselectTeleOp = "RobotCentricDrive")
+
 public class BlueAllianceAuto extends LinearOpMode {
 
-    private final Servo claw;
-    private final DcMotorEx linearSlideMotor;
-    private final Servo pitch;
-    private final Servo yaw;
-    private final Servo roll;
-    private static DcMotorEx armMotor = null;
+    // Robot components
+    private Arm arm;
+    private LinearSlide linearSlide;
+    private YPitch yPitch;
+    private XYaw xYaw;
+    private Roll rollMechanism;
+   // private Claw clawMechanism;
 
+    public static final String TEAM_NAME = "Pack-A-Punch";
+    public static final int TEAM_NUMBER = 26396;
 
-    public static String TEAM_NAME = "Pack-A-Punch";
-    public static int TEAM_NUMBER = 26396;
-
-    public BlueAllianceAuto(Servo claw, DcMotorEx linearSlideMotor, Servo pitch, Servo yaw, Servo roll, DcMotorEx armMotor) {
-        this.claw = claw;
-        this.linearSlideMotor = linearSlideMotor;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-        this.armMotor = armMotor;
-    }
-
-    public enum START_POSITION{
+    public enum START_POSITION {
         LEFT,
         RIGHT,
     }
-    public static START_POSITION startPosition;
 
-        public void runOpMode() {
-            //Key Pad input to selecting Starting Position of robot
-            telemetry.setAutoClear(true);
-            telemetry.clearAll();
-            while(!isStopRequested()){
-                telemetry.addData("Initializing FTC Wires (ftcwires.org) Autonomous adopted for Team:",
-                        TEAM_NAME, " ", TEAM_NUMBER);
-                telemetry.addData("---------------------------------------","");
-                telemetry.addData("Select Starting Position  on gamepad 1:","");
-                telemetry.addData("    Left   ", " = X ");
-                telemetry.addData("    Right ", " = Y ");
-                if(gamepad1.x){
-                    startPosition = START_POSITION.LEFT;
-                    break;
-                }
-                if(gamepad1.y){
-                    startPosition = START_POSITION.RIGHT;
-                    break;
-                }
-                telemetry.update();
-            }
-            telemetry.setAutoClear(false);
-            telemetry.clearAll();
+    private START_POSITION startPosition;
 
-            telemetry.addData("Selected Starting Position", startPosition);
+    @Override
+    public void runOpMode() {
+        initHardware();
+
+        selectStartPosition();
+
+        waitForStart();
+
+        if (opModeIsActive() && !isStopRequested()) {
+            arm.deactivateArm();
+            runAutonomousMode();
+        }
+    }
+
+    private void initHardware() {
+        // Initialize hardware from config
+     //   Servo claw = hardwareMap.get(Servo.class, "claw");
+        DcMotorEx linearSlideMotor = hardwareMap.get(DcMotorEx.class, "liftMotor");
+      //  Servo pitch = hardwareMap.get(Servo.class, "pitch");
+      //  Servo yaw = hardwareMap.get(Servo.class, "yaw");
+      //  Servo roll = hardwareMap.get(Servo.class, "roll");
+        DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "armMotor");
+    }
+
+
+    private void selectStartPosition() {
+        telemetry.setAutoClear(true);
+        telemetry.clearAll();
+
+        while (!isStopRequested()) {
+         //   telemetry.addData("Initializing FTC Wires (ftcwires.org) Autonomous adopted for Team:",
+//                    TEAM_NAME + " " + TEAM_NUMBER);
+//            telemetry.addData("---------------------------------------", "");
+//            telemetry.addData("Select Starting Position on gamepad 1:", "");
+//            telemetry.addData("    Left   ", " = X ");
+//            telemetry.addData("    Right ", " = Y ");
+//
+//            if (gamepad1.x) {
+//                startPosition = START_POSITION.LEFT;
+//                break;
+//            }
+//            if (gamepad1.y) {
+//                startPosition = START_POSITION.RIGHT;
+                runAutonomousMode();
+//                break;
+//            }
             telemetry.update();
-
-            waitForStart();
-
-            //Game Play Button  is pressed
-            if (opModeIsActive() && !isStopRequested()) {
-                new Arm.DeactivateArm();
-                //Build parking trajectory based on last detected target by vision
-                runAutonoumousMode();
-            }
         }
 
-        public void runAutonoumousMode() {
-            Pose2d initPose = new Pose2d(0, 70, Math.toRadians(90)); // Starting Pose
-            Pose2d SpecimenHang = new Pose2d(0, 27, Math.toRadians(-90));
-            Pose2d MoveSample1 = new Pose2d(49, 35, Math.toRadians(-90));
-            Pose2d PickSample1 = new Pose2d(49, 24, Math.toRadians(-90));
-            Pose2d PositionSample1 = new Pose2d(49, 49, Math.toRadians(44));
-            Pose2d Sample1High = new Pose2d(57, 58, 44);
-            Pose2d PickSample2 = new Pose2d(59, 25, -90);
-            Pose2d Sample2High = new Pose2d(61, 49, 62.49);
-            Pose2d PickSample3 = new Pose2d(69, 33, -90);
-            Pose2d Sample3High = new Pose2d(68, 52, 83.38);
-            Pose2d Ascent1 = new Pose2d(27, 5, 180);
+        telemetry.setAutoClear(false);
+        telemetry.clearAll();
+        telemetry.addData("Selected Starting Position", startPosition);
+        telemetry.update();
+    }
 
-            Pose2d initPose1 = new Pose2d(0, 60, 180.00);
-            Pose2d Pose1 = new Pose2d(0, 33, 180.00);
-            Pose2d Pose2 = new Pose2d(-35, 33, 180.00);
-            Pose2d Pose3 = new Pose2d(-35, -5, 90);
-            Pose2d Pose4 = new Pose2d(-44, -5, 90);
-            Pose2d Pose5 = new Pose2d(-44, 40, 90);
-            Pose2d Pose6 = new Pose2d(-44, -5, 90);
-            Pose2d Pose9 = new Pose2d(-55, 6, 90);
-            Pose2d Pose10 = new Pose2d(-55, 40, 90);
-            Pose2d Pose11 = new Pose2d(-55, 6, 90);
+    private void runAutonomousMode() {
+       // if (startPosition == START_POSITION.LEFT) {
+            runRightPath();
+       // } else {
+      //      runLeftPath();
+    //    }
+    }
 
-            double waitSecondsBeforeDrop = 0;
-            if (startPosition == START_POSITION.LEFT) {
-                MecanumDrive drive = new MecanumDrive(hardwareMap, initPose);
+    private void runLeftPath() {
+        Pose2d initPose = new Pose2d(0, 70, Math.toRadians(90)); // Starting Pose
+        Pose2d specimenHang = new Pose2d(0, 27, Math.toRadians(-90));
+        Pose2d moveSample1 = new Pose2d(49, 35, Math.toRadians(-90));
+        Pose2d pickSample1 = new Pose2d(49, 24, Math.toRadians(-90));
+        Pose2d positionSample1 = new Pose2d(49, 49, Math.toRadians(44));
+        Pose2d sample1High = new Pose2d(57, 58, 44);
+        Pose2d pickSample2 = new Pose2d(59, 25, -90);
+        Pose2d sample2High = new Pose2d(61, 49, 62.49);
+        Pose2d pickSample3 = new Pose2d(69, 33, -90);
+        Pose2d sample3High = new Pose2d(68, 52, 83.38);
+        Pose2d ascent1 = new Pose2d(27, 5, 180);
+
+        MecanumDrive drive = new MecanumDrive(hardwareMap, initPose);
+
+        // Move to specimen hang position
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .splineTo(specimenHang.position, specimenHang.heading)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
+        telemetry.addLine("Move robot to submersible to place specimen on chamber!");
+        telemetry.update();
+
+        // Initial specimen placement
+        new ParallelAction(
+                arm.raiseArmForUpperBasket(),
+                linearSlide.extendSlideForPickFromPool(),
+                yPitch.moveWristUp(),
+                xYaw.moveWristLeft(),
+                rollMechanism.rotate90Clockwise()
+              //  clawMechanism.openClaw()
+        );
+
+        linearSlide.retractArmBackward();
+        safeWaitSeconds(0.1);
+        telemetry.addLine("Place specimen on chamber!");
+        telemetry.update();
+
+        // Move to pick up Sample 1
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .strafeTo(moveSample1.position)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
+        telemetry.addLine("Move Robot to pick up yellow Sample 1!");
+        telemetry.update();
+
+        // Pick Up Sample 1
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pickSample1.position.y)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
+        arm.raiseArmForSamplePickUpFromFloor();
+     //   clawMechanism.closeClaw();
+        telemetry.addLine("Pick up yellow Sample 1!");
+        telemetry.update();
+
+        // Move to position for dropping Sample 1
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .splineTo(positionSample1.position, positionSample1.heading)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
+        arm.raiseArmForUpperBasket();
+        telemetry.addLine("Move to drop yellow Sample 1!");
+        telemetry.update();
+
+        // Drop Sample 1
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .splineTo(sample1High.position, sample1High.heading)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
+        linearSlide.extendSlideForPickFromPool();
+   //     clawMechanism.openClaw();
+        telemetry.addLine("Drop yellow Sample 1");
+        telemetry.update();
+
+        // Complete the sequence with Ascent1
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .splineTo(ascent1.position, ascent1.heading)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
+        arm.raiseArmForLowerBasket();
+        telemetry.addLine("Level 1 Ascent Completed!");
+        telemetry.addLine("Blue Left Autonomous Complete!");
+        telemetry.update();
+    }
 
 
-                //Move Robot to Position to hand a specimen on the high chamber
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .splineTo(SpecimenHang.position, SpecimenHang.heading)
-                                .build());
-                safeWaitSeconds(0.1);
-                telemetry.addLine("Move robot to submersible to place specimen on chamber!");
-                telemetry.update();
-                new ParallelAction(
-                                Arm.raiseArmForLowerBasket(),
-                                LinearSlide.extendArmForward(),
-                                new YPitch.MoveWristUp(),
-                               new XYaw.MoveWristToLeft(),
-                                new Roll.Rotate90Clockwise(),
-                                new Claw.OpenClaw()
-                        );
-                new ParallelAction(
-                        new LinearSlide.RetractArmBackward()
-                );
-                safeWaitSeconds(0.1);
-                telemetry.addLine("Place specimen on chamber!");
-                telemetry.update();
+    private void runRightPath() {
+        Pose2d initPose1 = new Pose2d(0, 36, 90.00);
+        Pose2d pose1 = new Pose2d(0, 33, 90.00);
+        Pose2d pose2 = new Pose2d(-35, 33, 180.00);
+        Pose2d pose3 = new Pose2d(-35, -5, 90);
+        Pose2d pose4 = new Pose2d(-44, -5, 90);
+        Pose2d pose5 = new Pose2d(-44, 40, 90);
+        Pose2d pose6 = new Pose2d(-44, -5, 90);
+        Pose2d pose9 = new Pose2d(-55, 6, 90);
+        Pose2d pose10 = new Pose2d(-55, 40, 90);
+        Pose2d pose11 = new Pose2d(-55, 6, 90);
 
-                //Move to pick up Sample 1
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .strafeTo(MoveSample1.position)
-                                .build());
-                safeWaitSeconds(0.1);
-                telemetry.addLine("Move Robot to pick up yellow Sample 1!");
-                telemetry.update();
+        MecanumDrive drive = new MecanumDrive(hardwareMap, initPose1);
 
-                //Pick Up Sample 1
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(PickSample1.position.y)
-                                .build());
-                safeWaitSeconds(0.1);
-                new Arm.RaiseArmForSamplePickupFromFloor();
-                new Claw.CloseClaw();
-                telemetry.addLine("Pick up yellow Sample 1!");
-                telemetry.update();
+        // Move to pose1
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose1.position.y)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .splineTo(PositionSample1.position, PositionSample1.heading)
-                                .build());
-                safeWaitSeconds(0.1);
-                new Arm.RaiseArmForHighBasket();
-                telemetry.addLine("Move to drop yellow Sample 1!");
-                telemetry.update();
+        // Move to pose2 and turn
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToX(pose2.position.x)
+                        .turnTo(Math.toRadians(90))
+                        .build()
+        );
+        safeWaitSeconds(0.1);
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .splineTo(Sample1High.position, Sample1High.heading)
-                                .build());
-                safeWaitSeconds(0.1);
-                new LinearSlide.ExtendLinearSlide();
-                new Claw.OpenClaw();
-                telemetry.addLine("Drop yellow Sample 1");
-                telemetry.update();
+        // Move to pose3
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose3.position.y)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .splineTo(Ascent1.position, Ascent1.heading)
-                                .build());
-                safeWaitSeconds(0.1);
-                new Arm.RaiseArmForLowerBasket();
-                telemetry.addLine("Level 1 Ascent Completed!");
-                telemetry.addLine("Blue Left Autonomous Complete!");
-            }
-            else {
-                MecanumDrive drive = new MecanumDrive(hardwareMap, initPose1);
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(Pose1.position.y)
-                                .build());
-                safeWaitSeconds(0.1);
-                //Telemetry
+        // Strafe to pose4
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .strafeTo(pose4.position)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToX(Pose2.position.x)
-                                .turnTo(Math.toRadians(90))
-                                .build());
-                safeWaitSeconds(0.1);
+        // Move to pose5
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose5.position.y)
+                        .build()
+        );
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(Pose3.position.y)
-                                .build());
-                safeWaitSeconds(0.1);
+        // Move to pose6
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose6.position.y)
+                        .build()
+        );
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .strafeTo(Pose4.position)
-                                .build());
-                safeWaitSeconds(0.1);
+        // Strafe to pose9
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .strafeTo(pose9.position)
+                        .build()
+        );
+        safeWaitSeconds(0.1);
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(Pose5.position.y)
-                                .build());
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(Pose6.position.y)
-                                .build());
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .strafeTo(Pose9.position)
-                                .build());
-                safeWaitSeconds(0.1);
+        // Move to pose10
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose10.position.y)
+                        .build()
+        );
 
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(Pose10.position.y)
-                                .build());
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(Pose11.position.y)
-                                .build());
-            }
-        }
+        // Move to pose11
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose11.position.y)
+                        .build()
+        );
+    }
+
     public void safeWaitSeconds(double time) {
         ElapsedTime timer = new ElapsedTime(SECONDS);
         timer.reset();
