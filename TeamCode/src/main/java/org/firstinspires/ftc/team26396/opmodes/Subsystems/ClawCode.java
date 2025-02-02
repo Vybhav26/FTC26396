@@ -15,7 +15,7 @@ public class ClawCode {
     private static final double CLAW_NEUTRAL_POSITION = 0.5; // Neutral (half-open)
 
     private boolean isClawOpen = false;  // Track claw state (open/closed/neutral)
-    private boolean isRollNormal = true; // Track roll state (normal/reverse)
+    private boolean isRollNormal = false; // Track roll state (normal/reverse)
     private boolean isYawLeft = false;  // Track yaw state (left/right)
     private boolean isPitchPickup = false;  // Track pitch state (pickup/neutral)
 
@@ -79,10 +79,6 @@ public class ClawCode {
     }
         prevBumperPressed = currentBumperPressed;
         // Reset all positions using the "Share" button
-
-        if (ps4Gamepad.cross) {
-            submerisibleClaw();  // Reset claw, pitch, yaw, and roll to neutral
-        }
 
 
     }

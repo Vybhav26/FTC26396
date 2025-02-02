@@ -40,7 +40,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         waitForStart();
 
         double xDestPositionDropSampleInHand = 52;
-        double yDestPositionDropSampleInHand = 50;
+        double yDestPositionDropSampleInHand = 51;
         double headingDestPositionDropSampleInHand = Math.toRadians(0.0);
 
         TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
@@ -53,17 +53,29 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
         TrajectoryActionBuilder basketToFirstSample =
                 goToBasketFromInitPosition.endTrajectory().fresh()
-                        .turnTo(Math.toRadians(-105))
-                        .strafeTo(new Vector2d(48, 39));
+                        .turnTo(Math.toRadians(-90))
+                        .strafeTo(new Vector2d(47.5, 35.5));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder firstSampleToBasket =
                 basketToFirstSample.endTrajectory().fresh()
                         .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45));
 
+        TrajectoryActionBuilder basketToSecondSample =
+                firstSampleToBasket.endTrajectory().fresh()
+                        .turnTo(Math.toRadians(-90))
+                        .strafeTo(new Vector2d(57.5, 35.5));
+//                        .lineToY(38);
+
+        TrajectoryActionBuilder secondSampleToBasket =
+                basketToSecondSample.endTrajectory().fresh()
+                        .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45));
+
         Action goToBasketFromInitPositionAction = goToBasketFromInitPosition.build();
         Action basketToFirstSampleAction = basketToFirstSample.build();
         Action firstSampleToBasketAction = firstSampleToBasket.build();
+        Action basketToSecondSampleAction = basketToSecondSample.build();
+        Action secondSampleToBasketAction = secondSampleToBasket.build();
 
         Action fullAction = new SequentialAction(
                 // Init position to basket with pre-loaded sample
@@ -77,8 +89,15 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 // First sample to basket
                 firstSampleToBasketAction,
                 // Drop the sample into the basket
+                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch)),
+                // Go from basket to the second sample
+                basketToSecondSampleAction,
+                // Drop the sample into the basket
+              buildCommonActionToPickSample(basketToSecondSample, arm, linearSlide, claw, pitch),
+                      secondSampleToBasketAction,
                 buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch));
                 // Go from basket to the second sample
+
 
         Actions.runBlocking(fullAction);
 
