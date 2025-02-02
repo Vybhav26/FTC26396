@@ -14,8 +14,8 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.XYaw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 
-@Autonomous(name = "Arm Motor Validate", group = "Initial Validation")
-public class ArmMotorValidateAutoPath extends LinearOpMode {
+@Autonomous(name = "Linear Slide Motor Validate", group = "Initial Validation")
+public class LinearSlideMotorValidateAutoPath extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -62,14 +62,11 @@ public class ArmMotorValidateAutoPath extends LinearOpMode {
 //                            arm.raiseArmForUpperBasket(),
 //                            waitTrajectory.build(),
 //                            arm.initializeArm(),
-                            new SleepAction(3),
+                            new SleepAction(1),
                             linearSlide.retractSlideBackward(),
 //                            linearSlide.extendSlideForPickFromPool(),
-                            new SleepAction(2),
-                            arm.deactivateArm(),
-                            new SleepAction(1)
-//                            linearSlide.resetLinearSlide(),
-//                            arm.resetArm()
+                            new SleepAction(1),
+                            arm.deactivateArm()
                     )
             );
         }

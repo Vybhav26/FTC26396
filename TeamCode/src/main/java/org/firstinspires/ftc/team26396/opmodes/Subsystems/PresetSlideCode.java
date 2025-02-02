@@ -12,11 +12,21 @@ public class PresetSlideCode {
             145.1 * 5.2 * 5.0 * (1 / 360.0 * 2); // Encoder ticks per degree calculation
 
     final double MAX_POSITION = (10 * SLIDE_TICKS_PER_DEGREE); // Max position in encoder ticks
-    final double MID_POSITION = (5 * SLIDE_TICKS_PER_DEGREE); // Mid position in encoder ticks
+    final double HIGH_RUNG_POSITION = -(52.15 * SLIDE_TICKS_PER_DEGREE); // Mid position in encoder ticks
     final double MIN_POSITION = 0.0; // Min position in encoder ticks
     final double LINEAR_SLIDE_POWER = 0.5; // Power applied to the linear slide motor
 
     private DcMotor linearSlideMotor; // Declare the linear slide motor
+
+    public PresetSlideCode(DcMotor linearSlideMotor) {
+        this.linearSlideMotor = linearSlideMotor;
+
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    }
 
     // Method to control the linear slide based on the gamepad input
     public void controlSlide(Gamepad gamepad) {
@@ -41,12 +51,8 @@ public class PresetSlideCode {
             } else {
                 linearSlideMotor.setPower(0); // Stop motor if at max position
             }
-        } else if (gamepad.dpad_up) {
-            // Move to max position
-            setCurrentPosition(MAX_POSITION);
-        } else if (gamepad.dpad_down) {
-            // Move to min position
-            setCurrentPosition(MIN_POSITION);
+        } else if (gamepad.dpad_right) {
+            setCurrentPosition(HIGH_RUNG_POSITION);
         } else {
             // Default behavior: holding the position with a small power if no manual input
             int currentPosition = linearSlideMotor.getCurrentPosition();

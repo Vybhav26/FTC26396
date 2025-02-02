@@ -15,13 +15,13 @@ public class ClawCode {
     private static final double CLAW_NEUTRAL_POSITION = 0.5; // Neutral (half-open)
 
     private boolean isClawOpen = false;  // Track claw state (open/closed/neutral)
-    private boolean isRollNormal = true; // Track roll state (normal/reverse)
+    private boolean isRollNormal = false; // Track roll state (normal/reverse)
     private boolean isYawLeft = false;  // Track yaw state (left/right)
     private boolean isPitchPickup = false;  // Track pitch state (pickup/neutral)
 
     public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, Servo clawYawServo, Servo clawPitchServo) {
         this.clawOpenCloseServo = clawOpenCloseServo;
-        this.clawPitch = new ClawPitch(clawPitchServo);
+      //  this.clawPitch = new ClawPitch(clawPitchServo);
         this.clawYaw = new ClawYaw(clawYawServo);
         this.clawRoll = new ClawRoll(clawRotationServo);
         clawRoll.rotateNormal(); // Set initial position for roll
@@ -80,17 +80,8 @@ public class ClawCode {
         prevBumperPressed = currentBumperPressed;
         // Reset all positions using the "Share" button
 
-        if (ps4Gamepad.cross) {
-            submerisibleClaw();  // Reset claw, pitch, yaw, and roll to neutral
-        }
-        if(ps4Gamepad.dpad_right){
-            clawPitch.setHangPosition();
-        }
 
     }
-
-
-
 
 
     public void submerisibleClaw() {
@@ -103,6 +94,8 @@ public class ClawCode {
         isYawLeft = false;  // Reset yaw state to neutral
         isPitchPickup = false;  // Reset pitch state to neutral
     }
+
+
 
     public void resetClaw() {
         clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Set claw to neutral

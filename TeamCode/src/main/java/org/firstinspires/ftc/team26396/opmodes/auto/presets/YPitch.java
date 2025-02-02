@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.presets;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,17 +12,23 @@ import org.firstinspires.ftc.team26396.constants.Constants;
 
 public class YPitch {
 
-    private static final Servo pitch = (Servo) hardwareMap.get(Servo.class, "pitch");
+    private final Servo pitch;
 
+    private static final double DOWN_POSITION = 0.6;     // Position to place into an high basket (70 degrees)
 
-    private static final double UP_POSITION = 0.3;     // Position to place into an high basket (70 degrees)
+    private static final double UP_POSITION = 0.0;
 
-    private static final double DOWN_POSITION = 0.7;
+    private static final double MIDDLE_POSITION = 0.5;
 
-    private static final double MIDDLE_POSITION = 0.0;
+    private static final double RUNG_HANG_POSITION = 0.7;
 
     public YPitch(HardwareMap hardwareMap) {
-        pitch.setPosition(DOWN_POSITION);
+
+        pitch = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.Y_PITCH_SERVO);
+
+        pitch.scaleRange(0, 90);
+
+//        pitch.setPosition(DOWN_POSITION);
 
     }
 
@@ -39,7 +44,11 @@ public class YPitch {
         return new MoveWristToMiddle();
     }
 
-    public static class MoveWristUp implements Action {
+    public Action moveWristForRungHang() {
+        return new MoveWristForRungHang();
+    }
+
+    public class MoveWristUp implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -48,12 +57,31 @@ public class YPitch {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                pitch.setPosition(DOWN_POSITION);
+                pitch.setPosition(UP_POSITION);
                 initialized = true;
             }
 
             // checks lift's current position
             return setPitchPosition(packet, UP_POSITION);
+
+        }
+    }
+
+    public class MoveWristForRungHang implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                pitch.setPosition(RUNG_HANG_POSITION);
+                initialized = true;
+            }
+
+            // checks lift's current position
+            return setPitchPosition(packet, RUNG_HANG_POSITION);
 
         }
     }
@@ -67,7 +95,7 @@ public class YPitch {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                pitch.setPosition(0);
+                pitch.setPosition(DOWN_POSITION);
                 initialized = true;
             }
 
@@ -86,7 +114,7 @@ public class YPitch {
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
             if (!initialized) {
-                pitch.setPosition(0);
+                pitch.setPosition(MIDDLE_POSITION);
                 initialized = true;
             }
 
@@ -96,8 +124,9 @@ public class YPitch {
         }
     }
 
-    private static boolean setPitchPosition(TelemetryPacket packet, double position) {
+    private boolean setPitchPosition(TelemetryPacket packet, double position) {
 
-        return position < pitch.getPosition();
+        pitch.getPosition();
+        return false;
     }
 }

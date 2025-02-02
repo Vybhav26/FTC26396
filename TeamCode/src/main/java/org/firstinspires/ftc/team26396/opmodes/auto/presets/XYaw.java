@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.presets;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,7 +12,7 @@ import org.firstinspires.ftc.team26396.constants.Constants;
 
 public class XYaw {
 
-    private static final Servo yaw = (Servo) hardwareMap.get(Servo.class, "yaw");;
+    private final Servo yaw;
 
     private static final double LEFT_POSITION = 0.0;     // Position to place into an high basket (70 degrees)
 
@@ -23,7 +22,9 @@ public class XYaw {
 
     public XYaw(HardwareMap hardwareMap) {
 
-        yaw.setPosition(RIGHT_POSITION);
+        yaw = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.X_YAW_SERVO);
+
+        yaw.setPosition(CENTER_POSITION);
 
     }
 
@@ -39,7 +40,7 @@ public class XYaw {
         return new MoveWristToCenter();
     }
 
-    public static class MoveWristToLeft implements Action {
+    public class MoveWristToLeft implements Action {
         // checks if the lift motor has been powered on
         private boolean initialized = false;
 
@@ -96,7 +97,7 @@ public class XYaw {
         }
     }
 
-    private static boolean setYawPosition(TelemetryPacket packet, double position) {
+    private boolean setYawPosition(TelemetryPacket packet, double position) {
 
         return position < yaw.getPosition();
     }

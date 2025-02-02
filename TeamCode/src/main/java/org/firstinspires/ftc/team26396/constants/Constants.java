@@ -37,7 +37,7 @@ public final class Constants {
 
         public static String X_YAW_SERVO = "yaw";
 
-        public static String PITCH_SERVO = "pitch";
+        public static String Y_PITCH_SERVO = "pitch";
 
         public static String CLAW_SERVO = "claw";
 

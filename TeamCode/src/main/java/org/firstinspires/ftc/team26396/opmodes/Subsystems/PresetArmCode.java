@@ -15,8 +15,8 @@ public class PresetArmCode {
     private static final double INIT_DEGREES = 14.0;
     private static final double GROUND_DEGREES = 10.0;   // Default position (0 degrees)
     private static final double LOW_DEGREES = 17.0;     // Position to pick up from the ground (15 degrees)
-    private static final double PICK_FROM_WALL_DEGREES = 32.0; //Was 28    // Position to pick up from the ground (15 degrees)
-    private static final double HIGH_DEGREES = 71.0;    // Position to place into low basket (45 degrees)
+    private static final double PICK_FROM_WALL_DEGREES = 27.5; //Was 28    // Position to pick up from the ground (15 degrees)
+    private static final double HIGH_DEGREES = 68.0;    // Position to place into low basket (45 degrees)
     private static final double MAX_DEGREES = 90.0;     // Position to place into an high basket (70 degrees)
 
     // Formula to calculate ticks per degree
@@ -39,6 +39,7 @@ public class PresetArmCode {
     //Larger FudgeFactor = More Jerky Movements
     private static final double FUDGE_FACTOR = 5.0;
     private double armPositionFudgeFactor = 0.0;
+    private double HIGH_RUNG_POSITION = -1093;
 
     // Arm's current target position
     private double armTargetPosition = GROUND_POSITION_TICKS;
@@ -71,6 +72,9 @@ public class PresetArmCode {
     }
     public void controlArmAndSlide(Gamepad gamepad) {
         // Control the linear slide motor based on left and right triggers
+
+
+
         if (gamepad.left_trigger > 0.1) {
             linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             linearSlideMotor.setPower(-LINEAR_SLIDE_POWER); // Move linear slide down
@@ -97,7 +101,12 @@ public class PresetArmCode {
         } else if (gamepad.dpad_right) {
             setArmToHigh();  // Position to place into the low basket
         }
+        /*
+        if (gamepad.dpad_right) {
+            setSlidePosition(HIGH_RUNG_POSITION);
+        }
 
+         */
         // Adjust arm position with triggers (fine control using fudge factor)
 /*
         if (gamepad.right_trigger > 0.1) {
@@ -145,8 +154,19 @@ public class PresetArmCode {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setPower(ARM_POWER);
     }
+/*
+    private void setSlidePosition(double targetPosition) {
+        // Safety check to ensure position is within valid range
+        if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
+            targetPosition = LOW_POSITION_TICKS; // Set to low/ground position if out of range
+        }
 
-
+        // Convert target position in ticks (double) and set motor
+        linearSlideMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
+    }
+*/
     public void POSITION1 (){
         //trajectory
         //raising your arm

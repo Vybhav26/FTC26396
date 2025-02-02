@@ -506,7 +506,7 @@ public class BlueObservationZoneAuto extends LinearOpMode {
                 .afterDisp(1, arm.raiseArmForNetzone())
                 .afterDisp(1, linearSlide.extendArmForward())
                 .afterDisp(1, claw.openClaw())
-                .afterDisp(1, linearSlide.retractArmBackward())
+                .afterDisp(1, linearSlide.retractSlideBackward())
                 .strafeTo(targetVectorPickSample1)
 //                .afterDisp(1, linearSlide.extendArmForward())
                 .afterDisp(1, claw.closeClaw())
