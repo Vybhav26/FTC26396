@@ -44,6 +44,11 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         double headingDestPositionDropSampleInHand = Math.toRadians(0.0);
 
         TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
+                // Lift the arm
+//                .stopAndAdd(arm.raiseArmForUpperBasket())
+//                // Turn the wrist outward with the loaded sample
+//                .stopAndAdd(roll.initPosition())
+                // Move to the basket area
                 .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45));
 
 
