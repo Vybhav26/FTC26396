@@ -15,13 +15,13 @@ public class ClawCode {
     private static final double CLAW_NEUTRAL_POSITION = 0.5; // Neutral (half-open)
 
     private boolean isClawOpen = false;  // Track claw state (open/closed/neutral)
-    private boolean isRollNormal = false; // Track roll state (normal/reverse)
+    private boolean isRollNormal = true; // Track roll state (normal/reverse)
     private boolean isYawLeft = false;  // Track yaw state (left/right)
     private boolean isPitchPickup = false;  // Track pitch state (pickup/neutral)
 
     public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, Servo clawYawServo, Servo clawPitchServo) {
         this.clawOpenCloseServo = clawOpenCloseServo;
-      //  this.clawPitch = new ClawPitch(clawPitchServo);
+        this.clawPitch = new ClawPitch(clawPitchServo);
         this.clawYaw = new ClawYaw(clawYawServo);
         this.clawRoll = new ClawRoll(clawRotationServo);
         clawRoll.rotateNormal(); // Set initial position for roll

@@ -16,7 +16,7 @@ public class YPitch {
 
     private static final double DOWN_POSITION = 0.6;     // Position to place into an high basket (70 degrees)
 
-    private static final double UP_POSITION = 0.0;
+    private static final double UP_POSITION = 0.3; // 0.0;
 
     private static final double MIDDLE_POSITION = 0.5;
 
