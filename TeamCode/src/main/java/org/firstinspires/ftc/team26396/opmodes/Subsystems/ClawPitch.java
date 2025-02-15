@@ -4,8 +4,11 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ClawPitch {
-    private final Servo clawPitchServo = null;
+    private Servo clawPitchServo = null;
 
+    public ClawPitch(Servo clawPitchServo) {
+        this.clawPitchServo = clawPitchServo;
+    }
 
     private boolean isClawOpen;
     private static final double PITCH_PICKUP_POSITION = 0.3;//0.5;   //0.6// Pickup position
