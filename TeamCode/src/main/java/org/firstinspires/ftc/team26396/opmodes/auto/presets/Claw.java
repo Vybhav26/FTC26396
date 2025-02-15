@@ -15,7 +15,7 @@ public class Claw {
 
     private final Servo claw;
 
-    private static final double OPEN_POSITION = 0.7;     // Position to place into an high basket (70 degrees)
+    private static final double OPEN_POSITION = 0.5;     // Position to place into an high basket (70 degrees)
 
     private static final double CLOSE_POSITION = 0.0;
 
