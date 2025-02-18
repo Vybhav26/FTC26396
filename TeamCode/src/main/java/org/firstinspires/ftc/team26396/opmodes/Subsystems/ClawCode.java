@@ -2,7 +2,7 @@ package org.firstinspires.ftc.team26396.opmodes.Subsystems;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
-//import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 public class ClawCode {
     private Servo clawOpenCloseServo;
@@ -19,7 +19,7 @@ public class ClawCode {
     private boolean isYawLeft = false;  // Track yaw state (left/right)
     private boolean isPitchPickup = false;  // Track pitch state (pickup/neutral)
 
-    public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, Servo clawYawServo, Servo clawPitchServo) {
+    public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, CRServo clawYawServo, Servo clawPitchServo) {
         this.clawOpenCloseServo = clawOpenCloseServo;
         this.clawPitch = new ClawPitch(clawPitchServo);
         this.clawYaw = new ClawYaw(clawYawServo);
@@ -46,9 +46,13 @@ public class ClawCode {
 
         prevYPressed = currentYPressed;  // Update previous state
 
-
+        if (logitechGamepad.dpad_right) {
+            clawYaw.pointRight();
+        }
+        if (logitechGamepad.dpad_left) {
+            clawYaw.pointLeft();
+        }
     }
-
 
     private boolean prevCirclePressed = false;  // Track previous button state
     private boolean prevBumperPressed = false;

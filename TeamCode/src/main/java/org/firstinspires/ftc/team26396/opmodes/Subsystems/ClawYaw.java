@@ -1,28 +1,28 @@
 package org.firstinspires.ftc.team26396.opmodes.Subsystems;
 
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 public class ClawYaw {
-    private Servo clawYawServo;
+    private CRServo clawYawServo;
 
-    private static final double YAW_LEFT = 0.0;   // Face left
-    private static final double YAW_RIGHT = 0.5;  // Face right
-    private static final double YAW_CENTER = 0.5; // Neutral (forward)
+    private static final double YAW_LEFT = -0.2;   // Face left
+    private static final double YAW_RIGHT = 0.2;  // Face right
+    private static final double YAW_CENTER = 0.0; // Neutral (forward)
 
-    public ClawYaw(Servo clawYawServo) {
+    public ClawYaw(CRServo clawYawServo) {
         this.clawYawServo = clawYawServo;
         resetYaw();
     }
 
     public void pointLeft() {
-        clawYawServo.setPosition(YAW_LEFT);
+        clawYawServo.setPower(YAW_LEFT);
     }
 
     public void pointRight() {
-        clawYawServo.setPosition(YAW_RIGHT);
+        clawYawServo.setPower(YAW_RIGHT);
     }
 
     public void resetYaw() {
-        clawYawServo.setPosition(0.5);
+        clawYawServo.setPower(0.0);
     }
 }
