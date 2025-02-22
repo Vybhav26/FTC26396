@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.Arm;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.Claw;
 import org.firstinspires.ftc.team26396.opmodes.auto.presets.LinearSlide;
@@ -141,20 +142,18 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
         return dropSampleIntoHighBasketAction;
     }
-
     public Action buildCommonActionToPickSample(TrajectoryActionBuilder inputTrajectory, Arm arm, LinearSlide linearSlide, Claw claw, YPitch pitch) {
-
         Action pickSampleFromFloor = inputTrajectory.endTrajectory().fresh()
                 .stopAndAdd(pitch.moveWristUp())
-//                .stopAndAdd(linearSlide.moveSlideRelatively(100))
                 .stopAndAdd(claw.openClaw())
                 .stopAndAdd(new SleepAction(1))
                 .stopAndAdd(claw.closeClaw())
                 .stopAndAdd(new SleepAction(1))
                 .stopAndAdd(arm.raiseArmForUpperBasket())
-//                .stopAndAdd(linearSlide.moveSlideRelatively(-100))
                 .build();
 
         return pickSampleFromFloor;
     }
+
 }
+

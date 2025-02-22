@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.team26396.opmodes.auto.blue;
+
+
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.SECONDS;
 
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.team26396.opmodes.auto.presets.YPitch;
 import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 // ... (previous imports remain the same)
 
-@Autonomous(name="Blue Auto", group = "Blue Alliance", preselectTeleOp = "RobotCentricDrive")
+@Autonomous(name="Blue Auto", group = "Blue Alliance")
 
 public class BlueAllianceAuto extends LinearOpMode {
 
@@ -39,7 +40,9 @@ public class BlueAllianceAuto extends LinearOpMode {
         RIGHT,
     }
 
+
     private START_POSITION startPosition;
+
 
     @Override
     public void runOpMode() {
@@ -57,11 +60,11 @@ public class BlueAllianceAuto extends LinearOpMode {
 
     private void initHardware() {
         // Initialize hardware from config
-     //   Servo claw = hardwareMap.get(Servo.class, "claw");
+        Servo claw = hardwareMap.get(Servo.class, "claw");
         DcMotorEx linearSlideMotor = hardwareMap.get(DcMotorEx.class, "liftMotor");
-      //  Servo pitch = hardwareMap.get(Servo.class, "pitch");
-      //  Servo yaw = hardwareMap.get(Servo.class, "yaw");
-      //  Servo roll = hardwareMap.get(Servo.class, "roll");
+        Servo pitch = hardwareMap.get(Servo.class, "pitch");
+       Servo yaw = hardwareMap.get(Servo.class, "yaw");
+        Servo roll = hardwareMap.get(Servo.class, "roll");
         DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "armMotor");
     }
 
@@ -71,22 +74,21 @@ public class BlueAllianceAuto extends LinearOpMode {
         telemetry.clearAll();
 
         while (!isStopRequested()) {
-         //   telemetry.addData("Initializing FTC Wires (ftcwires.org) Autonomous adopted for Team:",
-//                    TEAM_NAME + " " + TEAM_NUMBER);
-//            telemetry.addData("---------------------------------------", "");
-//            telemetry.addData("Select Starting Position on gamepad 1:", "");
-//            telemetry.addData("    Left   ", " = X ");
-//            telemetry.addData("    Right ", " = Y ");
-//
-//            if (gamepad1.x) {
-//                startPosition = START_POSITION.LEFT;
-//                break;
-//            }
-//            if (gamepad1.y) {
-//                startPosition = START_POSITION.RIGHT;
+            telemetry.addData("Initializing FTC Wires (ftcwires.org) Autonomous adopted for Team:",
+                    TEAM_NAME + " " + TEAM_NUMBER);
+            telemetry.addData("---------------------------------------", "");
+            telemetry.addData("Select Starting Position on gamepad 1:", "");
+            telemetry.addData("    Left   ", " = X ");
+            telemetry.addData("    Right ", " = Y ");
+
+            if (gamepad1.x) {
+                startPosition = START_POSITION.LEFT;
+                break;
+            }
+            if (gamepad1.y) {
+                startPosition = START_POSITION.RIGHT;
                 runAutonomousMode();
-//                break;
-//            }
+                break;}
             telemetry.update();
         }
 
@@ -97,12 +99,16 @@ public class BlueAllianceAuto extends LinearOpMode {
     }
 
     private void runAutonomousMode() {
-       // if (startPosition == START_POSITION.LEFT) {
+        if (startPosition == START_POSITION.LEFT) {
             runRightPath();
-       // } else {
-      //      runLeftPath();
-    //    }
+        } else {
+            runLeftPath();
+        }
     }
+    public class OpenClaw{
+        public void OpenClaw(){}
+    }
+
 
     private void runLeftPath() {
         Pose2d initPose = new Pose2d(0, 70, Math.toRadians(90)); // Starting Pose
@@ -139,7 +145,6 @@ public class BlueAllianceAuto extends LinearOpMode {
               //  clawMechanism.openClaw()
         );
 
-        linearSlide.retractArmBackward();
         safeWaitSeconds(0.1);
         telemetry.addLine("Place specimen on chamber!");
         telemetry.update();
@@ -185,9 +190,11 @@ public class BlueAllianceAuto extends LinearOpMode {
         );
         safeWaitSeconds(0.1);
         linearSlide.extendSlideForPickFromPool();
-   //     clawMechanism.openClaw();
+        new OpenClaw();
         telemetry.addLine("Drop yellow Sample 1");
         telemetry.update();
+
+
 
         // Complete the sequence with Ascent1
         Actions.runBlocking(
@@ -202,11 +209,35 @@ public class BlueAllianceAuto extends LinearOpMode {
         telemetry.update();
     }
 
+    public class GrabFromWall {
+        // Instance variables if needed
+
+        public void raiseArmForSpecimenPickupFromWall() {
+            // Implementation code here
+        }
+        public void OpenClaw(){}
+    }
+
+    public class raiseArmforHighBasket {
+        // Instance variables if needed
+
+        public void RaiseArmForHighBasket() {
+            // Implementation code here
+        }
+        public void OpenClaw(){}
+    }
+
+    public class HangSpecimen {
+        // Instance variables if needed
+        public void CloseClaw(){}
+    }
+
+
 
     private void runRightPath() {
-        Pose2d initPose1 = new Pose2d(0, 36, 90.00);
+        Pose2d initPose1 = new Pose2d(0, 42, 90.00);
         Pose2d pose1 = new Pose2d(0, 33, 90.00);
-        Pose2d pose2 = new Pose2d(-35, 33, 180.00);
+        Pose2d pose2 = new Pose2d(-35, 33, 90.00);
         Pose2d pose3 = new Pose2d(-35, -5, 90);
         Pose2d pose4 = new Pose2d(-44, -5, 90);
         Pose2d pose5 = new Pose2d(-44, 40, 90);
@@ -214,6 +245,10 @@ public class BlueAllianceAuto extends LinearOpMode {
         Pose2d pose9 = new Pose2d(-55, 6, 90);
         Pose2d pose10 = new Pose2d(-55, 40, 90);
         Pose2d pose11 = new Pose2d(-55, 6, 90);
+        Pose2d pose12 = new Pose2d(-72, 67.5, 180.00);
+        Pose2d pose13 = new Pose2d(0, 48, 90);
+        Pose2d pose14 = new Pose2d(0, 45, 90.00);
+        //Linetosplineheading back to pose12 and repeat
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, initPose1);
 
@@ -285,6 +320,33 @@ public class BlueAllianceAuto extends LinearOpMode {
                         .lineToY(pose11.position.y)
                         .build()
         );
+
+        //Move the pose12
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .splineTo(pose12.position, pose12.heading)
+                        .build());
+        new GrabFromWall();
+
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToYSplineHeading(pose13.position.y, pose13.heading)
+                        .build());
+        new raiseArmforHighBasket();
+
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .lineToY(pose14.position.y)
+                        .build());
+        new HangSpecimen();
+
+
+
+
+
+
+
+
     }
 
     public void safeWaitSeconds(double time) {
