@@ -39,8 +39,7 @@ public class Vision_Color_Locator {
      * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
      */
 
-    @Disabled
-    @TeleOp(name = "Concept: Vision Color-Locator", group = "Concept")
+    @TeleOp(name = "Concept: Vision Color-Locator")
     public class ConceptVisionColorLocator extends LinearOpMode
     {
         @Override
