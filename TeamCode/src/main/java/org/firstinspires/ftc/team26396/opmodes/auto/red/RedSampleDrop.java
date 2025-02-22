@@ -46,38 +46,27 @@ public class RedSampleDrop extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         drive.actionBuilder(new Pose2d(12, -60,Math.toRadians(0)))
-//                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
-//                                .waitSeconds(.100)
-//                                .afterDisp(.5, yaw.moveWristCenter())
+                                .turnTo(Math.toRadians(90))
                                 .strafeTo(new Vector2d(0,-33))
                                 .waitSeconds(.100)
-//                        arm.initializeArm(),
-//                        arm.raiseArmForSpecimenPickUpFromWall(),
-//                        drive.actionBuilder(new Pose2d(0, -36, 0))
-                                .lineToX(35)
-                                //.splineTo(new Vector2d(35, 0), Math.toRadians(90))
-                                .turnTo(Math.toRadians(90))
-                                .lineToY(-2)
+                                .strafeTo(new Vector2d(35,0))
+                                .lineToY(5)
                                 .waitSeconds(.100)
-                                .strafeTo(new Vector2d(48, -6))
+                                .strafeTo(new Vector2d(44, 5))
                                 .waitSeconds(.100)
-                                .lineToY(-48)
-                                .lineToY(-2)
-                                .strafeTo(new Vector2d(57, -6))
+                                .lineToY(-40)
+                                .lineToY(5)
+                                .strafeTo(new Vector2d(55, 5))
                                 .waitSeconds(.100)
-                                .lineToY(-48)
-                                .lineToY(-2)
-                                .strafeTo(new Vector2d(62, -6))
+                                .lineToY(-40)
+                                .lineToY(-20)
+                                .turnTo(Math.toRadians(180))
+                                .lineToY(-38)
+                                .strafeTo(new Vector2d(0, 25))
+                                .turnTo(Math.toRadians(180))
+                                .strafeTo(new Vector2d(64, -6))
                                 .waitSeconds(.100)
-                                .lineToY(-2)
-                                .waitSeconds(.100)
-                                .lineToY(-15)
-                                .turnTo(Math.toRadians(270))
-                                .lineToY(-6)
+                                .lineToY(-40)
                                 .build()));
-
-
-
-
     }
 }
