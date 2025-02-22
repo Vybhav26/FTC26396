@@ -45,6 +45,9 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
         TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
                 // Lift the arm
+                .stopAndAdd(arm.raiseArmForUpperBasket())
+                .waitSeconds(1)
+                .stopAndAdd(yaw.moveWristCenter())
 //                .stopAndAdd(arm.raiseArmForUpperBasket())
 //                // Turn the wrist outward with the loaded sample
 //                .stopAndAdd(roll.initPosition())
@@ -57,6 +60,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         Action sleepAction3Seconds = new SleepAction(3);
 
         TrajectoryActionBuilder basketToFirstSample =
+
                 goToBasketFromInitPosition.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
                         .strafeTo(new Vector2d(46.5, 34.5));
@@ -69,7 +73,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         TrajectoryActionBuilder basketToSecondSample =
                 firstSampleToBasket.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(56.5, 34.5));
+                        .strafeTo(new Vector2d(57, 34.5));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder secondSampleToBasket =
@@ -98,7 +102,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 // Go from basket to the second sample
                 basketToSecondSampleAction,
                 // Drop the sample into the basket
-              buildCommonActionToPickSample(basketToSecondSample, arm, linearSlide, claw, pitch),
+                buildCommonActionToPickSample(basketToSecondSample, arm, linearSlide, claw, pitch),
                       secondSampleToBasketAction,
                 buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch));
                 // Go from basket to the second sample
@@ -114,26 +118,26 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 //                .stopAndAdd(new SleepAction(1))
                 // Raise the arm to upper basket height
                 .stopAndAdd(arm.raiseArmForUpperBasket())
-                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(.7))
                 // Extend the slide
                 .stopAndAdd(linearSlide.extendArmForward())
                 .stopAndAdd(new SleepAction(1))
                 // Move towards the basket
-                .lineToX(56)
+                .lineToX(57)
                 // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
-                .stopAndAdd(new SleepAction(.5))
+                .stopAndAdd(new SleepAction(.1))
                 // Open the claw to drop the sample
                 .stopAndAdd(claw.openClaw())
-                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(.2))
                 // Move the wrist back - wrist down method may be misleading
                 .stopAndAdd(pitch.moveWristDown())
-//                .stopAndAdd(new SleepAction(1))
+//                .stopAndAdd(new SleepAction(.2))
                 // Retract slide backward
                 .lineToX(52)
                 .stopAndAdd(new SleepAction(.5))
                 .stopAndAdd(linearSlide.retractSlideBackward())
-                .stopAndAdd(new SleepAction(2))
+                .stopAndAdd(new SleepAction(1))
                 // Bring the arm back down
                 .stopAndAdd(arm.deactivateArm())
 //                .stopAndAdd(new SleepAction(2))

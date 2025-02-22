@@ -14,7 +14,7 @@ public class PresetArmCode {
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 14.0;
     private static final double GROUND_DEGREES = 10.0;   // Default position (0 degrees)
-    private static final double LOW_DEGREES = 17.0;     // Position to pick up from the ground (15 degrees)
+    private static final double LOW_DEGREES = 21.0;     // Position to pick up from the ground (15 degrees)
     private static final double PICK_FROM_WALL_DEGREES = 27.5; //Was 28    // Position to pick up from the ground (15 degrees)
     private static final double HIGH_DEGREES = 68.0;    // Position to place into low basket (45 degrees)
     private static final double MAX_DEGREES = 90.0;     // Position to place into an high basket (70 degrees)
@@ -128,7 +128,7 @@ public class PresetArmCode {
     }
 
     private void setArmToGround() {
-        setArmPosition(GROUND_POSITION_TICKS); // Set to default position
+        setArmPositionSlow(GROUND_POSITION_TICKS); // Set to default position
     }
 
     private void setArmToWall() {
@@ -154,7 +154,20 @@ public class PresetArmCode {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setPower(ARM_POWER);
     }
-/*
+
+    private void setArmPositionSlow(double targetPosition) {
+        // Safety check to ensure position is within valid range
+        if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {
+            targetPosition = LOW_POSITION_TICKS; // Set to low/ground position if out of range
+        }
+
+        // Convert target position in ticks (double) and set motor
+        armMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(0.5);
+    }
+
+    /*
     private void setSlidePosition(double targetPosition) {
         // Safety check to ensure position is within valid range
         if (targetPosition < GROUND_POSITION_TICKS || targetPosition > (MAX_POSITION_TICKS+5.0)) {

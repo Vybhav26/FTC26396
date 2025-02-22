@@ -78,7 +78,7 @@ public class Arm {
         armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        setArmPosition(INIT_POSITION_TICKS);  // Set the arm to the ground position by default
+        //setArmPosition(INIT_POSITION_TICKS);  // Set the arm to the ground position by default
     }
 
     public Action initializeArm() {

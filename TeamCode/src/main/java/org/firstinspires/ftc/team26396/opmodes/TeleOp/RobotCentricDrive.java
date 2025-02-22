@@ -34,9 +34,9 @@ public class RobotCentricDrive extends LinearOpMode {
 //        DcMotorEx linearSlideMotor = hardwareMap.get(DCMotorEx,"armMotor");
          linearSlideMotor = (DcMotorEx) hardwareMap.get(DcMotor.class, "armMotor");
 
-     //    CRServo yawServo = hardwareMap.get(Servo.class, "yaw");
+       Servo yawServo = hardwareMap.get(Servo.class, "yaw");
         Servo rollServo = hardwareMap.get(Servo.class, "roll");
-        CRServo yawServo = hardwareMap.get(CRServo.class, "yaw");
+     //   CRServo yawServo = hardwareMap.get(CRServo.class, "yaw");
         Servo pitchServo = hardwareMap.get(Servo.class, "pitch");
         Servo clawServo = hardwareMap.get(Servo.class, "claw");
         DcMotor HangMotor1 = hardwareMap.dcMotor.get("HM1");
@@ -159,7 +159,7 @@ public class RobotCentricDrive extends LinearOpMode {
             telemetry.addData("Arm Motor Power", armMotor.getPower());
             telemetry.addData("Claw Power", clawServo.getPosition());
             telemetry.addData("Pitch Position", pitchServo.getPosition());
-            telemetry.addData("Yaw Position", yawServo.getPower());
+            telemetry.addData("Yaw Position", yawServo.getPosition());
             telemetry.addData("Roll Position", rollServo.getPosition());
 
 

@@ -75,7 +75,9 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
                                     return false;
                                 })
                                 .stopAndAdd(claw.closeClaw())
-                                .stopAndAdd(arm.raiseArmForHighRungHang())
+                .stopAndAdd(arm.raiseArmForHighRungHang())
+                .waitSeconds(1)
+                .stopAndAdd(yaw.moveWristCenter())
 //                                .stopAndAdd(roll.rotate90Clockwise())
 //                                .lineToY(-50)
                                 .stopAndAdd((telemetryPacket) -> {

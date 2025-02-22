@@ -17,7 +17,7 @@ public class LinearSlide {
     public final DcMotorEx linearSlideMotor;
     private static final double LINEAR_SLIDE_POWER = 0.5;
 
-    private static final double RETRACT_LINEAR_SLIDE_POWER = -0.5;
+    private static final double RETRACT_LINEAR_SLIDE_POWER = -0.7;
     // Positions in degrees (as doubles)
     private static final double INIT_DEGREES = 14.0;
     private static final double EXTEND_FULL_DEGREES = 2000.0;     // Position to place into an high basket (70 degrees)
@@ -251,8 +251,8 @@ public class LinearSlide {
 
         // Convert target position in ticks (double) and set motor
         linearSlideMotor.setTargetPosition((int) targetPosition);
-        linearSlideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         linearSlideMotor.setPower(linearSlidePower);
+        linearSlideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         return false;
 

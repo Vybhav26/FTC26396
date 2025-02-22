@@ -19,15 +19,15 @@ public class ClawCode {
     private boolean isYawLeft = false;  // Track yaw state (left/right)
     private boolean isPitchPickup = false;  // Track pitch state (pickup/neutral)
 
-    public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, CRServo clawYawServo, Servo clawPitchServo) {
+    public ClawCode(Servo clawOpenCloseServo, Servo clawRotationServo, Servo/*CRServo*/ clawYawServo, Servo clawPitchServo) {
         this.clawOpenCloseServo = clawOpenCloseServo;
         this.clawPitch = new ClawPitch(clawPitchServo);
         this.clawYaw = new ClawYaw(clawYawServo);
         this.clawRoll = new ClawRoll(clawRotationServo);
         clawRoll.rotateNormal(); // Set initial position for roll
-
-        resetClaw(); // Set claw to default neutral state
+        resetClaw();// note that claw yaw is commented
     }
+/*Change -- Restclaw put outside constructor*/ // Set claw to default neutral state
 
     private boolean prevYPressed = false;  // Track previous button state
 
@@ -46,12 +46,8 @@ public class ClawCode {
 
         prevYPressed = currentYPressed;  // Update previous state
 
-        if (logitechGamepad.dpad_right) {
-            clawYaw.pointRight();
-        }
-        if (logitechGamepad.dpad_left) {
-            clawYaw.pointLeft();
-        }
+        clawYaw.updateYaw(logitechGamepad.dpad_left, logitechGamepad.dpad_right);
+
     }
 
     private boolean prevCirclePressed = false;  // Track previous button state
@@ -91,7 +87,7 @@ public class ClawCode {
     public void submerisibleClaw() {
         clawOpenCloseServo.setPosition(CLAW_CLOSED_POSITION);  // Set claw to neutral
         clawPitch.setHangPosition();  // Reset pitch to neutral
-        clawYaw.resetYaw();  // Reset yaw to neutral position
+        //clawYaw.resetYaw();  // Reset yaw to neutral position
         clawRoll.resetRoll();  // Reset roll to neutral position
         isClawOpen = false;  // Reset claw state to neutral
         isRollNormal = true;  // Reset roll state to normal
@@ -104,7 +100,7 @@ public class ClawCode {
     public void resetClaw() {
         clawOpenCloseServo.setPosition(CLAW_OPEN_POSITION);  // Set claw to neutral
         clawPitch.setNeutralPosition();  // Reset pitch to neutral
-        clawYaw.resetYaw();  // Reset yaw to neutral position
+        //clawYaw.resetYaw();  // Reset yaw to neutral position
         clawRoll.rotateNormal();  // Reset roll to neutral position
         isClawOpen = false;  // Reset claw state to neutral
         isRollNormal = true;  // Reset roll state to normal

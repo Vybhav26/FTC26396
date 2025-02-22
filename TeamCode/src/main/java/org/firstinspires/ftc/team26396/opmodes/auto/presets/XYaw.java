@@ -24,7 +24,7 @@ public class XYaw {
 
         yaw = (Servo) hardwareMap.get(Servo.class, Constants.HardwareConstants.X_YAW_SERVO);
 
-        yaw.setPosition(CENTER_POSITION);
+        //yaw.setPosition(CENTER_POSITION);
 
     }
 
@@ -47,12 +47,6 @@ public class XYaw {
         // actions are formatted via telemetry packets as below
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            // powers on motor, if it is not on
-            if (!initialized) {
-                yaw.setPosition(0);
-                initialized = true;
-            }
-
             // checks lift's current position
             return setYawPosition(packet, LEFT_POSITION);
 
@@ -67,10 +61,6 @@ public class XYaw {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             // powers on motor, if it is not on
-            if (!initialized) {
-                yaw.setPosition(0);
-                initialized = true;
-            }
 
             // checks lift's current position
             return setYawPosition(packet, RIGHT_POSITION);
@@ -85,11 +75,6 @@ public class XYaw {
         // actions are formatted via telemetry packets as below
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            // powers on motor, if it is not on
-            if (!initialized) {
-                yaw.setPosition(0);
-                initialized = true;
-            }
 
             // checks lift's current position
             return setYawPosition(packet, CENTER_POSITION);
@@ -99,6 +84,9 @@ public class XYaw {
 
     private boolean setYawPosition(TelemetryPacket packet, double position) {
 
-        return position < yaw.getPosition();
+//        return position < yaw.getPosition();
+        yaw.setPosition(position);
+        return false;
+
     }
 }
