@@ -61,9 +61,6 @@ public class PresetArmCode {
 
     }
 
-    /**
-     * @param gamepad The gamepad used to control the robot's subsystems
-     */
     public void pickSpecimenFromWall(Gamepad logitechGamepad){
 
         if(logitechGamepad.right_bumper){
