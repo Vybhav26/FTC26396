@@ -39,14 +39,14 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         waitForStart();
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
+        TrajectoryActionBuilder tab1 = drive.actionBuilder(new Pose2d(12, -60, Math.toRadians(90)))
                 .waitSeconds(3);
 
         Action initializeRobot = tab1.build();
 
         TrajectoryActionBuilder tab2 = tab1.endTrajectory().fresh()
 //                .waitSeconds(2)
-                .strafeTo(new Vector2d(0, -15));
+                .strafeTo(new Vector2d(0, -20));
 //                .waitSeconds(3);
 //                .lineToY(-48.0);
 
@@ -67,7 +67,7 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
 
         Action completeHang = tab3.build();
 
-        Action fullAction = drive.actionBuilder(new Pose2d(0, -60, Math.toRadians(90)))
+        Action fullAction = drive.actionBuilder(new Pose2d(12, -60, Math.toRadians(90)))
                                 .stopAndAdd((telemetryPacket) -> {
                                     telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
                                     telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
@@ -76,7 +76,7 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
                                 })
                                 .stopAndAdd(claw.closeClaw())
                 .stopAndAdd(arm.raiseArmForHighRungHang())
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .stopAndAdd(yaw.moveWristCenter())
 //                                .stopAndAdd(roll.rotate90Clockwise())
 //                                .lineToY(-50)
@@ -86,7 +86,7 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
                                     telemetry.update();
                                     return false;
                                 })
-                                .stopAndAdd(new SleepAction(1))
+                                .stopAndAdd(new SleepAction(0.5))
                                 .stopAndAdd(linearSlide.moveSlideForHighRung())
                                 .stopAndAdd((telemetryPacket) -> {
                                     telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
@@ -97,7 +97,7 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
                                 .stopAndAdd(new SleepAction(1))
                                 .stopAndAdd(pitch.moveWristDown())
                                 .stopAndAdd(new SleepAction(.5))
-                                .lineToY(-40)
+                                .lineToY(-34)
                                 .stopAndAdd(new SleepAction(.5))
                                 .stopAndAdd((telemetryPacket) -> {
                                     telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
@@ -133,6 +133,45 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
 //                                .stopAndAdd(new SleepAction(1))
                                 .strafeTo(new Vector2d(0,-48))
                                 .stopAndAdd(arm.deactivateArm())
+//                // Shaurya's path
+//                .lineToX(-34)
+//
+//                .lineToY(-44)
+//
+//                .strafeTo(new Vector2d(0,-48))
+
+                // Shauya's path
+//                                new Pose2d(12, -60,Math.toRadians(0)))
+//                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
+//                                .waitSeconds(.100)
+//                                .afterDisp(.5, yaw.moveWristCenter())
+                .strafeTo(new Vector2d(0,-36))
+                .waitSeconds(.100)
+//                        arm.initializeArm(),
+//                        arm.raiseArmForSpecimenPickUpFromWall(),
+//                        drive.actionBuilder(new Pose2d(0, -36, 0))
+//                .lineToY
+                .strafeTo(new Vector2d(36, -36))
+                //.splineTo(new Vector2d(35, 0), Math.toRadians(90))
+//                .turnTo(Math.toRadians(90))
+                .strafeTo(new Vector2d(36, -8))
+//                .lineToY(-2)
+                .waitSeconds(.05)
+                .strafeTo(new Vector2d(48, -6))
+                .waitSeconds(.05)
+                .lineToY(-48)
+                .lineToY(-2)
+                .strafeTo(new Vector2d(57, -6))
+                .waitSeconds(.100)
+                .lineToY(-48)
+                .lineToY(-2)
+                .strafeTo(new Vector2d(62, -6))
+                .waitSeconds(.100)
+                .lineToY(-2)
+                .waitSeconds(.100)
+                .lineToY(-15)
+                .turnTo(Math.toRadians(270))
+                .lineToY(-6)
                                 .build();
 
 

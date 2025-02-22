@@ -124,7 +124,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .stopAndAdd(linearSlide.extendArmForward())
                 .stopAndAdd(new SleepAction(1))
                 // Move towards the basket
-                .lineToX(57)
+                .lineToX(58)
                 // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
                 .stopAndAdd(new SleepAction(.1))

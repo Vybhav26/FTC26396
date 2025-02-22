@@ -164,7 +164,7 @@ public class PresetArmCode {
         // Convert target position in ticks (double) and set motor
         armMotor.setTargetPosition((int) targetPosition);  // Motor expects integer target position
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setPower(0.5);
+        armMotor.setPower(0.2);
     }
 
     /*

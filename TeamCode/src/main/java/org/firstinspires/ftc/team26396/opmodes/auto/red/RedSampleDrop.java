@@ -1,5 +1,3 @@
-
-/*
 package org.firstinspires.ftc.team26396.opmodes.auto.red;
 
 
@@ -7,6 +5,7 @@ package org.firstinspires.ftc.team26396.opmodes.auto.red;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -26,7 +25,7 @@ import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 public class RedSampleDrop extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0,0
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, -60,0 ));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, -60, 90));
         // Define arm positions using the constants from the Arm class
 
 //        Arm arm = new Arm(hardwareMap);
@@ -47,87 +46,79 @@ public class RedSampleDrop extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        drive.actionBuilder(new Pose2d(12, -60,Math.toRadians(0)))
-                                .turnTo(Math.toRadians(90))
+                        drive.actionBuilder(
+                                        new Pose2d(0, -60, Math.toRadians(90)))
+
+                                .lineToX(-34)
+
+                                .lineToY(-44)
+
+                                .strafeTo(new Vector2d(0,-48))
+
+                                // Shauya's path
+//                                new Pose2d(12, -60,Math.toRadians(0)))
+//                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
+//                                .waitSeconds(.100)
+//                                .afterDisp(.5, yaw.moveWristCenter())
                                 .strafeTo(new Vector2d(0,-33))
                                 .waitSeconds(.100)
-                                .strafeTo(new Vector2d(35,0))
-                                .lineToY(5)
-                                .waitSeconds(.100)
-                                .strafeTo(new Vector2d(44, 5))
-                                .waitSeconds(.100)
-                                .lineToY(-40)
-                                .lineToY(5)
-                                .strafeTo(new Vector2d(55, 5))
-                                .waitSeconds(.100)
-                                .lineToY(-40)
-                                .lineToY(-20)
-                                .turnTo(Math.toRadians(180))
-                                .lineToY(-38)
-                                .strafeTo(new Vector2d(0, 25))
-                                .turnTo(Math.toRadians(180))
-                                .strafeTo(new Vector2d(64, -6))
-                                .waitSeconds(.100)
-                                .lineToY(-40)
-                                .build()));
-    }
-}
-
-*/
-package org.firstinspires.ftc.team26396.opmodes.auto.red;
-
-
-// RR-specific imports
-
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
-
-@Autonomous(name="Red Sample Drop", group = "Red Alliance", preselectTeleOp = "RobotCentricDrive")
-//@Disabled
-public class RedSampleDrop extends LinearOpMode {
-    public void runOpMode() {
-        // I'm assuming you're at 0,0
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, -60,0 ));
-        // Define arm positions using the constants from the Arm class
-
-//        Arm arm = new Arm(hardwareMap);
-//
-//        XYaw yaw = new XYaw(hardwareMap);
-//        YPitch pitch=new YPitch(hardwareMap);
-        waitForStart();
-
-        Actions.runBlocking(
-                new SequentialAction(
-                        drive.actionBuilder(new Pose2d(12, -60,Math.toRadians(0)))
+//                        arm.initializeArm(),
+//                        arm.raiseArmForSpecimenPickUpFromWall(),
+//                        drive.actionBuilder(new Pose2d(0, -36, 0))
+                                .lineToX(35)
+                                //.splineTo(new Vector2d(35, 0), Math.toRadians(90))
                                 .turnTo(Math.toRadians(90))
-                                .strafeTo(new Vector2d(0,-33))
+                                .lineToY(-2)
                                 .waitSeconds(.100)
-                                .strafeTo(new Vector2d(35,0))
-                                .lineToY(5)
+                                .strafeTo(new Vector2d(48, -6))
                                 .waitSeconds(.100)
-                                .strafeTo(new Vector2d(44, 5))
+                                .lineToY(-48)
+                                .lineToY(-2)
+                                .strafeTo(new Vector2d(57, -6))
                                 .waitSeconds(.100)
-                                .lineToY(-40)
-                                .lineToY(5)
-                                .strafeTo(new Vector2d(55, 5))
+                                .lineToY(-48)
+                                .lineToY(-2)
+                                .strafeTo(new Vector2d(62, -6))
                                 .waitSeconds(.100)
-                                .lineToY(-40)
-                                .lineToY(-20)
-                                .turnTo(Math.toRadians(180))
-                                .lineToY(-38)
-                                .strafeTo(new Vector2d(0, 25))
-                                .turnTo(Math.toRadians(180))
-                                .strafeTo(new Vector2d(64, -6))
+                                .lineToY(-2)
                                 .waitSeconds(.100)
-                                .lineToY(-40)
+                                .lineToY(-15)
+                                .turnTo(Math.toRadians(270))
+                                .lineToY(-6)
                                 .build()));
+
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                        drive.actionBuilder(new Pose2d(12, -60,Math.toRadians(0)))
+////                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
+////                                .waitSeconds(.100)
+////                                .afterDisp(.5, yaw.moveWristCenter())
+//                                .strafeTo(new Vector2d(0,-33))
+//                                .waitSeconds(.100)
+////                        arm.initializeArm(),
+////                        arm.raiseArmForSpecimenPickUpFromWall(),
+////                        drive.actionBuilder(new Pose2d(0, -36, 0))
+//                                .lineToX(35)
+//                                //.splineTo(new Vector2d(35, 0), Math.toRadians(90))
+//                                .turnTo(Math.toRadians(90))
+//                                .lineToY(-2)
+//                                .waitSeconds(.100)
+//                                .strafeTo(new Vector2d(48, -6))
+//                                .waitSeconds(.100)
+//                                .lineToY(-48)
+//                                .lineToY(-2)
+//                                .strafeTo(new Vector2d(57, -6))
+//                                .waitSeconds(.100)
+//                                .lineToY(-48)
+//                                .lineToY(-2)
+//                                .strafeTo(new Vector2d(62, -6))
+//                                .waitSeconds(.100)
+//                                .lineToY(-2)
+//                                .waitSeconds(.100)
+//                                .lineToY(-15)
+//                                .turnTo(Math.toRadians(270))
+//                                .lineToY(-6)
+//                                .build()));
 
 
 
