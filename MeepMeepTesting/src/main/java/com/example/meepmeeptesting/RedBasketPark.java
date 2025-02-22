@@ -22,33 +22,22 @@ public class RedBasketPark {
                                         (new Pose2d(20, -60, Math.toRadians(-90)))
 
 
-                                //Path for Blue Basket Drop
-                                .lineToSplineHeading(new Pose2d(55, -60 , Math.toRadians(-90)))
+                                //Path for Red Basket Drop, but all coordinates are multiplied by 1, and all readians have 180+ added
+                                //-45
+                                .lineToSplineHeading(new Pose2d(-37, -37, Math.toRadians(180+ -45)))
                                 .waitSeconds(0.5)
-                                /*
-                                This is Blue Basket Drop, but without Spline
-
-                                .forward(2)
-                                .turn(Math.toRadians(45))
-                                .forward(35)
-                                .turn(Math.toRadians(-45))
-                                .forward(-25)
-                                .turn(Math.toRadians(90))
-                                .turn(Math.toRadians(-70))
-                                .forward(30)
-                                .forward(-30)
-                                .turn(Math.toRadians(70))
-                                .turn(Math.toRadians(-60))
-                                .forward(30)
-                                .forward(-30)
-                                .turn(Math.toRadians(60))
-                                .turn(Math.toRadians(-110))
-                                .forward(50)
-                                */
-                                //BLUE BASKET ENDS HERE
-
+                                .lineToSplineHeading(new Pose2d(-53, -57, Math.toRadians(180+45)))
+                                .waitSeconds(1)
+                                .lineToSplineHeading(new Pose2d(-47, -37, Math.toRadians(180+-45)))
+                                .waitSeconds(0.5)
+                                .lineToSplineHeading(new Pose2d(-53, -57, Math.toRadians(180+45)))
+                                .waitSeconds(1)
+                                .lineToSplineHeading(new Pose2d(-59, -37, Math.toRadians(180+-45)))
+                                .waitSeconds(0.5)
+                                .lineToSplineHeading(new Pose2d(-53, -57, Math.toRadians(180+45)))
+                                .waitSeconds(1)
+                                .lineToSplineHeading(new Pose2d(-25, -25, Math.toRadians(180+0)))
                                 .build());
-
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)
