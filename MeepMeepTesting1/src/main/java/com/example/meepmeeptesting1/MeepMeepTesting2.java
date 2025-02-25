@@ -36,14 +36,15 @@ public class MeepMeepTesting2 {
                 .strafeTo(new Vector2d(57, -6))
                 .waitSeconds(.100)
                 .lineToY(-48)
-                .lineToY(-2)
-                .strafeTo(new Vector2d(62, -6))
-                .waitSeconds(.100)
-                .lineToY(-2)
-                .waitSeconds(.100)
-                .lineToY(-15)
-                .turnTo(Math.toRadians(270))
-                .lineToY(-6)
+//                .lineToY(-2)
+//                .strafeTo(new Vector2d(62, -6))
+//                .waitSeconds(.100)
+//                .lineToY(-2)
+//                .waitSeconds(.100)
+//                .lineToY(-15)
+//                .turnTo(Math.toRadians(270))
+//                .lineToY(-6)
+                .strafeToLinearHeading(new Vector2d(38, -56), Math.toRadians(270))
                 .build());
 
 

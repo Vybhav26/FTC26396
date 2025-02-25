@@ -7,6 +7,8 @@ public class PresetArmCode {
     private DcMotor linearSlideMotor;
     private DcMotor armMotor;
 
+
+
     // Constants for motor settings
     private static final double LINEAR_SLIDE_POWER = 0.8;
     private static final double ARM_POWER = 1.0;
@@ -52,7 +54,7 @@ public class PresetArmCode {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        setArmPosition(INIT_POSITION_TICKS);  // Set the arm to the ground position by default
+        setArmPosition(0.0);  // Set the arm to the ground position by default
 
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
