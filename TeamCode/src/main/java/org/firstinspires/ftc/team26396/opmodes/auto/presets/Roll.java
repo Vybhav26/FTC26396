@@ -98,6 +98,9 @@ public class Roll {
 
     private boolean setRollPosition(TelemetryPacket packet, double position) {
 
-        return position < roll.getPosition();
+//        return position < roll.getPosition();
+        roll.setPosition(position);
+        return false;
+
     }
 }

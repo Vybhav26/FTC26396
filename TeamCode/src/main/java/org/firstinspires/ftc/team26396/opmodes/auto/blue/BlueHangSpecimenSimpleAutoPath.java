@@ -113,8 +113,9 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
 //                                .stopAndAdd(new SleepAction(1))
                                 .stopAndAdd(linearSlide.retractSlideBackward())
                                 .stopAndAdd(new SleepAction(1))
-                                .lineToY(-44)
+                                .lineToY(-42) /*was -44*/
                                 .stopAndAdd(claw.openClaw())
+//
 //                                .stopAndAdd(new SleepAction(2))
                                 .stopAndAdd(pitch.moveWristDown())
                                 .stopAndAdd((telemetryPacket) -> {
@@ -145,7 +146,7 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
 //                                .afterDisp(.5,  arm.raiseArmForLowerBasket())
 //                                .waitSeconds(.100)
 //                                .afterDisp(.5, yaw.moveWristCenter())
-                .strafeTo(new Vector2d(6,-36))
+                .strafeTo(new Vector2d(6,-39))
                 //.waitSeconds(.100)
 //                        arm.initializeArm(),
 //                        arm.raiseArmForSpecimenPickUpFromWall(),
@@ -165,21 +166,17 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
                 .waitSeconds(.005)
                 .lineToY(-48)
 // Picking UP specimen  1
-                .waitSeconds(1)
+
                 .stopAndAdd(arm.raiseArmForSpecimenPickUpFromWall())
-                .waitSeconds(1)
                 .stopAndAdd(roll.rotateTo180Degrees())
-                .waitSeconds(1)
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(36, -50), Math.toRadians(270))
-                .waitSeconds(1)
-                .stopAndAdd(linearSlide.moveSlideForHighRung())
+                .strafeToLinearHeading(new Vector2d(36, -48), Math.toRadians(270))
+                .stopAndAdd(linearSlide.moveSlideForWall())
                 .waitSeconds(1)
                 .stopAndAdd(claw.closeClaw())
                 .waitSeconds(1)
                 .stopAndAdd(arm.raiseArmForHighRungHang())
-                .waitSeconds(1)
                 .stopAndAdd(linearSlide.retractSlideBackward())
                 .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(0, -50), Math.toRadians(90))
@@ -245,6 +242,83 @@ public class BlueHangSpecimenSimpleAutoPath extends LinearOpMode {
                 //                              .stopAndAdd(arm.deactivateArm())
 //HANG CODE END
 
+//SPECIMEN 3
+
+                // Picking UP specimen  1
+                .stopAndAdd(arm.raiseArmForSpecimenPickUpFromWall())
+                .stopAndAdd(roll.rotateTo180Degrees())
+                .stopAndAdd(claw.openClaw())
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(36, -48), Math.toRadians(270))
+                .stopAndAdd(linearSlide.moveSlideForWall())
+                .waitSeconds(1)
+                .stopAndAdd(claw.closeClaw())
+                .waitSeconds(1)
+                .stopAndAdd(arm.raiseArmForHighRungHang())
+                .stopAndAdd(linearSlide.retractSlideBackward())
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(-10, -50), Math.toRadians(90))
+
+//HANG CODE START
+                .stopAndAdd(arm.raiseArmForHighRungHang())
+                .waitSeconds(0.5)
+                .stopAndAdd(yaw.moveWristCenter())
+//                                .stopAndAdd(roll.rotate90Clockwise())
+//                                .lineToY(-50)
+                .stopAndAdd((telemetryPacket) -> {
+                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
+                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
+                    telemetry.update();
+                    return false;
+                })
+                .stopAndAdd(new SleepAction(0.5))
+                .stopAndAdd(linearSlide.moveSlideForHighRung())
+                .stopAndAdd((telemetryPacket) -> {
+                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
+                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
+                    telemetry.update();
+                    return false;
+                })
+                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(pitch.moveWristDown())
+                .stopAndAdd(new SleepAction(.5))
+                .lineToY(-34)
+                .stopAndAdd(new SleepAction(.5))
+                .stopAndAdd((telemetryPacket) -> {
+                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
+                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
+                    telemetry.update();
+                    return false;
+                })
+//                                .stopAndAdd(yaw.moveWristLeft())
+//                                .stopAndAdd(roll.rotate90Clockwise())
+//                              .stopAndAdd(claw.openClaw())
+                .stopAndAdd(pitch.moveWristUp())
+                .stopAndAdd(new SleepAction(.5))
+//                                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(linearSlide.retractSlideBackward())
+                .stopAndAdd(new SleepAction(1))
+                .lineToY(-44)
+                .stopAndAdd(claw.openClaw())
+//                                .stopAndAdd(new SleepAction(2))
+                .stopAndAdd(pitch.moveWristDown())
+                .stopAndAdd((telemetryPacket) -> {
+                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
+                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
+                    telemetry.update();
+                    return false;
+                })
+//                                .stopAndAdd(pitch.moveWristUp())
+//                                .stopAndAdd(new SleepAction(2))
+                .stopAndAdd(claw.closeClaw())
+                .stopAndAdd(new SleepAction(2))
+                .stopAndAdd(arm.deactivateArm())
+//                                .strafeTo(new Vector2d(0, -50))
+//                                .stopAndAdd(arm.raiseArmForMoving())
+//                                .stopAndAdd(new SleepAction(1))
+                //                               .strafeTo(new Vector2d(0,-48))
+                //                              .stopAndAdd(arm.deactivateArm())
+//HANG CODE END
 
                 /*
 //Push 3rd Block
