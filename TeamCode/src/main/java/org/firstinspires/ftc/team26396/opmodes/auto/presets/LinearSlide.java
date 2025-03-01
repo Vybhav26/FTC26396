@@ -28,7 +28,7 @@ public class LinearSlide {
 
     private static final double EXTEND_HIGH_RUNG_DEGREES = 220.0;
 
-    private static final double EXTEND_WALL_DEGREES = 277.0;
+    private static final double EXTEND_WALL_DEGREES = 295.0;
 
     private static final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES = 50.0;
 
