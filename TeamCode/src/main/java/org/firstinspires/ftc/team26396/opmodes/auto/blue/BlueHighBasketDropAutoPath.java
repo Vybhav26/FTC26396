@@ -27,6 +27,10 @@ import org.firstinspires.ftc.team26396.roadrunner.teamcode.MecanumDrive;
 public class BlueHighBasketDropAutoPath extends LinearOpMode {
     public void runOpMode() {
         // I'm assuming you're at 0, 60, facing the basket
+        //was 24 -- Refer to Image in group chat.
+        // Experiment with 18 and similar values for future, for easier allginment, make Math.toRadians(-90)
+        //Also, for 24, contine using Math.Radians(0)
+        //TEST: 24,60 but with Math.toRadians (-90)
         Pose2d initialPose = new Pose2d(24, 60, Math.toRadians(0));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // Define arm positions using the constants from the Arm class

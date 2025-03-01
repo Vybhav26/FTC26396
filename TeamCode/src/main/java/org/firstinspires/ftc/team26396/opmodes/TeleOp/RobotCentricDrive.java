@@ -95,8 +95,9 @@ public class RobotCentricDrive extends LinearOpMode {
             // but only if at least one is out of the range [-1, 1]
             double speed = 2.5;
             if(gamepad1.left_trigger >0.1){
-                speed = 1.2;
+                speed = 1.1;
             }
+
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), speed);
             double frontLeftPower = (y + x + rx) / denominator;
             double backLeftPower = (y - x + rx) / denominator;
