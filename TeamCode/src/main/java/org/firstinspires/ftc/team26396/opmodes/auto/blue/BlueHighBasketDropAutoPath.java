@@ -31,7 +31,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         // Experiment with 18 and similar values for future, for easier allginment, make Math.toRadians(-90)
         //Also, for 24, contine using Math.Radians(0)
         //TEST: 24,60 but with Math.toRadians (-90)
-        Pose2d initialPose = new Pose2d(24, 60, Math.toRadians(0));
+        Pose2d initialPose = new Pose2d(28, 60, Math.toRadians(-90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // Define arm positions using the constants from the Arm class
 
@@ -131,12 +131,15 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .lineToX(58)
                 // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
-                //.stopAndAdd(new SleepAction(.1))
+
+                .stopAndAdd(new SleepAction(.1))
                 // Open the claw to drop the sample
                 .stopAndAdd(claw.openClaw())
                 .stopAndAdd(new SleepAction(.1))
                 // Move the wrist back - wrist down method may be misleading
+
                 .stopAndAdd(pitch.moveWristDown())
+
 //                .stopAndAdd(new SleepAction(.2))
                 // Retract slide backward
                 .lineToX(52)

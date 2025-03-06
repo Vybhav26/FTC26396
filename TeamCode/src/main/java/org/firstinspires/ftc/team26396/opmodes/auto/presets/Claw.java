@@ -15,11 +15,11 @@ public class Claw {
 
     private final Servo claw;
 
-    private static final double OPEN_POSITION = 0.8;     // Position to place into an high basket (70 degrees)
+    private static final double OPEN_POSITION = 0.95;     // Position to place into an high basket (70 degrees)
 
-    private static final double CLOSE_POSITION = 0.5;
+    private static final double CLOSE_POSITION = 0.65;
 
-    private static final double NEUTRAL_POSITION = 0.3;
+    private static final double NEUTRAL_POSITION = 0.5;
 
     public Claw(HardwareMap hardwareMap) {
 

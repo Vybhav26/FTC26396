@@ -10,8 +10,8 @@ public class ClawCode {
     private ClawYaw clawYaw;
     private ClawRoll clawRoll;
 
-    private static final double CLAW_OPEN_POSITION = 0.8;   // Fully open
-    private static final double CLAW_CLOSED_POSITION = 0.5; // Fully closed
+    private static final double CLAW_OPEN_POSITION = 0.95;//0.8;   // Fully open
+    private static final double CLAW_CLOSED_POSITION = 0.65;//0.5; // Fully closed
     private static final double CLAW_NEUTRAL_POSITION = 0.5; // Neutral (half-open)
 
     private boolean isClawOpen = false;  // Track claw state (open/closed/neutral)
@@ -102,7 +102,7 @@ public class ClawCode {
         clawPitch.setNeutralPosition();  // Reset pitch to neutral
         //clawYaw.resetYaw();  // Reset yaw to neutral position
         clawRoll.rotateNormal();  // Reset roll to neutral position
-        isClawOpen = false;  // Reset claw state to neutral
+        isClawOpen = false;//change to true for   // Reset claw state to neutral
         isRollNormal = true;  // Reset roll state to normal
         isYawLeft = false;  // Reset yaw state to neutral
         isPitchPickup = false;  // Reset pitch state to neutral
