@@ -26,9 +26,11 @@ public class LinearSlide {
 
     private static final double EXTEND_HALF_DEGREES = 800.0;
 
-    private static final double EXTEND_HIGH_RUNG_DEGREES = 220.0;
+    private static final double EXTEND_HIGH_RUNG_DEGREES = 230.0;
 
-    private static final double EXTEND_WALL_DEGREES = 400.0;//was 295
+    private static final double EXTEND_SECOND_HIGH_RUNG_DEGREES = 300.0;
+
+    private static final double EXTEND_WALL_DEGREES = 800.0;//was 400
 
     private static final double EXTEND_SLIDE_FOR_PICKUP_FROM_FLOOR_DEGREES = 50.0;
 
@@ -95,6 +97,10 @@ public class LinearSlide {
 
     public Action moveSlideForHighRung() {
         return new ExtendSlideForHighRung();
+    }
+
+    public Action moveSlideForSecondHighRung() {
+        return new ExtendSlideForSecondHighRung();
     }
 
     public Action moveSlideForWall() {
@@ -230,6 +236,26 @@ public class LinearSlide {
 
 
             return setLinearSlidePosition(packet, EXTEND_HIGH_RUNG_DEGREES, LINEAR_SLIDE_POWER);
+
+        }
+    }
+
+    public class ExtendSlideForSecondHighRung implements Action {
+        // checks if the lift motor has been powered on
+        private boolean initialized = false;
+
+        // actions are formatted via telemetry packets as below
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // powers on motor, if it is not on
+            if (!initialized) {
+                initialized = true;
+//                linearSlideMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+//                linearSlideMotor.setPower(LINEAR_SLIDE_POWER);
+            }
+
+
+            return setLinearSlidePosition(packet, EXTEND_SECOND_HIGH_RUNG_DEGREES, LINEAR_SLIDE_POWER);
 
         }
     }

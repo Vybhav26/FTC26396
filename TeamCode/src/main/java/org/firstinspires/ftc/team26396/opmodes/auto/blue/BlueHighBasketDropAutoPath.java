@@ -31,7 +31,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         // Experiment with 18 and similar values for future, for easier allginment, make Math.toRadians(-90)
         //Also, for 24, contine using Math.Radians(0)
         //TEST: 24,60 but with Math.toRadians (-90)
-        Pose2d initialPose = new Pose2d(28, 60, Math.toRadians(-90));
+        Pose2d initialPose = new Pose2d(29, 60, Math.toRadians(-90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         // Define arm positions using the constants from the Arm class
 
@@ -44,8 +44,8 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         waitForStart();
 
-        double xDestPositionDropSampleInHand = 52;
-        double yDestPositionDropSampleInHand = 51;
+        double xDestPositionDropSampleInHand = 51; // was 52
+        double yDestPositionDropSampleInHand = 50; // was 51
         double headingDestPositionDropSampleInHand = Math.toRadians(0.0);
 
         TrajectoryActionBuilder goToBasketFromInitPosition = drive.actionBuilder(initialPose)
@@ -68,7 +68,8 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 
                 goToBasketFromInitPosition.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(46.5, 34.5));
+                        //was 46.5 -- 34.5
+                        .strafeTo(new Vector2d(44.5, 34.5));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder firstSampleToBasket =
@@ -78,18 +79,28 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
         TrajectoryActionBuilder basketToSecondSample =
                 firstSampleToBasket.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(57, 34.5));
+                        //was 57, was 34.5
+                        .strafeTo(new Vector2d(55, 34));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder secondSampleToBasket =
                 basketToSecondSample.endTrajectory().fresh()
                         .strafeToLinearHeading(new Vector2d(xDestPositionDropSampleInHand, yDestPositionDropSampleInHand), Math.toRadians(45));
 
+        TrajectoryActionBuilder basketToThirdSample =
+                secondSampleToBasket.endTrajectory().fresh()
+                        .turnTo(Math.toRadians(-90))
+                        //was 57, was 34.5
+                        .strafeTo(new Vector2d(55, 47));
+//                        .lineToY(38);
+
+
         Action goToBasketFromInitPositionAction = goToBasketFromInitPosition.build();
         Action basketToFirstSampleAction = basketToFirstSample.build();
         Action firstSampleToBasketAction = firstSampleToBasket.build();
         Action basketToSecondSampleAction = basketToSecondSample.build();
         Action secondSampleToBasketAction = secondSampleToBasket.build();
+        Action basketToThirdSampleAction = basketToThirdSample.build();
 
         Action fullAction = new SequentialAction(
                 // Init position to basket with pre-loaded sample
@@ -108,9 +119,10 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 basketToSecondSampleAction,
                 // Drop the sample into the basket
                 buildCommonActionToPickSample(basketToSecondSample, arm, linearSlide, claw, pitch),
-                      secondSampleToBasketAction,
-                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch));
-                // Go from basket to the second sample
+                secondSampleToBasketAction,
+                buildCommonActionForDroppingToBasket(goToBasketFromInitPosition, arm, linearSlide, claw, pitch),
+                // Go from basket to the third sample
+                basketToThirdSampleAction);
 
 
         Actions.runBlocking(fullAction);
@@ -128,24 +140,24 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .stopAndAdd(linearSlide.extendArmForward())
                 .stopAndAdd(new SleepAction(0.7))
                 // Move towards the basket
-                .lineToX(58)
+                .strafeTo(new Vector2d(53.25,53.25))
                 // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
 
-                .stopAndAdd(new SleepAction(.1))
+                .stopAndAdd(new SleepAction(.3)) //Change from 0.1
                 // Open the claw to drop the sample
                 .stopAndAdd(claw.openClaw())
                 .stopAndAdd(new SleepAction(.1))
                 // Move the wrist back - wrist down method may be misleading
 
                 .stopAndAdd(pitch.moveWristDown())
-
+                .stopAndAdd(new SleepAction(.2))
+                .strafeTo(new Vector2d(50.25,50.25))
 //                .stopAndAdd(new SleepAction(.2))
                 // Retract slide backward
-                .lineToX(52)
-                .stopAndAdd(new SleepAction(.05))
+                .stopAndAdd(new SleepAction(.02)) //was 0.5
                 .stopAndAdd(linearSlide.retractSlideBackward())
-                .stopAndAdd(new SleepAction(0.7))
+                .stopAndAdd(new SleepAction(0.5)) //was 0.7
                 // Bring the arm back down
                 .stopAndAdd(arm.deactivateArm())
 //                .stopAndAdd(new SleepAction(2))
@@ -156,10 +168,13 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
     public Action buildCommonActionToPickSample(TrajectoryActionBuilder inputTrajectory, Arm arm, LinearSlide linearSlide, Claw claw, YPitch pitch) {
         Action pickSampleFromFloor = inputTrajectory.endTrajectory().fresh()
                 .stopAndAdd(pitch.moveWristUp())
+                .stopAndAdd(new SleepAction(.1))
                 .stopAndAdd(claw.openClaw())
-                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(.2))
+                .stopAndAdd(arm.raiseArmForSamplePickUpFromFloor())
+                .stopAndAdd(new SleepAction(.2))
                 .stopAndAdd(claw.closeClaw())
-                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(.5))
                 .stopAndAdd(arm.raiseArmForUpperBasket())
                 .build();
 

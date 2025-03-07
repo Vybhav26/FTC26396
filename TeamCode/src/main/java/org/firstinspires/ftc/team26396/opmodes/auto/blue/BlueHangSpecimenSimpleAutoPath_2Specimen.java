@@ -96,7 +96,7 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
                                 .stopAndAdd(pitch.moveWristDown())
                                 .stopAndAdd(roll.rotateTo180Degrees())
                                 .stopAndAdd(new SleepAction(.5))
-                                .lineToY(-34) //was - 36
+                                .lineToY(-34.5) //was - 36
      //change -- Needed?                           .stopAndAdd(new SleepAction(.5))
 //                                .stopAndAdd((telemetryPacket) -> {
 //                                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
@@ -108,15 +108,16 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
 //                                .stopAndAdd(roll.rotate90Clockwise())
 //                              .stopAndAdd(claw.openClaw())
                                 .stopAndAdd(pitch.moveWristUp())
-                                .stopAndAdd(new SleepAction(.5))
+                                .stopAndAdd(new SleepAction(.7))
 //                                .stopAndAdd(new SleepAction(1))
                                 .stopAndAdd(linearSlide.retractSlideBackward())
-                                .stopAndAdd(new SleepAction(1))
+                                .stopAndAdd(new SleepAction(.7))
                                 //Change -- Needed?     .lineToY(-42) /*was -44*/
                                 .stopAndAdd(claw.openClaw())
 //
 //                                .stopAndAdd(new SleepAction(2))
                                 .stopAndAdd(pitch.moveWristDown())
+                //Play around and switch the move wrist up and down.
 //                                .stopAndAdd((telemetryPacket) -> {
 //                                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
 //                                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
@@ -196,7 +197,7 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
 //                    return false;
 //                })
                 //change             .stopAndAdd(new SleepAction(0.5))
-                .stopAndAdd(linearSlide.moveSlideForHighRung())
+                .stopAndAdd(linearSlide.moveSlideForSecondHighRung())
 //                .stopAndAdd((telemetryPacket) -> {
 //                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
 //                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
@@ -207,7 +208,7 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
                 .stopAndAdd(pitch.moveWristDown())
                 .stopAndAdd(roll.rotateTo180Degrees())
                 .stopAndAdd(new SleepAction(.5))
-                .lineToY(-34)
+                .lineToY(-37)
                 //change -- Needed?                           .stopAndAdd(new SleepAction(.5))
 //                .stopAndAdd((telemetryPacket) -> {
 //                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
@@ -222,12 +223,13 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
                 .stopAndAdd(new SleepAction(.5))
 //                                .stopAndAdd(new SleepAction(1))
                 .stopAndAdd(linearSlide.retractSlideBackward())
-                .stopAndAdd(new SleepAction(1))
+                .stopAndAdd(new SleepAction(.7))
                 //Change -- Needed?     .lineToY(-42) /*was -44*/
                 .stopAndAdd(claw.openClaw())
+
 //
 //                                .stopAndAdd(new SleepAction(2))
-                .stopAndAdd(pitch.moveWristForRungHang())
+                .stopAndAdd(pitch.moveWristDown())
 //                .stopAndAdd((telemetryPacket) -> {
 //                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
 //                    telemetry.addLine("Slide position : " + linearSlide.linearSlideMotor.getCurrentPosition());
@@ -242,14 +244,13 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
 
 //HANG CODE END
 
-//SPECIMEN 3
 
                 .stopAndAdd(arm.raiseArmForSpecimenPickUpFromWall())
                 .stopAndAdd(roll.rotateTo180Degrees())
                 .stopAndAdd(claw.openClaw())
                 .waitSeconds(0.01) //was 1
                 //was -49 for 3 specimen path
-                .strafeToLinearHeading(new Vector2d(36, -45), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(48, -48), Math.toRadians(270))
 
 
                 //Might want to delete/modify this segment accordingly

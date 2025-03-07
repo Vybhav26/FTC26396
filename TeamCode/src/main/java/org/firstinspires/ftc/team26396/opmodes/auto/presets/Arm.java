@@ -24,7 +24,7 @@ public class Arm {
 
     private static final double MIN_DEGREES_FOR_WRIST = 28.0;
 
-    private static final double DEGREES_FOR_SPECIMEN_ON_WALL = 24.0; // try 23.3 -- too low
+    private static final double DEGREES_FOR_SPECIMEN_ON_WALL = 23.4; // was 24... try 23.3 -- too low
 
     private static final double DEGREES_FOR_SPECIMEN_ON_FLOOR = 5.0;
 
