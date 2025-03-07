@@ -69,7 +69,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 goToBasketFromInitPosition.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
                         //was 46.5 -- 34.5
-                        .strafeTo(new Vector2d(44.5, 34.5));
+                        .strafeTo(new Vector2d(45, 34.5));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder firstSampleToBasket =
@@ -80,7 +80,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 firstSampleToBasket.endTrajectory().fresh()
                         .turnTo(Math.toRadians(-90))
                         //was 57, was 34.5
-                        .strafeTo(new Vector2d(55, 34));
+                        .strafeTo(new Vector2d(55.5, 34));
 //                        .lineToY(38);
 
         TrajectoryActionBuilder secondSampleToBasket =
@@ -138,6 +138,7 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 // change  -- .stopAndAdd(new SleepAction(.7))
                 // Extend the slide
                 .stopAndAdd(linearSlide.extendArmForward())
+                .strafeTo(new Vector2d(51,50))
                 .stopAndAdd(new SleepAction(0.7))
                 // Move towards the basket
                 .strafeTo(new Vector2d(53.25,53.25))
