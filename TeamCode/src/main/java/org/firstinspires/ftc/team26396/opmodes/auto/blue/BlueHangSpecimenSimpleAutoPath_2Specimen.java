@@ -96,7 +96,7 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
                                 .stopAndAdd(pitch.moveWristDown())
                                 .stopAndAdd(roll.rotateTo180Degrees())
                                 .stopAndAdd(new SleepAction(.5))
-                                .lineToY(-34.5) //was - 36
+                                .lineToY(-34.8) //was - 34.5
      //change -- Needed?                           .stopAndAdd(new SleepAction(.5))
 //                                .stopAndAdd((telemetryPacket) -> {
 //                                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());
@@ -157,14 +157,14 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
               .strafeTo(new Vector2d(36, -36)) //y was -36
                 //.splineTo(new Vector2d(35, 0), Math.toRadians(90))
 //                .turnTo(Math.toRadians(90))
-                .strafeTo(new Vector2d(36, -10)) //was-8
+                .strafeTo(new Vector2d(36, -12)) //was-8
 //                .lineToY(-2)
                 .waitSeconds(.005)
-                .strafeTo(new Vector2d(48, -10)) //was- 6
+                .strafeTo(new Vector2d(48, -12)) //was- 6
                 .waitSeconds(.005)
                 .lineToY(-48)
-                .lineToY(-2)
-                .strafeTo(new Vector2d(57, -10)) //was -6
+                .lineToY(-12)
+                .strafeTo(new Vector2d(57, -12)) //was -6
                 .waitSeconds(.005)
                 .lineToY(-48)
 // Picking UP specimen  1
@@ -208,7 +208,7 @@ public class BlueHangSpecimenSimpleAutoPath_2Specimen extends LinearOpMode {
                 .stopAndAdd(pitch.moveWristDown())
                 .stopAndAdd(roll.rotateTo180Degrees())
                 .stopAndAdd(new SleepAction(.5))
-                .lineToY(-37)
+                .lineToY(-36.5) //-35.25
                 //change -- Needed?                           .stopAndAdd(new SleepAction(.5))
 //                .stopAndAdd((telemetryPacket) -> {
 //                    telemetry.addLine("Arm position : " + arm.armMotor.getCurrentPosition());

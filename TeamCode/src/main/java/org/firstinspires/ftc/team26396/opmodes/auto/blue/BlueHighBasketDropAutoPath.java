@@ -135,13 +135,13 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
 //                .stopAndAdd(new SleepAction(1))
                 // Raise the arm to upper basket height
                 .strafeTo(new Vector2d(50.5,49.5))
-                .stopAndAdd(arm.raiseArmForUpperBasket())
+  //              .stopAndAdd(arm.raiseArmForUpperBasket())
                 // change  -- .stopAndAdd(new SleepAction(.7))
                 // Extend the slide
                 .stopAndAdd(linearSlide.extendArmForward())
                 .stopAndAdd(new SleepAction(0.7))
                 // Move towards the basket
-                .strafeTo(new Vector2d(53.25,53.25))
+                .strafeTo(new Vector2d(53.45,53.45)) //53.25 before
                 // Turn the wrist towards the basket - wrist up method may be misleading
                 .stopAndAdd(pitch.moveWristUp())
 
@@ -179,6 +179,10 @@ public class BlueHighBasketDropAutoPath extends LinearOpMode {
                 .stopAndAdd(claw.closeClaw())
                 .stopAndAdd(new SleepAction(.5))
                 .stopAndAdd(arm.raiseArmForUpperBasket())
+                .stopAndAdd(new SleepAction(.2))
+
+//                .stopAndAdd(linearSlide.extendArmForward())
+
                 .build();
 
         return pickSampleFromFloor;
